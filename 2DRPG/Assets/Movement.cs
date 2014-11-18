@@ -159,7 +159,7 @@ public class Movement : MonoBehaviour {
 		}
 		
 		// Same as for the left, subtraction for down
-		else if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow)) {
+		else if (Input.GetKeyDown(KeyCode.X) || Input.GetKeyDown(KeyCode.DownArrow)) {
 			assignMoveOrder(turn, -1*Vector2.up);
 		}
 
@@ -181,6 +181,11 @@ public class Movement : MonoBehaviour {
 		// Same as for the left, subtraction for down
 		else if (Input.GetKeyDown(KeyCode.Z)) {
 			assignMoveOrder(turn, -1*Vector2.right + (-1*Vector2.up));
+		}
+
+		// No direction
+		else if (Input.GetKeyDown(KeyCode.S)) {
+			assignMoveOrder(turn, new Vector2(0,0));
 		}
 
 
