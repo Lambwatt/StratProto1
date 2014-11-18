@@ -1,9 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+
+
 public class MoveOrder{
 
-	private Vector2 direction;
+	public Vector2 direction;
 
 	public MoveOrder(Vector2 direction){
 		this.direction = direction;
@@ -11,23 +13,48 @@ public class MoveOrder{
 
 	public void apply(Transform subject) {
 
-		subject.position +=(Vector3) direction;
+		subject.position += (Vector3) direction;
 	}
 
 	public void undo(Transform subject) {
-		subject.position-= (Vector3) direction;
+		subject.position -= (Vector3) direction;
 	}
+}
+
+public class moveAnimation{
+
+	private Transform subject;
+	private Vector2 step;
+	//private int numSteps;
+	//private int currentStep;
+	//private pointList; For later when objects need to turn in a movement path
+
+	public moveAnimation(Transform subject, MoveOrder order, int numFrames){//Num frames should be moved so it can be a global constant.
+		step = order.direction / numFrames;
+		this.subject = subject;
+	}
+
+	public void nextStep(){
+		subject.position += (Vector3) step;
+	}
+
 }
 
 public class Movement : MonoBehaviour {
 
+	public int numFrames;
+
 	private MoveOrder[] moves = new MoveOrder[3]; 
 
 	private int turn = 0;
-	private Vector2 pos;
+//	private Vector2 pos;
 	private bool moving = false;
-	private Vector2 change;
+	//private Vector2 change;
 
+	private moveAnimation anim;
+	private int frames = 0;
+	private int moveNumber = 0;
+	private bool moveComplete = false;
 
 	void assignMoveOrder(int index, Vector2 direction){
 
@@ -65,18 +92,41 @@ public class Movement : MonoBehaviour {
 		}
 	}
 
-	void Start () {
-		// First store our current position when the
-		// script is initialized.
+	void resetMoves(){
 		for(int i = 0; i<3; i++){
 			moves[i] = new MoveOrder(new Vector2(0,0));
 		}
-		pos = transform.position;//Does this do anything?
+	}
+
+	void Start () {
+		// First store our current position when the
+		// script is initialized.
+		resetMoves();
+//		pos = transform.position;//Does this do anything?
 	}
 	
-	void Update () {
-		
-		CheckInput();
+	void Update () {//This is long. should shorten it or move it.
+		if(moving){
+			anim.nextStep();
+			frames++;
+			moveComplete = frames>=numFrames;
+
+			if(moveComplete){
+				moveNumber++;
+				if(moveNumber < 3){
+
+					anim = new moveAnimation(this.transform, moves[moveNumber], numFrames);
+					moveComplete = false;
+					frames = 0;
+
+				}else{
+					moving = false;
+					resetMoves();
+				}
+			}
+		}else{
+			CheckInput();
+		}
 
 	}
 	
@@ -129,9 +179,21 @@ public class Movement : MonoBehaviour {
 		}
 		
 		// Same as for the left, subtraction for down
-		else if (Input.GetKeyDown(KeyCode.Z) || Input.GetKeyDown(KeyCode.DownArrow)) {
+		else if (Input.GetKeyDown(KeyCode.Z)) {
 			assignMoveOrder(turn, -1*Vector2.right + (-1*Vector2.up));
 		}
+
+
+		//Execute turn
+		else if (Input.GetKeyDown(KeyCode.Return)) {
+			changeTurn(0);
+			moveNumber = 0;
+			frames = 0;
+			moveComplete = false;
+			anim = new moveAnimation(this.transform, moves[moveNumber], numFrames);
+			moving = true;
+		}
+
 
 	}
 }
