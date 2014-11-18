@@ -113,24 +113,24 @@ public class Movement : MonoBehaviour {
 			assignMoveOrder(turn, -1*Vector2.up);
 		}
 
-		//Diagonals ADD THEM.
-		else if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow)) {
-			assignMoveOrder(turn, Vector2.right);
+		//Diagonals 
+		else if (Input.GetKeyDown(KeyCode.E)) {
+			assignMoveOrder(turn, Vector2.right + Vector2.up);
 			
 		}
 		
 		// For left, we have to subtract the direction
-		else if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow)) {
-			assignMoveOrder(turn, -1*Vector2.right);
+		else if (Input.GetKeyDown(KeyCode.Q)) {
+			assignMoveOrder(turn, -1*Vector2.right + Vector2.up);
 		}
 		
-		else if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)) {
-			assignMoveOrder(turn, Vector2.up);
+		else if (Input.GetKeyDown(KeyCode.C)) {
+			assignMoveOrder(turn, Vector2.right + (-1*Vector2.up));
 		}
 		
 		// Same as for the left, subtraction for down
-		else if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow)) {
-			assignMoveOrder(turn, -1*Vector2.up);
+		else if (Input.GetKeyDown(KeyCode.Z) || Input.GetKeyDown(KeyCode.DownArrow)) {
+			assignMoveOrder(turn, -1*Vector2.right + (-1*Vector2.up));
 		}
 
 	}
