@@ -1,8 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-
-
 public class MoveOrder{
 
 	public Vector2 direction;
@@ -20,6 +18,7 @@ public class MoveOrder{
 		subject.position -= (Vector3) direction;
 	}
 }
+
 
 public class moveAnimation{
 
@@ -43,6 +42,7 @@ public class moveAnimation{
 public class Movement : MonoBehaviour {
 
 	public int numFrames;
+	public int idNo;
 
 	private MoveOrder[] moves = new MoveOrder[3]; 
 
@@ -50,11 +50,14 @@ public class Movement : MonoBehaviour {
 //	private Vector2 pos;
 	private bool moving = false;
 	//private Vector2 change;
+	private bool selected = true;
 
 	private moveAnimation anim;
 	private int frames = 0;
 	private int moveNumber = 0;
 	private bool moveComplete = false;
+
+
 
 	void assignMoveOrder(int index, Vector2 direction){
 
@@ -67,9 +70,9 @@ public class Movement : MonoBehaviour {
 	//Moves turn forward or back
 	private void changeTurn(int t){
 
-		Debug.Log (t);
+		//Debug.Log (t);
 		if(t < 0 || t > moves.Length){
-			Debug.Log("rejected");
+			//Debug.Log("rejected");
 			return;
 		}
 
@@ -87,7 +90,7 @@ public class Movement : MonoBehaviour {
 
 			
 		}else{
-			Debug.Log("took equal");
+			//Debug.Log("took equal");
 			//do nothing
 		}
 	}
@@ -99,6 +102,9 @@ public class Movement : MonoBehaviour {
 	}
 
 	void Start () {
+
+
+
 		// First store our current position when the
 		// script is initialized.
 		resetMoves();
@@ -132,73 +138,88 @@ public class Movement : MonoBehaviour {
 	
 	private void CheckInput() {
 
-		if(Input.GetKeyDown(KeyCode.RightBracket)){
-			Debug.Log ("righted "+(turn+1));
-			changeTurn(turn+1);
+		if(Input.GetMouseButtonDown(0)/* && ( Input.mousePosition())*/){
+			Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+			mousePos.x = Mathf.Floor( mousePos.x ) + (Mathf.Abs(mousePos.x)%1.0f>0.5?1:0);
+			mousePos.y = Mathf.Floor( mousePos.y ) + (Mathf.Abs(mousePos.y)%1.0f>0.5?1:0);
 
+			//Only seems to connect with one. find out why.
+
+			if((Mathf.Floor( transform.position.x ) + (transform.position.x%1.0f>0.5?1:0)) == mousePos.x  && (Mathf.Floor( transform.position.y ) + (transform.position.y%1.0f>0.5?1:0)) == mousePos.y  ){
+				Debug.Log("found "+idNo );
+			}else{
+				Debug.Log("missed "+idNo+":"+(Mathf.Floor( transform.position.x ) + (transform.position.x%1.0f>0.5?1:0)) +":"+ mousePos.x +","+ (Mathf.Floor( transform.position.y ) + (transform.position.y%1.0f>0.5?1:0)) +":"+ mousePos.y);
+			}
 		}
 
-		else if(Input.GetKeyDown(KeyCode.LeftBracket)){
-			Debug.Log ("left "+(turn-1));
-			changeTurn(turn-1);
+		if(selected){
 
-		}
-	
-		else if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow)) {
-			assignMoveOrder(turn, Vector2.right);
+			if(Input.GetKeyDown(KeyCode.RightBracket)){
+				//Debug.Log ("righted "+(turn+1));
+				changeTurn(turn+1);
 
-		}
+			}
+
+			else if(Input.GetKeyDown(KeyCode.LeftBracket)){
+				//Debug.Log ("left "+(turn-1));
+				changeTurn(turn-1);
+
+			}
 		
-		// For left, we have to subtract the direction
-		else if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow)) {
-			assignMoveOrder(turn, -1*Vector2.right);
-		}
+			else if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow)) {
+				assignMoveOrder(turn, Vector2.right);
 
-		else if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)) {
-			assignMoveOrder(turn, Vector2.up);
-		}
-		
-		// Same as for the left, subtraction for down
-		else if (Input.GetKeyDown(KeyCode.X) || Input.GetKeyDown(KeyCode.DownArrow)) {
-			assignMoveOrder(turn, -1*Vector2.up);
-		}
-
-		//Diagonals 
-		else if (Input.GetKeyDown(KeyCode.E)) {
-			assignMoveOrder(turn, Vector2.right + Vector2.up);
+			}
 			
-		}
-		
-		// For left, we have to subtract the direction
-		else if (Input.GetKeyDown(KeyCode.Q)) {
-			assignMoveOrder(turn, -1*Vector2.right + Vector2.up);
-		}
-		
-		else if (Input.GetKeyDown(KeyCode.C)) {
-			assignMoveOrder(turn, Vector2.right + (-1*Vector2.up));
-		}
-		
-		// Same as for the left, subtraction for down
-		else if (Input.GetKeyDown(KeyCode.Z)) {
-			assignMoveOrder(turn, -1*Vector2.right + (-1*Vector2.up));
-		}
+			// For left, we have to subtract the direction
+			else if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow)) {
+				assignMoveOrder(turn, -1*Vector2.right);
+			}
 
-		// No direction
-		else if (Input.GetKeyDown(KeyCode.S)) {
-			assignMoveOrder(turn, new Vector2(0,0));
+			else if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)) {
+				assignMoveOrder(turn, Vector2.up);
+			}
+			
+			// Same as for the left, subtraction for down
+			else if (Input.GetKeyDown(KeyCode.X) || Input.GetKeyDown(KeyCode.DownArrow)) {
+				assignMoveOrder(turn, -1*Vector2.up);
+			}
+
+			//Diagonals 
+			else if (Input.GetKeyDown(KeyCode.E)) {
+				assignMoveOrder(turn, Vector2.right + Vector2.up);
+				
+			}
+			
+			// For left, we have to subtract the direction
+			else if (Input.GetKeyDown(KeyCode.Q)) {
+				assignMoveOrder(turn, -1*Vector2.right + Vector2.up);
+			}
+			
+			else if (Input.GetKeyDown(KeyCode.C)) {
+				assignMoveOrder(turn, Vector2.right + (-1*Vector2.up));
+			}
+			
+			// Same as for the left, subtraction for down
+			else if (Input.GetKeyDown(KeyCode.Z)) {
+				assignMoveOrder(turn, -1*Vector2.right + (-1*Vector2.up));
+			}
+
+			// No direction
+			else if (Input.GetKeyDown(KeyCode.S)) {
+				assignMoveOrder(turn, new Vector2(0,0));
+			}
+
+			//Execute turn
+			else if (Input.GetKeyDown(KeyCode.Return)) {
+				changeTurn(0);
+				moveNumber = 0;
+				frames = 0;
+				moveComplete = false;
+				anim = new moveAnimation(this.transform, moves[moveNumber], numFrames);
+				moving = true;
+			}
+
 		}
-
-
-		//Execute turn
-		else if (Input.GetKeyDown(KeyCode.Return)) {
-			changeTurn(0);
-			moveNumber = 0;
-			frames = 0;
-			moveComplete = false;
-			anim = new moveAnimation(this.transform, moves[moveNumber], numFrames);
-			moving = true;
-		}
-
-
 	}
 }
