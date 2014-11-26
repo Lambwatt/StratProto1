@@ -24,6 +24,7 @@ public class moveAnimation{
 
 	private Transform subject;
 	private Vector2 step;
+
 	//private int numSteps;
 	//private int currentStep;
 	//private pointList; For later when objects need to turn in a movement path
@@ -43,6 +44,8 @@ public class Movement : MonoBehaviour {
 
 	public int numFrames;
 	public int idNo;
+	public ManagerHub manager;
+
 
 	private MoveOrder[] moves = new MoveOrder[3]; 
 
@@ -56,7 +59,7 @@ public class Movement : MonoBehaviour {
 	private int frames = 0;
 	private int moveNumber = 0;
 	private bool moveComplete = false;
-
+	private Vector3 oldPosition;
 
 
 	void assignMoveOrder(int index, Vector2 direction){
@@ -103,7 +106,8 @@ public class Movement : MonoBehaviour {
 
 	void Start () {
 
-
+		manager.test();
+		manager.board.register(this.gameObject, transform.position);
 
 		// First store our current position when the
 		// script is initialized.
@@ -128,6 +132,7 @@ public class Movement : MonoBehaviour {
 				}else{
 					moving = false;
 					resetMoves();
+					manager.board.move(oldPosition, transform.position);
 				}
 			}
 		}else{
@@ -138,19 +143,6 @@ public class Movement : MonoBehaviour {
 	
 	private void CheckInput() {
 
-		if(Input.GetMouseButtonDown(0)/* && ( Input.mousePosition())*/){
-			Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-			mousePos.x = Mathf.Floor( mousePos.x ) + (Mathf.Abs(mousePos.x)%1.0f>0.5?1:0);
-			mousePos.y = Mathf.Floor( mousePos.y ) + (Mathf.Abs(mousePos.y)%1.0f>0.5?1:0);
-
-			//Only seems to connect with one. find out why.
-
-			if((Mathf.Floor( transform.position.x ) + (transform.position.x%1.0f>0.5?1:0)) == mousePos.x  && (Mathf.Floor( transform.position.y ) + (transform.position.y%1.0f>0.5?1:0)) == mousePos.y  ){
-				Debug.Log("found "+idNo );
-			}else{
-				Debug.Log("missed "+idNo+":"+(Mathf.Floor( transform.position.x ) + (transform.position.x%1.0f>0.5?1:0)) +":"+ mousePos.x +","+ (Mathf.Floor( transform.position.y ) + (transform.position.y%1.0f>0.5?1:0)) +":"+ mousePos.y);
-			}
-		}
 
 		if(selected){
 
@@ -218,6 +210,7 @@ public class Movement : MonoBehaviour {
 				moveComplete = false;
 				anim = new moveAnimation(this.transform, moves[moveNumber], numFrames);
 				moving = true;
+				oldPosition = transform.position;
 			}
 
 		}
