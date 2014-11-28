@@ -10,7 +10,7 @@ public class Board : MonoBehaviour {
 
 	public int height;
 	public int width;
-	private GameObject[,] grid;
+	public GameObject[,] grid;//manage this better later.
 		
 	public Square convertMouseClickToBoardCoords(Vector3 click){//find or creat coordinate type.
 		Square result;
@@ -52,29 +52,7 @@ public class Board : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if(Input.GetMouseButtonDown(0)/* && ( Input.mousePosition())*/){
 
-			Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-
-			Square boardPos = convertMouseClickToBoardCoords(mousePos);
-
-			Debug.Log (boardPos.x+" "+ boardPos.y);
-
-			if(grid[boardPos.x, boardPos.y])
-				Debug.Log ("occupied. select contents");
-			else
-				Debug.Log ("empty. select nothing.");
-//			mousePos.x = Mathf.Floor( mousePos.x ) + (Mathf.Abs(mousePos.x)%1.0f>0.5?1:0);
-//			mousePos.y = Mathf.Floor( mousePos.y ) + (Mathf.Abs(mousePos.y)%1.0f>0.5?1:0);
-//			
-//			//Only seems to connect with one. find out why.
-//			
-//			if((Mathf.Floor( transform.position.x ) + (transform.position.x%1.0f>0.5?1:0)) == mousePos.x  && (Mathf.Floor( transform.position.y ) + (transform.position.y%1.0f>0.5?1:0)) == mousePos.y  ){
-//				Debug.Log("found "+idNo );
-//			}else{
-//				Debug.Log("missed "+idNo+":"+(Mathf.Floor( transform.position.x ) + (transform.position.x%1.0f>0.5?1:0)) +":"+ mousePos.x +","+ (Mathf.Floor( transform.position.y ) + (transform.position.y%1.0f>0.5?1:0)) +":"+ mousePos.y);
-//			}
-		}
 
 	}
 }
