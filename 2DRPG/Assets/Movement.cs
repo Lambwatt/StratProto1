@@ -45,6 +45,7 @@ public class Movement : MonoBehaviour {
 	public int numFrames;
 	public int idNo;
 	public ManagerHub manager;
+	public GameObject selectionBox;
 
 
 	private MoveOrder[] moves = new MoveOrder[3]; 
@@ -106,6 +107,14 @@ public class Movement : MonoBehaviour {
 
 	void Start () {
 
+		manager = GameObject.Find("manager").GetComponent<ManagerHub>();
+		selectionBox = transform.FindChild("selection").gameObject;
+		selectionBox.renderer.enabled = false;
+		Debug.Log("box was "+selectionBox);
+//		Debug.Log ("onStart "+managerObject);
+//			 = managerObject
+//		Debug.Log("manager is "+manager);
+
 		manager.test();
 		manager.board.register(this.gameObject, transform.position);
 
@@ -139,6 +148,14 @@ public class Movement : MonoBehaviour {
 			CheckInput();
 		}
 
+	}
+
+	public void showSelection(){
+		selectionBox.renderer.enabled = true;
+	}
+
+	public void hideSelection(){
+		selectionBox.renderer.enabled = false;
 	}
 	
 	private void CheckInput() {

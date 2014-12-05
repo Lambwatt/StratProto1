@@ -19,9 +19,11 @@ public class Selector : MonoBehaviour {
 		if(selectedUnits.Contains(subject)){
 			Debug.Log("removed");
 			Debug.Log(selectedUnits.Remove(subject));
+			subject.GetComponent<Movement>().hideSelection();
 		}else{
 			Debug.Log("added");
 			selectedUnits.Add(subject);
+			subject.GetComponent<Movement>().showSelection();
 		}
 
 		Debug.Log(selectedUnits.ToString()+", "+selectedUnits.ToArray().Length);

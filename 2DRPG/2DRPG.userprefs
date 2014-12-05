@@ -1,10 +1,11 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Board.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Movement.cs">
     <Files>
-      <File FileName="Assets/Movement.cs" Line="62" Column="30" />
-      <File FileName="Assets/ManagerHub.cs" Line="15" Column="17" />
-      <File FileName="Assets/Board.cs" Line="61" Column="28" />
+      <File FileName="Assets/Selector.cs" Line="14" Column="3" />
+      <File FileName="Assets/Movement.cs" Line="110" Column="5" />
+      <File FileName="Assets/ManagerHub.cs" Line="5" Column="2" />
+      <File FileName="Assets/Board.cs" Line="13" Column="55" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
