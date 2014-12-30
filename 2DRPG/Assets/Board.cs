@@ -34,15 +34,20 @@ public class Board : MonoBehaviour {
 		Square cEnd = convertMouseClickToBoardCoords(end);
 
 		grid[cEnd.x, cEnd.y] = grid[cStart.x, cStart.y];
-		grid[cStart.x, cStart.y] = null;
+		if(end.x!=start.x || end.y!=start.y)
+			grid[cStart.x, cStart.y] = null;
 	}
 
 	public void move(Square start, Square end){
+		Debug.Log("HELLO!?");
 		//start = convertMouseClickToBoardCoords(start);
 		//end = convertMouseClickToBoardCoords(end);
 		
 		grid[end.x, end.y] = grid[start.x, start.y];
-		grid[start.x, start.y] = null;
+
+		//Debug.Log("["+end.x+":"+start.x+"]|["+end.y+":"+start.y+"]");
+		if(end.x!=start.x || end.y!=start.y)
+			grid[start.x, start.y] = null;
 	}
 
 	public void register(GameObject unit, Vector3 pos){
@@ -53,6 +58,16 @@ public class Board : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
+		if(Input.GetKeyDown(KeyCode.P)){
+			string result = "";
+			for(int j = height-1; j>=0; j--){
+				for(int i = 0; i<width; i++){
+					result+= grid[i,j]==null? "O":"X";
+				}
+				result+="\n";
+			}
+			Debug.Log(result);
+		}
 
 	}
 }

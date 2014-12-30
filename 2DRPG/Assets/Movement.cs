@@ -1,23 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class MoveOrder{
 
-	public Vector2 direction;
-
-	public MoveOrder(Vector2 direction){
-		this.direction = direction;
-	}
-
-	public void apply(Transform subject) {
-
-		subject.position += (Vector3) direction;
-	}
-
-	public void undo(Transform subject) {
-		subject.position -= (Vector3) direction;
-	}
-}
 
 
 public class moveAnimation{
@@ -48,13 +32,15 @@ public class Movement : MonoBehaviour {
 	public GameObject selectionBox;
 
 
-	private MoveOrder[] moves = new MoveOrder[3]; 
+	 
 
-	private int turn = 0;
+	//private int turn = 0;
 //	private Vector2 pos;
 	private bool moving = false;
+
+	//private MoveOrder[] moves;
 	//private Vector2 change;
-	private bool selected = true;
+	//private bool selected = true;
 
 	private moveAnimation anim;
 	private int frames = 0;
@@ -62,46 +48,89 @@ public class Movement : MonoBehaviour {
 	private bool moveComplete = false;
 	private Vector3 oldPosition;
 
+	private bool[] selection = new bool[] {false, false, false};
 
-	void assignMoveOrder(int index, Vector2 direction){
-
-		if(index < 0 || index > moves.Length)
-			return;
-		else
-			moves[turn] = new MoveOrder(direction);
-	}
 
 	//Moves turn forward or back
+
+	private void resetPosition(){
+		for(int i = manager.turn; i > 0; i--){
+			if(selection[i-1]){
+				
+				Vector3 oldPos = transform.position;
+				manager.conductor.moves[i-1].undo(transform);
+				manager.board.move(oldPos, transform.position);
+				
+			}
+		}
+	}
+
 	private void changeTurn(int t){
 
 		//Debug.Log (t);
-		if(t < 0 || t > moves.Length){
-			//Debug.Log("rejected");
+		if(t < 0 || t > manager.conductor.moves.Length){
+			Debug.Log("rejected "+t);
 			return;
 		}
 
-		//Debug.Log ("proceding with " + t);
-		if(t < turn){//count down
+		//FIX THINGS HERE!!!!!
+		//Debug.Log ("t is " + t+" while turn is "+turn);
+		if(manager.turn < t){//count down
 			//Debug.Log("took lesser");
-			for(; turn > t ; turn--){
-				moves[turn-1].undo(transform);
+			for(int i = t; i > manager.turn ; i--){
+				if(selection[i-1]){
+
+					Vector3 oldPos = transform.position;
+					manager.conductor.moves[i-1].undo(transform);
+					manager.board.move(oldPos, transform.position);
+
+				}
 			}
 
-		}else if(t > turn){
+		}else if(manager.turn > t){
 			//Debug.Log("took greater");
-			for(; turn < t; turn++)
-				moves[turn].apply(transform);
+			for(int i = t; i < manager.turn; i++){
+				if(selection[i]){
 
-			
+					Vector3 oldPos = transform.position;
+
+					manager.conductor.moves[i].apply(transform);
+					Debug.Log("going from "+oldPos+" to "+transform.position);
+					manager.board.move(oldPos, transform.position);
+					Debug.Log("Moved?");
+				}
+			}
+
 		}else{
 			//Debug.Log("took equal");
 			//do nothing
 		}
+
+		//All suspect
+//		Debug.Log("should catch "+manager.conductor.moves.Length);
+//		if(turn==manager.conductor.moves.Length){Debug.Log("quit turn number "+turn); return;}//Take this out when the prototype ends
+//
+//		Debug.Log("Testing turn number "+turn);
+
+		if(selection[manager.turn])
+			select();
+		else
+			deselect();
 	}
 
-	void resetMoves(){
+	public void select(){
+		selection[manager.turn] = true;
+		showSelection();
+	}
+
+	public void deselect(){
+		selection[manager.turn] = false;
+		hideSelection();
+	}
+
+	private void clearSelection(){
 		for(int i = 0; i<3; i++){
-			moves[i] = new MoveOrder(new Vector2(0,0));
+			selection[i] = false;
 		}
 	}
 
@@ -118,9 +147,12 @@ public class Movement : MonoBehaviour {
 		manager.test();
 		manager.board.register(this.gameObject, transform.position);
 
+		ManagerHub.onTurnChange+=changeTurn;
+
+//		moves = manager.conductor.moves;
 		// First store our current position when the
 		// script is initialized.
-		resetMoves();
+
 //		pos = transform.position;//Does this do anything?
 	}
 	
@@ -134,14 +166,22 @@ public class Movement : MonoBehaviour {
 				moveNumber++;
 				if(moveNumber < 3){
 
-					anim = new moveAnimation(this.transform, moves[moveNumber], numFrames);
-					moveComplete = false;
-					frames = 0;
+					if(selection[moveNumber]){
+						anim = new moveAnimation(this.transform, manager.conductor.moves[moveNumber], numFrames);
+						moveComplete = false;
+						frames = 0;
+					}else{
+						//It would be better if you could just not do anything, but for now a go nowhere will do
+						anim = new moveAnimation(this.transform, new MoveOrder(Direction.NONE), numFrames);
+						moveComplete = false;
+						frames = 0;
+					}
 
 				}else{
 					moving = false;
-					resetMoves();
+//					resetMoves(); Where should resets happen?
 					manager.board.move(oldPosition, transform.position);
+					manager.conductor.resetMoves();
 				}
 			}
 		}else{
@@ -150,86 +190,29 @@ public class Movement : MonoBehaviour {
 
 	}
 
-	public void showSelection(){
+	private void showSelection(){
 		selectionBox.renderer.enabled = true;
 	}
 
-	public void hideSelection(){
+	private void hideSelection(){
 		selectionBox.renderer.enabled = false;
 	}
 	
 	private void CheckInput() {
 
 
-		if(selected){
 
-			if(Input.GetKeyDown(KeyCode.RightBracket)){
-				//Debug.Log ("righted "+(turn+1));
-				changeTurn(turn+1);
-
-			}
-
-			else if(Input.GetKeyDown(KeyCode.LeftBracket)){
-				//Debug.Log ("left "+(turn-1));
-				changeTurn(turn-1);
-
-			}
-		
-			else if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow)) {
-				assignMoveOrder(turn, Vector2.right);
-
-			}
-			
-			// For left, we have to subtract the direction
-			else if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow)) {
-				assignMoveOrder(turn, -1*Vector2.right);
-			}
-
-			else if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)) {
-				assignMoveOrder(turn, Vector2.up);
-			}
-			
-			// Same as for the left, subtraction for down
-			else if (Input.GetKeyDown(KeyCode.X) || Input.GetKeyDown(KeyCode.DownArrow)) {
-				assignMoveOrder(turn, -1*Vector2.up);
-			}
-
-			//Diagonals 
-			else if (Input.GetKeyDown(KeyCode.E)) {
-				assignMoveOrder(turn, Vector2.right + Vector2.up);
-				
-			}
-			
-			// For left, we have to subtract the direction
-			else if (Input.GetKeyDown(KeyCode.Q)) {
-				assignMoveOrder(turn, -1*Vector2.right + Vector2.up);
-			}
-			
-			else if (Input.GetKeyDown(KeyCode.C)) {
-				assignMoveOrder(turn, Vector2.right + (-1*Vector2.up));
-			}
-			
-			// Same as for the left, subtraction for down
-			else if (Input.GetKeyDown(KeyCode.Z)) {
-				assignMoveOrder(turn, -1*Vector2.right + (-1*Vector2.up));
-			}
-
-			// No direction
-			else if (Input.GetKeyDown(KeyCode.S)) {
-				assignMoveOrder(turn, new Vector2(0,0));
-			}
-
-			//Execute turn
-			else if (Input.GetKeyDown(KeyCode.Return)) {
-				changeTurn(0);
-				moveNumber = 0;
-				frames = 0;
-				moveComplete = false;
-				anim = new moveAnimation(this.transform, moves[moveNumber], numFrames);
-				moving = true;
-				oldPosition = transform.position;
-			}
-
+		//Execute turn
+		if(Input.GetKeyDown(KeyCode.Return)) {
+			resetPosition();
+			moveNumber = 0;
+			frames = 0;
+			moveComplete = false;
+			anim = new moveAnimation(this.transform, manager.conductor.moves[moveNumber], numFrames);
+			moving = true;
+			oldPosition = transform.position;
 		}
+
+		//}
 	}
 }

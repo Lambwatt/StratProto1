@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Board.cs" />
+     <Compile Include="Assets\Conductor.cs" />
      <Compile Include="Assets\ManagerHub.cs" />
      <Compile Include="Assets\Movement.cs" />
      <Compile Include="Assets\Selector.cs" />
