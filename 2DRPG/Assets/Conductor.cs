@@ -27,7 +27,7 @@ public class MoveOrder{
 			break;
 		case Direction.NORTHEAST:
 			label = "NORTHEAST";
-			this.direction = -1*Vector2.right + Vector2.up; 
+			this.direction = Vector2.right + Vector2.up; 
 			break;
 		case Direction.EAST:
 			label = "EAST";
@@ -51,7 +51,7 @@ public class MoveOrder{
 			break;
 		case Direction.NORTHWEST:
 			label = "NORTHWEST";
-			this.direction = Vector2.right + Vector2.up;
+			this.direction = -1*Vector2.right + Vector2.up;
 			break;
 		case Direction.NORTH:
 			label = "NORTH";

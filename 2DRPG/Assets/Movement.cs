@@ -53,8 +53,9 @@ public class Movement : MonoBehaviour {
 
 	//Moves turn forward or back
 
-	private void resetPosition(){
-		for(int i = manager.turn; i > 0; i--){
+	private void resetPosition(int oldTurn){
+		for(int i = oldTurn; i > 0; i--){
+
 			if(selection[i-1]){
 				
 				Vector3 oldPos = transform.position;
@@ -95,9 +96,9 @@ public class Movement : MonoBehaviour {
 					Vector3 oldPos = transform.position;
 
 					manager.conductor.moves[i].apply(transform);
-					Debug.Log("going from "+oldPos+" to "+transform.position);
+					//Debug.Log("going from "+oldPos+" to "+transform.position);
 					manager.board.move(oldPos, transform.position);
-					Debug.Log("Moved?");
+					//Debug.Log("Moved?");
 				}
 			}
 
@@ -134,6 +135,11 @@ public class Movement : MonoBehaviour {
 		}
 	}
 
+	void Destroy(){
+		ManagerHub.onTurnChange-=changeTurn;
+		ManagerHub.onAnimationPlay-=animate;
+	}
+
 	void Start () {
 
 		manager = GameObject.Find("manager").GetComponent<ManagerHub>();
@@ -148,6 +154,7 @@ public class Movement : MonoBehaviour {
 		manager.board.register(this.gameObject, transform.position);
 
 		ManagerHub.onTurnChange+=changeTurn;
+		ManagerHub.onAnimationPlay+=animate;
 
 //		moves = manager.conductor.moves;
 		// First store our current position when the
@@ -164,30 +171,46 @@ public class Movement : MonoBehaviour {
 
 			if(moveComplete){
 				moveNumber++;
-				if(moveNumber < 3){
 
-					if(selection[moveNumber]){
-						anim = new moveAnimation(this.transform, manager.conductor.moves[moveNumber], numFrames);
-						moveComplete = false;
-						frames = 0;
-					}else{
-						//It would be better if you could just not do anything, but for now a go nowhere will do
-						anim = new moveAnimation(this.transform, new MoveOrder(Direction.NONE), numFrames);
-						moveComplete = false;
-						frames = 0;
-					}
+				if(moveNumber < 3){
+					selectMoveAnimation();
 
 				}else{
 					moving = false;
 //					resetMoves(); Where should resets happen?
 					manager.board.move(oldPosition, transform.position);
 					manager.conductor.resetMoves();
+					resetSelection();
 				}
 			}
 		}else{
-			CheckInput();
+			//CheckInput();
 		}
 
+	}
+
+	private void resetSelection(){
+
+		for(int i = 0; i<selection.Length; i++){
+			selection[i] = false;
+		}
+		hideSelection();
+	}
+
+	private void selectMoveAnimation(){
+		Debug.Log("\trunning for "+moveNumber);
+		if(selection[moveNumber]){
+			Debug.Log("\tDetected real movement");
+			anim = new moveAnimation(this.transform, manager.conductor.moves[moveNumber], numFrames);
+			moveComplete = false;
+			frames = 0;
+		}else{
+			Debug.Log("\tNot selected");
+			//It would be better if you could just not do anything, but for now a go nowhere will do
+			anim = new moveAnimation(this.transform, new MoveOrder(Direction.NONE), numFrames);
+			moveComplete = false;
+			frames = 0;
+		}
 	}
 
 	private void showSelection(){
@@ -198,20 +221,21 @@ public class Movement : MonoBehaviour {
 		selectionBox.renderer.enabled = false;
 	}
 	
-	private void CheckInput() {
+	private void animate(int oldTurn) {
 
 
 
 		//Execute turn
-		if(Input.GetKeyDown(KeyCode.Return)) {
-			resetPosition();
+//		if(Input.GetKeyDown(KeyCode.Return)) {
+			resetPosition(oldTurn);
 			moveNumber = 0;
 			frames = 0;
 			moveComplete = false;
-			anim = new moveAnimation(this.transform, manager.conductor.moves[moveNumber], numFrames);
+			//anim = new moveAnimation(this.transform, manager.conductor.moves[moveNumber], numFrames);
+			selectMoveAnimation();
 			moving = true;
 			oldPosition = transform.position;
-		}
+//		}
 
 		//}
 	}

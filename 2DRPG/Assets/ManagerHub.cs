@@ -13,6 +13,9 @@ public class ManagerHub : MonoBehaviour {
 	public delegate void TurnChangeAction(int oldTurn);
 	public static event TurnChangeAction onTurnChange;
 
+	public delegate void PlayAnimationAction(int oldTurn);
+	public static event PlayAnimationAction onAnimationPlay;
+
 	// Use this for initialization
 	void Awake () {
 		board = GetComponent<Board>();
@@ -40,6 +43,13 @@ public class ManagerHub : MonoBehaviour {
 			Debug.Log ("trun down");
 			changeTurn(turn-1);
 			
+		}else if(Input.GetKeyDown(KeyCode.Return)) {
+
+			if(onAnimationPlay!=null){
+				onAnimationPlay(turn);
+			}
+
+			turn = 0;
 		}
 
 	}

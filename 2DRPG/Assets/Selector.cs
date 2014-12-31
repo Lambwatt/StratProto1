@@ -8,13 +8,20 @@ public class Selector : MonoBehaviour {
 	private ManagerHub manager;
 	public List <GameObject>[] selectedUnits = new List<GameObject>[3];//Important for server. probably not really now.
 
+	void Destroy(){
+		ManagerHub.onAnimationPlay-=resetSelection;
+	}
+
 	// Use this for initialization
 	void Start () {
+
 		manager = gameObject.GetComponent<ManagerHub>();
 
 		for(int i = 0; i<selectedUnits.Length; i++){
 			selectedUnits[i] = new List<GameObject>();
 		}
+
+		ManagerHub.onAnimationPlay+=resetSelection;
 	}
 
 	private void selectOrDeselect(GameObject subject){
@@ -22,18 +29,30 @@ public class Selector : MonoBehaviour {
 		Debug.Log(selectedUnits.ToString());
 		Debug.Log("turn is "+manager.turn);
 		Debug.Log(selectedUnits[manager.turn]);
+
 		if(selectedUnits[manager.turn].Contains(subject)){
-			Debug.Log("removed");
-			Debug.Log(selectedUnits[manager.turn].Remove(subject));
+
+			//Debug.Log("removed");
+			selectedUnits[manager.turn].Remove(subject);
 			subject.GetComponent<Movement>().deselect();
+
 		}else{
-			Debug.Log("added");
+
+			//Debug.Log("added");
 			selectedUnits[manager.turn].Add(subject);
 			subject.GetComponent<Movement>().select();
+
 		}
 
 		Debug.Log(selectedUnits[manager.turn].ToString()+", "+selectedUnits[manager.turn].ToArray().Length);
 
+	}
+
+	void resetSelection(int oldTurn){
+		//oldTurn is not used
+		for(int i = 0; i<selectedUnits.Length; i++){
+			selectedUnits[i].Clear();
+		}
 	}
 
 	// Update is called once per frame
