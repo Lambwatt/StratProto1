@@ -2,11 +2,12 @@
 using System.Collections;
 using System.Collections.Generic;
 
+//selects and deselcts units on the board based on mouse clicks.
 
 public class Selector : MonoBehaviour {
 
 	private ManagerHub manager;
-	public List <GameObject>[] selectedUnits = new List<GameObject>[3];//Important for server. probably not really now.
+	public List <Square> selectedUnits = new List<Square>();
 
 	void Destroy(){
 		ManagerHub.onAnimationPlay-=resetSelection;
@@ -17,41 +18,50 @@ public class Selector : MonoBehaviour {
 
 		manager = gameObject.GetComponent<ManagerHub>();
 
-		for(int i = 0; i<selectedUnits.Length; i++){
-			selectedUnits[i] = new List<GameObject>();
-		}
+//		for(int i = 0; i<selectedUnits.Length; i++){
+//			selectedUnits[i] = new List<GameObject>();//change to squares
+//		}
 
-		ManagerHub.onAnimationPlay+=resetSelection;
+		ManagerHub.onAnimationPlay+=clearSelection;
 	}
 
-	private void selectOrDeselect(GameObject subject){
+	private void selectOrDeselect(Square s){
 
-		Debug.Log(selectedUnits.ToString());
-		Debug.Log("turn is "+manager.turn);
-		Debug.Log(selectedUnits[manager.turn]);
+		if(manager.board.squareInBounds(s, Direction.getDirection(Direction.NONE)) && manager.board.isOccupied(s)){
 
-		if(selectedUnits[manager.turn].Contains(subject)){
+			if(selectedUnits.Contains(s)){
 
-			//Debug.Log("removed");
-			selectedUnits[manager.turn].Remove(subject);
-			subject.GetComponent<Movement>().deselect();
+				deselect(s);
 
-		}else{
+			}else{
 
-			//Debug.Log("added");
-			selectedUnits[manager.turn].Add(subject);
-			subject.GetComponent<Movement>().select();
+				select(s);
 
+			}
 		}
 
-		Debug.Log(selectedUnits[manager.turn].ToString()+", "+selectedUnits[manager.turn].ToArray().Length);
+		//Debug.Log(selectedUnits[manager.turn].ToString()+", "+selectedUnits[manager.turn].ToArray().Length);
 
 	}
 
-	void resetSelection(int oldTurn){
+	private void select(Square s){
+		selectedUnits.Add(s);
+		manager.board.selectSquareContents(s);
+	}
+
+	private void deselect(Square s){
+		selectedUnits.Remove(s);
+		manager.realBoard.deselectSquareContents(s);
+	}
+
+	void clearSelection(){
+		selectedUnits.Clear();//Should be unnecessary.
+	}
+
+	void resetSelection(){
 		//oldTurn is not used
-		for(int i = 0; i<selectedUnits.Length; i++){
-			selectedUnits[i].Clear();
+		for(int i = 0; i<selectedUnits.Count; i++){
+			deselect(selectedUnits[i]);
 		}
 	}
 
@@ -66,24 +76,8 @@ public class Selector : MonoBehaviour {
 			
 			Debug.Log (boardPos.x+" "+ boardPos.y);
 
-			GameObject contents = manager.board.grid[boardPos.x, boardPos.y];
-			Debug.Log(contents);
-			if(contents){
-				selectOrDeselect(contents);
-				//Debug.Log ("occupied. select contents");
-			}
-			else
-				Debug.Log ("empty. select nothing.");
-			//			mousePos.x = Mathf.Floor( mousePos.x ) + (Mathf.Abs(mousePos.x)%1.0f>0.5?1:0);
-			//			mousePos.y = Mathf.Floor( mousePos.y ) + (Mathf.Abs(mousePos.y)%1.0f>0.5?1:0);
-			//			
-			//			//Only seems to connect with one. find out why.
-			//			
-			//			if((Mathf.Floor( transform.position.x ) + (transform.position.x%1.0f>0.5?1:0)) == mousePos.x  && (Mathf.Floor( transform.position.y ) + (transform.position.y%1.0f>0.5?1:0)) == mousePos.y  ){
-			//				Debug.Log("found "+idNo );
-			//			}else{
-			//				Debug.Log("missed "+idNo+":"+(Mathf.Floor( transform.position.x ) + (transform.position.x%1.0f>0.5?1:0)) +":"+ mousePos.x +","+ (Mathf.Floor( transform.position.y ) + (transform.position.y%1.0f>0.5?1:0)) +":"+ mousePos.y);
-			//			}
+			selectOrDeselect(boardPos);
+
 		}
 	}
 }
