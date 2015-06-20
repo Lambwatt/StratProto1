@@ -51,7 +51,7 @@ public class Selector : MonoBehaviour {
 
 	private void deselect(Square s){
 		selectedUnits.Remove(s);
-		manager.realBoard.deselectSquareContents(s);
+		manager.board.deselectSquareContents(s);
 	}
 
 	void clearSelection(){

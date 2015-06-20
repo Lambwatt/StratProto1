@@ -17,26 +17,42 @@ public class SimpleRealMoveAction : Action{
 //		isLast = l;
 	}
 
-	private bool canMove(Board board){
-		return board.moveAllowed(square, dir);
+	private bool postCanMove(Board board, TurnMetaData data){
+
+		TurnMetaData.Answer ans = board.moveAllowed(square, dir);
+		data.postMoving(square,ans);
+		return ans != TurnMetaData.Answer.NO || dir == Direction.getDirection(Direction.NONE);//May want to handle this differently, but for now moving nowhere ends in failure to avoid an infinite loop.
 	}
 
-	private bool willMove(Board board){
-		return board.moveAllowed(square, dir);
+	public bool willMove(Square square, TurnMetaData data){
+		switch( data.getMoving(square)){
+		case TurnMetaData.Answer.NO:
+			return false;
+		case TurnMetaData.Answer.YES:
+			return true;
+		case TurnMetaData.Answer.MAYBE:
+			return willMove(new Square(square.x+dir.getX(), square.y+dir.getY()), data);
+				default:
+				Debug.Log("WARNING: recieved non-answer.");
+			return false;
+		}
 	}
 
-	public void checkIfExecutable(Board board){
-
+	public void checkIfExecutable(Board board, TurnMetaData data){
+		postCanMove(board, data);
 	}
 
-	public List<Response> execute(Board board){
+	public List<Response> execute(Board board, TurnMetaData data){
 		
 		List<Response> res = new List<Response>();
 		
-		if(board.moveAllowed(square, dir)){
-			
+		if(willMove(square, data)){
+
+			data.updateMoving(square, true);
 			board.move(square, dir);
 			
+		}else{
+			data.updateMoving(square, false);//Simplifies future data queries.
 		}
 
 		return null;

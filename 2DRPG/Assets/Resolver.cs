@@ -35,6 +35,7 @@ public class Resolver {
 
 		List<Command> commands = o.getCommands();
 		List<SequenceTracker> actionSequences = new List<SequenceTracker>();
+		TurnMetaData data = new TurnMetaData();
 
 		foreach(Command c in commands){
 			actionSequences.Add(new SequenceTracker(c.execute().GetEnumerator()));
@@ -44,11 +45,11 @@ public class Resolver {
 		do{
 
 			foreach(SequenceTracker st in actionSequences){
-				st.getAction().checkIfExecutable(b);
+				st.getAction().checkIfExecutable(b, data);
 			}
 
 			foreach(SequenceTracker st in actionSequences){
-				st.getAction().execute(b);
+				st.getAction().execute(b, data);
 			}
 
 
@@ -67,6 +68,8 @@ public class Resolver {
 				complete &= st.complete;
 
 			}
+
+			data.clearData();
 
 		}while(!complete);
 

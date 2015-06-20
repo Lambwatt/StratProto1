@@ -71,6 +71,7 @@
      <Compile Include="Assets\SimpleRealMoveCommand.cs" />
      <Compile Include="Assets\SimpleScratchMoveAction.cs" />
      <Compile Include="Assets\SimpleScratchMoveCommand.cs" />
+     <Compile Include="Assets\TurnMetaData.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>

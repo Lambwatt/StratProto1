@@ -35,11 +35,12 @@ public struct Square{
 public class GridSlot{
 
 	public GameObject unit;
+	public GameObject pendingUnit;
 
 
 	public void setPosition(Vector3 pos){
 
-		deselect();//Not sure if this will hold up. this may need to live somewhere else.
+		//deselect();//Not sure if this will hold up. this may need to live somewhere else.
 		Debug.Log(unit.transform.position);
 		Debug.Log(pos);
 		unit.GetComponent<Movement>().setPosition(pos);
@@ -57,6 +58,21 @@ public class GridSlot{
 
 	public bool hasUnit(){
 		return unit!=null;
+	}
+
+	public void addUnit(GameObject u){
+		if(hasUnit())
+			pendingUnit = u;
+		else
+			unit = u;
+	}
+
+	public void removeUnit(){
+		Debug.Log("unit = "+unit+", pendingUnit = "+pendingUnit);
+		unit = pendingUnit;
+		Debug.Log("after assignment, unit = "+unit+", pendingUnit = "+pendingUnit);
+		pendingUnit = null;
+		Debug.Log("after nullification, unit = "+unit+", pendingUnit = "+pendingUnit);
 	}
 }
 
@@ -107,8 +123,14 @@ public class Board : MonoBehaviour{//Make this not a game object.
 	}
 
 	//COPY THIS ONE
-	public bool moveAllowed(Square s, Direction d){
-		return squareInBounds(s,d) && grid[s.x+d.getX(), s.y+d.getY()].unit==null; //return in bounds and empty
+	public TurnMetaData.Answer moveAllowed(Square s, Direction d){
+		if(squareInBounds(s,d)){
+			if(grid[s.x+d.getX(), s.y+d.getY()].unit==null)
+				return TurnMetaData.Answer.YES;
+			else
+				return TurnMetaData.Answer.MAYBE;
+		}else
+			return TurnMetaData.Answer.NO;
 	}
 
 	public bool isOccupied(Square s){
@@ -121,11 +143,12 @@ public class Board : MonoBehaviour{//Make this not a game object.
 		grid[start.x, start.y].setPosition(convertBoardSquaresToWorldCoords(new Square(start.x+dir.getX(),start.y+dir.getY())));
 
 		Square end = new Square(start.x+dir.getX(), start.y+dir.getY());
-		grid[end.x, end.y].unit = grid[start.x, start.y].unit;
-		
+		grid[end.x, end.y].addUnit(grid[start.x, start.y].unit);
+		grid[start.x, start.y].removeUnit();
+
 		//Debug.Log("["+end.x+":"+start.x+"]|["+end.y+":"+start.y+"]");
-		if(end.x!=start.x || end.y!=start.y)
-			grid[start.x, start.y].unit = null;
+//		if(end.x!=start.x || end.y!=start.y)
+//			grid[start.x, start.y].unit = null;
 	}
 
 	//hopefully this one can be removed
@@ -134,19 +157,20 @@ public class Board : MonoBehaviour{//Make this not a game object.
 		Square cStart = convertMouseClickToBoardCoords(start);
 		Square cEnd = convertMouseClickToBoardCoords(end);
 
-		grid[cEnd.x, cEnd.y].unit = grid[cStart.x, cStart.y].unit;
-		if(end.x!=start.x || end.y!=start.y)
-			grid[cStart.x, cStart.y].unit = null;
+		grid[cEnd.x, cEnd.y].addUnit(grid[cStart.x, cStart.y].unit);
+		grid[cStart.x, cStart.y].removeUnit();
+//		if(end.x!=start.x || end.y!=start.y)
+//			grid[cStart.x, cStart.y].unit = null;
 	}
 
 	//Moves contents of one tile to another and clears the previous tile if it is now empty
 	public void move(Square start, Square end){
 		
-		grid[end.x, end.y].unit = grid[start.x, start.y].unit;
-
+		grid[end.x, end.y].addUnit(grid[start.x, start.y].unit);
+		grid[start.x, start.y].removeUnit();
 		//Debug.Log("["+end.x+":"+start.x+"]|["+end.y+":"+start.y+"]");
-		if(end.x!=start.x || end.y!=start.y)
-			grid[start.x, start.y].unit = null;
+//		if(end.x!=start.x || end.y!=start.y)
+//			grid[start.x, start.y].unit = null;
 	}
 
 	public void resetPosition(Square s){
@@ -178,7 +202,7 @@ public class Board : MonoBehaviour{//Make this not a game object.
 			string result = "";
 			for(int j = height-1; j>=0; j--){
 				for(int i = 0; i<width; i++){
-					result+= grid[i,j]==null? "O":"X";
+					result+= grid[i,j].hasUnit()? "O":"X";
 				}
 				result+="\n";
 			}

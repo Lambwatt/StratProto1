@@ -14,28 +14,28 @@ public class SimpleScratchMoveAction : Action {
 
 	}
 
-	private bool canMove(Board board){
+	private TurnMetaData.Answer canMove(Board board){
 		return board.moveAllowed(square, dir);
 	}
 	
-	private bool willMove(Board board){
+	private TurnMetaData.Answer willMove(Board board){
 		return board.moveAllowed(square, dir);
 	}
 
-	public void checkIfExecutable(Board board){
+	public void checkIfExecutable(Board board, TurnMetaData dat){
 
 		//Do nothing for now
 	}
 	
-	public List<Response> execute(Board board){
+	public List<Response> execute(Board board, TurnMetaData dat){
 		
 		List<Response> res = new List<Response>();
 
-		if(board.moveAllowed(square, dir)){
-
-			board.move(square, dir);
-
-		}
+//		if(board.moveAllowed(square, dir)){
+//
+//			board.move(square, dir);
+//
+//		}
 
 		return null;
 	}

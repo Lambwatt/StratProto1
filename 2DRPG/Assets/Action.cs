@@ -4,9 +4,9 @@ using System.Collections.Generic;
 
 public interface Action {
 
-	void checkIfExecutable(Board board);
+	void checkIfExecutable(Board board, TurnMetaData data);
 
-	List<Response> execute(Board board); //Responses may be unnecessary
+	List<Response> execute(Board board, TurnMetaData data); //Responses may be unnecessary
 
 	void checkForConsequences(Board board);
 
