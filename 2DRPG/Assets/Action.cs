@@ -6,7 +6,7 @@ public interface Action {
 
 	void checkIfExecutable(Board board, TurnMetaData data);
 
-	List<Response> execute(Board board, TurnMetaData data); //Responses may be unnecessary
+	bool execute(Board board, TurnMetaData data); //Responses may be unnecessary
 
 	void checkForConsequences(Board board);
 

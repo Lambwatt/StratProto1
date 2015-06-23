@@ -21,10 +21,11 @@ public class SimpleRealMoveAction : Action{
 
 		TurnMetaData.Answer ans = board.moveAllowed(square, dir);
 		data.postMoving(square,ans);
-		return ans != TurnMetaData.Answer.NO || dir == Direction.getDirection(Direction.NONE);//May want to handle this differently, but for now moving nowhere ends in failure to avoid an infinite loop.
+		return ans != TurnMetaData.Answer.NO;
 	}
 
 	public bool willMove(Square square, TurnMetaData data){
+	
 		switch( data.getMoving(square)){
 		case TurnMetaData.Answer.NO:
 			return false;
@@ -42,20 +43,28 @@ public class SimpleRealMoveAction : Action{
 		postCanMove(board, data);
 	}
 
-	public List<Response> execute(Board board, TurnMetaData data){
-		
-		List<Response> res = new List<Response>();
-		
+	public bool execute(Board board, TurnMetaData data){
+
 		if(willMove(square, data)){
 
 			data.updateMoving(square, true);
+			board.setAnimation(square, new SpriteMovement("move", 
+							              			new LinearMoveCurve(null), 
+							              			board.convertBoardSquaresToWorldCoords(square), 
+							              			board.convertBoardSquaresToWorldCoords(new Square(square.x+dir.getX(),square.y+dir.getY())),
+							                        10));
+			board.setAnimation(square, new SpriteMovement("idle", 
+			                                         new LinearMoveCurve(null), 
+			                                         board.convertBoardSquaresToWorldCoords(new Square(square.x+dir.getX(),square.y+dir.getY())), 
+			                                         board.convertBoardSquaresToWorldCoords(new Square(square.x+dir.getX(),square.y+dir.getY())),
+			                                         0));
 			board.move(square, dir);
 			
 		}else{
 			data.updateMoving(square, false);//Simplifies future data queries.
 		}
 
-		return null;
+		return false;
 	}
 
 	public void checkForConsequences(Board board){

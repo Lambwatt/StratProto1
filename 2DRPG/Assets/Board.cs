@@ -41,9 +41,11 @@ public class GridSlot{
 	public void setPosition(Vector3 pos){
 
 		//deselect();//Not sure if this will hold up. this may need to live somewhere else.
-		Debug.Log(unit.transform.position);
-		Debug.Log(pos);
 		unit.GetComponent<Movement>().setPosition(pos);
+	}
+
+	public void setAnimation(SpriteMovement a){
+		unit.GetComponent<Movement>().setNextAnimation(a);
 	}
 
 	public void select(){
@@ -68,11 +70,8 @@ public class GridSlot{
 	}
 
 	public void removeUnit(){
-		Debug.Log("unit = "+unit+", pendingUnit = "+pendingUnit);
 		unit = pendingUnit;
-		Debug.Log("after assignment, unit = "+unit+", pendingUnit = "+pendingUnit);
 		pendingUnit = null;
-		Debug.Log("after nullification, unit = "+unit+", pendingUnit = "+pendingUnit);
 	}
 }
 
@@ -124,7 +123,7 @@ public class Board : MonoBehaviour{//Make this not a game object.
 
 	//COPY THIS ONE
 	public TurnMetaData.Answer moveAllowed(Square s, Direction d){
-		if(squareInBounds(s,d)){
+		if(squareInBounds(s,d) && !(s.x+d.getX()==s.x && s.y+d.getY() == s.y)){
 			if(grid[s.x+d.getX(), s.y+d.getY()].unit==null)
 				return TurnMetaData.Answer.YES;
 			else
@@ -140,7 +139,7 @@ public class Board : MonoBehaviour{//Make this not a game object.
 	//COPY THIS ONE
 	public void move(Square start, Direction dir){
 
-		grid[start.x, start.y].setPosition(convertBoardSquaresToWorldCoords(new Square(start.x+dir.getX(),start.y+dir.getY())));
+		//grid[start.x, start.y].setPosition(convertBoardSquaresToWorldCoords(new Square(start.x+dir.getX(),start.y+dir.getY())));
 
 		Square end = new Square(start.x+dir.getX(), start.y+dir.getY());
 		grid[end.x, end.y].addUnit(grid[start.x, start.y].unit);
@@ -192,6 +191,10 @@ public class Board : MonoBehaviour{//Make this not a game object.
 	
 	public void deselectSquareContents(Square s){
 		grid[s.x, s.y].deselect();
+	}
+
+	public void setAnimation(Square s, SpriteMovement a){
+		grid[s.x, s.y].setAnimation(a);
 	}
 	
 //	// Update is called once per frame. Eventually, this should not be a behaviour

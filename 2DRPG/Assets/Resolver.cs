@@ -29,12 +29,13 @@ public class Resolver {
 
 	}
 
-	public void resolve(Board b, Order o){
+	public int resolve(Board b, Order o){
 
 		//Create metaData
 
 		List<Command> commands = o.getCommands();
 		List<SequenceTracker> actionSequences = new List<SequenceTracker>();
+
 		TurnMetaData data = new TurnMetaData();
 
 		foreach(Command c in commands){
@@ -73,7 +74,7 @@ public class Resolver {
 
 		}while(!complete);
 
-
+		return 10;
 	}
 
 

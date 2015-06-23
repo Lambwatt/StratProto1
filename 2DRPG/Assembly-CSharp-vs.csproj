@@ -49,14 +49,15 @@
      <Compile Include="Assets\Action.cs" />
      <Compile Include="Assets\ActionFactory.cs" />
      <Compile Include="Assets\ActionSequence.cs" />
-     <Compile Include="Assets\Animation.cs" />
      <Compile Include="Assets\AnimationBuilder.cs" />
      <Compile Include="Assets\AnimationBuilderFactory.cs" />
      <Compile Include="Assets\Board.cs" />
      <Compile Include="Assets\Command.cs" />
      <Compile Include="Assets\CommandFactory.cs" />
      <Compile Include="Assets\Conductor.cs" />
+     <Compile Include="Assets\Curve.cs" />
      <Compile Include="Assets\Direction.cs" />
+     <Compile Include="Assets\LinearMoveCurve.cs" />
      <Compile Include="Assets\ManagerHub.cs" />
      <Compile Include="Assets\Movement.cs" />
      <Compile Include="Assets\Order.cs" />
@@ -71,6 +72,7 @@
      <Compile Include="Assets\SimpleRealMoveCommand.cs" />
      <Compile Include="Assets\SimpleScratchMoveAction.cs" />
      <Compile Include="Assets\SimpleScratchMoveCommand.cs" />
+     <Compile Include="Assets\SpriteMovement.cs" />
      <Compile Include="Assets\TurnMetaData.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>

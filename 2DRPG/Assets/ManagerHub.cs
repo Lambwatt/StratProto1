@@ -14,8 +14,9 @@ public class ManagerHub : MonoBehaviour {
 	public CommandFactory commandFactory;
 	public int turn = 0;
 	public Order order;
-	//public string state = "planning";
+	public string state = "planning";
 	public Board board;
+	public int frameCount = 0;
 
 	public const int maxTurns = 3;
 
@@ -28,72 +29,35 @@ public class ManagerHub : MonoBehaviour {
 	// Use this for initialization
 	void Awake () {
 		realBoard = GetComponent<Board>();
-		scratchBoard = new ScratchBoard(realBoard);
+		//scratchBoard = new ScratchBoard(realBoard);
 		board = realBoard;
 		commandFactory = new SimpleCommandFactory();
 		order = new Order(commandFactory);
 		selector = GetComponent<Selector>();
 		conductor = GetComponent<Conductor>();
-		resolver = new Resolver();;
-
-//		Dictionary<Square, string> test = new Dictionary<Square, string>();
-//
-//		test.Add(new Square(0,0),"This square started [0,0].");
-//		test.Add(new Square(0,1),"This square started [0,1].");
-//
-//		Debug.Log(test[new Square(0,0)]);
-//		Debug.Log(test[new Square(0,1)]);
-//
-//		test.Add(new Square(1,0),test[new Square(0,1)]);
-//		test.Remove(new Square(0,1));
-//
-//		Debug.Log(test[new Square(1,0)]);
-//		Debug.Log(test[new Square(0,1)]);
-		//test.Add(Square(0,0),"This square started [0,0].");
+		resolver = new Resolver();
 
 	}
 
 	public void resolve(){
 		order.setSquares(selector.selectedUnits);
-		resolver.resolve(board, order);
+		frameCount = resolver.resolve(board, order);
 		onAnimationPlay();
+		state = "animating";
 	}
 
-
-//	public void test(){
-////		realBoard.sayHi();
-//	}
-	// Update is called once per frame
 	void Update () {
 
-//		if(Input.GetKeyDown(KeyCode.RightBracket)){
-//			//Debug.Log ("righted "+(turn+1));
-//			//assignMoveOrder();//Change this order then move
-//			..Debug.Log ("trun up");
-//			//changeTurn(turn+1);
-//			
-//		}
-//		
-//		else if(Input.GetKeyDown(KeyCode.LeftBracket)){
-//			//Debug.Log ("left "+(turn-1));
-//			//assignMoveOrder();//change this order then move
-//			Debug.Log ("trun down");
-//			//changeTurn(turn-1);
-//			
-//		}else 
-//		if(Input.GetKeyDown(KeyCode.Return)) {
-//
-////			if(onAnimationPlay!=null){
-////				onAnimationPlay();
-////			}
-//			resolver()
-//			//state = "resolving";
-//			//TRIGGIR MOVEMENT
-//
-//			//turn = 0;
-//		}
-
+		if(state=="animating"){
+			frameCount--;
+			if(frameCount<0)
+				state = "planning";
+		}
 	}
+//
+//	public void setFrameCount(int i){
+//		frameCount = i;
+//	}
 
 //	public void changeTurn(int t){
 //
