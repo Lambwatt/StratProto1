@@ -63,11 +63,6 @@ public class SimpleRealMoveAction : Action{
 			board.move(square, dir);
 			
 		}else{
-			board.setAnimation(square, new SpriteMovement("idle", 
-			                                              new LinearMoveCurve(null), 
-			                                              board.convertBoardSquaresToWorldCoords(square), 
-			                                              board.convertBoardSquaresToWorldCoords(square),
-			                                              0));
 			data.updateMoving(square, false);//Simplifies future data queries.
 		}
 

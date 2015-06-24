@@ -65,9 +65,11 @@ public class Movement : MonoBehaviour {
 		if(manager.state=="animating"){
 			//Debug.Log("animation is "+currentAnimation.complete());
 			if(currentAnimation.complete()){
-				currentAnimation = currentAnimation.getNext();
-				transform.position = currentAnimation.getStep();
-				Debug.Log ("Moved to next animation with tag: "+currentAnimation.getSpriteName());
+				if(currentAnimation.hasNext()){
+					currentAnimation = currentAnimation.getNext();
+					transform.position = currentAnimation.getStep();
+					Debug.Log ("Moved to next animation with tag: "+currentAnimation.getSpriteName());
+				}
 			}else{
 				transform.position = currentAnimation.getStep();
 			}
