@@ -1,20 +1,22 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Board.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/SpriteMovement.cs">
     <Files>
-      <File FileName="Assets/Curve.cs" Line="8" Column="1" />
+      <File FileName="Assets/SimpleRealMoveAction.cs" Line="69" Column="27" />
+      <File FileName="Assets/Curve.cs" Line="1" Column="1" />
       <File FileName="Assets/TurnMetaData.cs" Line="1" Column="1" />
-      <File FileName="Assets/Board.cs" Line="126" Column="30" />
-      <File FileName="Assets/Resolver.cs" Line="77" Column="11" />
-      <File FileName="Assets/SimpleRealMoveAction.cs" Line="22" Column="43" />
+      <File FileName="Assets/Board.cs" Line="126" Column="74" />
+      <File FileName="Assets/Resolver.cs" Line="83" Column="38" />
       <File FileName="Assets/Direction.cs" Line="1" Column="1" />
-      <File FileName="Assets/Action.cs" Line="8" Column="2" />
-      <File FileName="Assets/SpriteMovement.cs" Line="28" Column="12" />
+      <File FileName="Assets/Action.cs" Line="11" Column="41" />
+      <File FileName="Assets/SpriteMovement.cs" Line="26" Column="8" />
       <File FileName="Assets/LinearMoveCurve.cs" Line="15" Column="16" />
-      <File FileName="Assets/Movement.cs" Line="61" Column="34" />
-      <File FileName="Assets/ManagerHub.cs" Line="32" Column="5" />
+      <File FileName="Assets/Movement.cs" Line="67" Column="35" />
+      <File FileName="Assets/ManagerHub.cs" Line="1" Column="1" />
       <File FileName="Assets/Conductor.cs" Line="114" Column="3" />
-      <File FileName="Assets/SimpleScratchMoveAction.cs" Line="40" Column="15" />
+      <File FileName="Assets/SimpleScratchMoveAction.cs" Line="33" Column="1" />
+      <File FileName="Assets/SimpleRealMoveCommand.cs" Line="14" Column="2" />
+      <File FileName="Assets/SimpleScratchMoveCommand.cs" Line="11" Column="35" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

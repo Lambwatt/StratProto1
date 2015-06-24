@@ -14,7 +14,7 @@ public class SimpleScratchMoveCommand : Command {
 	
 	public List<Action> execute(){ //returns action seqence checking for everything
 		List<Action> result = new List<Action>();
-		result.Add(new SimpleRealMoveAction(square, dir));
+		result.Add(new SimpleRealMoveAction(square, dir, true));
 		return result;
 	}
 	

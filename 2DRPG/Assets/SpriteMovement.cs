@@ -61,4 +61,15 @@ public class SpriteMovement {
 			next.setNext(a);
 		}
 	}
+
+	public string printMoves(){
+		string result = getSpriteName();
+		if(next == null){
+			//garbage collect next?
+			return result;
+		}else{
+
+			return result+", "+next.printMoves();
+		}
+	}
 }

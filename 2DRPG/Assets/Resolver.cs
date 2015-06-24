@@ -19,8 +19,10 @@ public class Resolver {
 		}
 
 		public void step(){
-			if(!complete)
-				complete = iterator.MoveNext();
+			if(!complete){
+				complete = !iterator.MoveNext();
+				//Debug.Log ("Complete? : "+complete);
+			}
 		}
 
 		public Action getAction(){
@@ -42,15 +44,18 @@ public class Resolver {
 			actionSequences.Add(new SequenceTracker(c.execute().GetEnumerator()));
 		}
 
+		int frames = 0;
+
 		bool complete;
 		do{
-
+			int loopMax = 0;
 			foreach(SequenceTracker st in actionSequences){
 				st.getAction().checkIfExecutable(b, data);
 			}
 
 			foreach(SequenceTracker st in actionSequences){
-				st.getAction().execute(b, data);
+				int f = st.getAction().execute(b, data);
+				if(f>loopMax) loopMax = f;
 			}
 
 
@@ -70,11 +75,13 @@ public class Resolver {
 
 			}
 
+			frames+=loopMax;
 			data.clearData();
 
 		}while(!complete);
 
-		return 10;
+		Debug.Log ("Expecting "+frames+" frame animation.");
+		return frames;
 	}
 
 

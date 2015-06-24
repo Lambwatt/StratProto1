@@ -16,6 +16,10 @@ public class Movement : MonoBehaviour {
 
 	//Moves turn forward or back
 
+	public void printMovement(){
+		Debug.Log ("Movement:["+currentAnimation.printMoves()+"]");
+	}
+
 	public void setNextAnimation(SpriteMovement n){
 		currentAnimation.setNext(n);
 	}
@@ -59,8 +63,11 @@ public class Movement : MonoBehaviour {
 	void Update () {//This is long. should shorten it or move it.
 
 		if(manager.state=="animating"){
+			//Debug.Log("animation is "+currentAnimation.complete());
 			if(currentAnimation.complete()){
 				currentAnimation = currentAnimation.getNext();
+				transform.position = currentAnimation.getStep();
+				Debug.Log ("Moved to next animation with tag: "+currentAnimation.getSpriteName());
 			}else{
 				transform.position = currentAnimation.getStep();
 			}
@@ -69,6 +76,7 @@ public class Movement : MonoBehaviour {
 	}
 
 	private void playNextAnimation(){
+		printMovement();
 		if(currentAnimation.hasNext()){
 			currentAnimation = currentAnimation.getNext();
 		}

@@ -15,7 +15,8 @@ public class SimpleRealMoveCommand : Command {
 	public List<Action> execute(){ //returns action seqence checking for everything.
 		List<Action> result = new List<Action>();
 
-		result.Add(new SimpleRealMoveAction(square, dir));
+		result.Add(new SimpleRealMoveAction(square, dir, false));
+		result.Add(new SimpleRealMoveAction(new Square(square.x+dir.getX(), square.y+dir.getY()), dir, true));
 
 		return result;
 

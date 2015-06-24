@@ -27,7 +27,7 @@ public class SimpleScratchMoveAction : Action {
 		//Do nothing for now
 	}
 	
-	public bool execute(Board board, TurnMetaData dat){
+	public int execute(Board board, TurnMetaData dat){
 		
 		List<Response> res = new List<Response>();
 
@@ -37,7 +37,7 @@ public class SimpleScratchMoveAction : Action {
 //
 //		}
 
-		return false;
+		return 0;
 	}
 	
 	public void checkForConsequences(Board board){

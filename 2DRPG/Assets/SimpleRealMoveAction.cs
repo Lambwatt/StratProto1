@@ -7,14 +7,14 @@ public class SimpleRealMoveAction : Action{
 	Square square;
 	Direction dir;
 //	bool isFirst;
-//	bool isLast;
+	bool isLast;
 
-	public SimpleRealMoveAction(Square s, Direction d)//Direction was converted in command
+	public SimpleRealMoveAction(Square s, Direction d, bool l)//Direction was converted in command
 	{
 		square = s;
 		dir = d;
 //		isFirst = f;
-//		isLast = l;
+		isLast = l;
 	}
 
 	private bool postCanMove(Board board, TurnMetaData data){
@@ -43,7 +43,7 @@ public class SimpleRealMoveAction : Action{
 		postCanMove(board, data);
 	}
 
-	public bool execute(Board board, TurnMetaData data){
+	public int execute(Board board, TurnMetaData data){
 
 		if(willMove(square, data)){
 
@@ -53,18 +53,25 @@ public class SimpleRealMoveAction : Action{
 							              			board.convertBoardSquaresToWorldCoords(square), 
 							              			board.convertBoardSquaresToWorldCoords(new Square(square.x+dir.getX(),square.y+dir.getY())),
 							                        10));
-			board.setAnimation(square, new SpriteMovement("idle", 
-			                                         new LinearMoveCurve(null), 
-			                                         board.convertBoardSquaresToWorldCoords(new Square(square.x+dir.getX(),square.y+dir.getY())), 
-			                                         board.convertBoardSquaresToWorldCoords(new Square(square.x+dir.getX(),square.y+dir.getY())),
-			                                         0));
+			if(isLast){
+				board.setAnimation(square, new SpriteMovement("idle", 
+			                                         	new LinearMoveCurve(null), 
+			                                        	 board.convertBoardSquaresToWorldCoords(new Square(square.x+dir.getX(),square.y+dir.getY())), 
+			                                        	 board.convertBoardSquaresToWorldCoords(new Square(square.x+dir.getX(),square.y+dir.getY())),
+			                                         	 0));
+			}
 			board.move(square, dir);
 			
 		}else{
+			board.setAnimation(square, new SpriteMovement("idle", 
+			                                              new LinearMoveCurve(null), 
+			                                              board.convertBoardSquaresToWorldCoords(square), 
+			                                              board.convertBoardSquaresToWorldCoords(square),
+			                                              0));
 			data.updateMoving(square, false);//Simplifies future data queries.
 		}
 
-		return false;
+		return isLast ? 11 : 10;
 	}
 
 	public void checkForConsequences(Board board){
