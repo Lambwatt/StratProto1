@@ -68,7 +68,7 @@ public class Movement : MonoBehaviour {
 				if(currentAnimation.hasNext()){
 					currentAnimation = currentAnimation.getNext();
 					transform.position = currentAnimation.getStep();
-					Debug.Log ("Moved to next animation with tag: "+currentAnimation.getSpriteName());
+					//Debug.Log ("Moved to next animation with tag: "+currentAnimation.getSpriteName());
 				}
 			}else{
 				transform.position = currentAnimation.getStep();
@@ -78,7 +78,7 @@ public class Movement : MonoBehaviour {
 	}
 
 	private void playNextAnimation(){
-		printMovement();
+		//printMovement();
 		if(currentAnimation.hasNext()){
 			currentAnimation = currentAnimation.getNext();
 		}

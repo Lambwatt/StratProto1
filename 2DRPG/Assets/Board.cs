@@ -83,11 +83,11 @@ public class Board : MonoBehaviour{//Make this not a game object.
 	public GridSlot[,] grid;//manage this better later. Yeah, this will eventually wind up being a dictionary
 		
 	public Square convertMouseClickToBoardCoords(Vector3 click){//find or creat coordinate type.
-		return new Square(Mathf.FloorToInt(click.x) + (width/2),Mathf.FloorToInt(click.y) + (height/2));
+		return new Square(Mathf.FloorToInt(click.x/32) + (width/2),Mathf.FloorToInt(click.y/32) + (height/2));
 	}
 
 	public Vector3 convertBoardSquaresToWorldCoords(Square s){//find or creat coordinate type.
-		return new Vector3(s.x - (width/2)+0.5f, s.y - (height/2)+0.5f, 0);
+		return new Vector3((s.x - (width/2)+0.5f)*32, (s.y - (height/2)+0.5f)*32, 0);
 	}
 	
 	// Use this for initialization
