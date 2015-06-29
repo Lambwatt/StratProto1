@@ -40,7 +40,7 @@ public class Order  {
 
 		//great opportunity for currying if c# allows it and you want to show off.
 		foreach(Square s in squares){
-			res.Add(commandFactory.getCommand(orderKey, s, direction)); 
+			res.Add(commandFactory.getCommand(orderKey, s, direction, magnitude)); 
 		}
 
 		return res;
