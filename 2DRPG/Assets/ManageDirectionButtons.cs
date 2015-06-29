@@ -2,7 +2,7 @@
 using UnityEngine.UI;
 using System.Collections;
 
-public class ManageButtons : MonoBehaviour {
+public class ManageDirectionButtons : MonoBehaviour {
 
 	Toggle[] buttons;
 	ManagerHub manager;
@@ -12,6 +12,7 @@ public class ManageButtons : MonoBehaviour {
 	void Start(){
 
 		manager = GameObject.Find("manager").GetComponent<ManagerHub>();
+		ManagerHub.onAnimationPlay+=resetButtons;
 		buttonSelected = 0;
 
 		//Order needs to be the same as direction hash
@@ -57,10 +58,6 @@ public class ManageButtons : MonoBehaviour {
 		}
 	}
 
-//	private void reselect(int i){
-//		buttons[i].isOn = true;
-//	}
-
 	private void setDirection(int d){
 		buttonSelected = d;
 		manager.conductor.setDirection(d);
@@ -71,5 +68,14 @@ public class ManageButtons : MonoBehaviour {
 			if(i!=d)
 				buttons[i].isOn = false;
 		}
+	}
+
+	private void resetButtons(){
+		buttons[0].isOn = true;
+	}
+
+	void Destroy(){
+		//ManagerHub.onTurnChange-=changeTurn;
+		ManagerHub.onAnimationPlay-=resetButtons;
 	}
 }

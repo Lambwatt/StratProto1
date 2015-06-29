@@ -93,6 +93,18 @@ public class Conductor : MonoBehaviour {
 		}
 	}
 
+	public int raiseMagnitude(){
+		if(manager.order.getMagnitude()<manager.maxMagnitude)
+			manager.order.setMagnitude(manager.order.getMagnitude()+1);
+		return manager.order.getMagnitude();
+	}
+
+	public int lowerMagnitude(){
+		if(manager.order.getMagnitude()>manager.minMagnitude)
+			manager.order.setMagnitude(manager.order.getMagnitude()-1);
+		return manager.order.getMagnitude();
+	}
+
 	public void setDirection(int d){
 		manager.order.setDirection(d);
 	}

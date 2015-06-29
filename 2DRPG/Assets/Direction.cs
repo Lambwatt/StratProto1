@@ -60,7 +60,7 @@ public class Direction{
 			return new Direction(0,1);
 			break;
 		default:
-
+			//Debug.Log ("undefined direction detected!");
 			return null;//FIXME figure out an exception to stick here.
 		}
 	}

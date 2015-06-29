@@ -6,11 +6,20 @@ public class Order  {
 
 	string orderKey;
 	int direction;
+	int magnitude;
 	List<Square> squares;
 	CommandFactory commandFactory;
 
 	public Order(CommandFactory cf){
 		commandFactory = cf;
+	}
+
+	public int getMagnitude(){
+		return magnitude;
+	}
+
+	public void setMagnitude(int i){
+		magnitude = i;
 	}
 
 	public void setSquares(List<Square> l){

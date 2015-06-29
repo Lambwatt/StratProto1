@@ -17,6 +17,8 @@ public class ManagerHub : MonoBehaviour {
 	public string state = "planning";
 	public Board board;
 	public int frameCount = 0;
+	public int minMagnitude = 1;
+	public int maxMagnitude = 3;
 
 	public const int maxTurns = 3;
 
@@ -32,16 +34,23 @@ public class ManagerHub : MonoBehaviour {
 		//scratchBoard = new ScratchBoard(realBoard);
 		board = realBoard;
 		commandFactory = new SimpleCommandFactory();
-		order = new Order(commandFactory);
+		initializeOrder();
 		selector = GetComponent<Selector>();
 		conductor = GetComponent<Conductor>();
 		resolver = new Resolver();
 
 	}
 
+	private void initializeOrder(){
+		order = new Order(commandFactory);
+		order.setDirection(0);
+		order.setMagnitude(1);
+	}
+
 	public void resolve(){
 		order.setSquares(selector.selectedUnits);
 		frameCount = resolver.resolve(board, order);
+		initializeOrder();//Old order has been used. Not longer needs to be preserved
 		onAnimationPlay();
 		state = "animating";
 	}

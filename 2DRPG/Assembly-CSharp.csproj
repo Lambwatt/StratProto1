@@ -59,7 +59,8 @@
      <Compile Include="Assets\Direction.cs" />
      <Compile Include="Assets\DirectionSelect.cs" />
      <Compile Include="Assets\LinearMoveCurve.cs" />
-     <Compile Include="Assets\ManageButtons.cs" />
+     <Compile Include="Assets\ManageDirectionButtons.cs" />
+     <Compile Include="Assets\ManageMagnitudeButtons.cs" />
      <Compile Include="Assets\ManagerHub.cs" />
      <Compile Include="Assets\Movement.cs" />
      <Compile Include="Assets\Order.cs" />
