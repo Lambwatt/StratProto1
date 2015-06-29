@@ -34,31 +34,22 @@ public class Direction{
 		switch(d){
 		case NONE:
 			return new Direction(0,0);
-			break;
 		case NORTHEAST:
 			return new Direction(1,1);
-			break;
 		case EAST:
 			return new Direction(1,0);
-			break;
 		case SOUTHEAST:
 			return new Direction(1,-1);
-			break;
 		case SOUTH:
 			return new Direction(0,-1);
-			break;
 		case SOUTHWEST:
 			return new Direction(-1,-1);
-			break;
 		case WEST:
 			return new Direction(-1,0);
-			break;
 		case NORTHWEST:
 			return new Direction(-1,1);
-			break;
 		case NORTH:
 			return new Direction(0,1);
-			break;
 		default:
 			//Debug.Log ("undefined direction detected!");
 			return null;//FIXME figure out an exception to stick here.

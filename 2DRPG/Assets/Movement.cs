@@ -9,7 +9,7 @@ public class Movement : MonoBehaviour {
 	public GameObject selectionBox;
 	//private int turn = 0;
 //	private Vector2 pos;
-	private bool moving = false;
+	//private bool moving = false;
 	private SpriteMovement currentAnimation;
 	
 	//FIXME Fix everything here to be designed around a single round. and clarify moves vs rounds vs turns teminology throughout

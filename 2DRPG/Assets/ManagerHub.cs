@@ -22,8 +22,8 @@ public class ManagerHub : MonoBehaviour {
 
 	public const int maxTurns = 3;
 
-	public delegate void TurnChangeAction(int oldTurn);
-	public static event TurnChangeAction onTurnChange;
+//	public delegate void TurnChangeAction(int oldTurn);
+//	public static event TurnChangeAction onTurnChange;
 
 	public delegate void PlayAnimationAction();
 	public static event PlayAnimationAction onAnimationPlay;

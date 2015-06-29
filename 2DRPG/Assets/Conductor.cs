@@ -7,7 +7,7 @@ using System.Collections;
 public class Conductor : MonoBehaviour {
 
 	private ManagerHub manager;
-	private Selector selector;
+	//private Selector selector;
 	private Board board;
 
 //	public MoveOrder move;//make array in the future
@@ -15,7 +15,7 @@ public class Conductor : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		manager = GameObject.Find("manager").GetComponent<ManagerHub>();
-		selector = manager.selector;//both of these should be unnecessary
+		//selector = manager.selector;//both of these should be unnecessary
 		board = manager.scratchBoard;//
 //		resetMoves();
 	}
