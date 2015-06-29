@@ -93,6 +93,13 @@ public class Conductor : MonoBehaviour {
 		}
 	}
 
+	public void setDirection(int d){
+		manager.order.setDirection(d);
+	}
+
+	void setOrderType(){
+
+	}
 
 	void assignMoveOrder(int d){
 

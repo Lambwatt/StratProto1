@@ -80,7 +80,7 @@ public class Resolver {
 
 		}while(!complete);
 
-		Debug.Log ("Expecting "+frames+" frame animation.");
+		//Debug.Log ("Expecting "+frames+" frame animation.");
 		return frames;
 	}
 
