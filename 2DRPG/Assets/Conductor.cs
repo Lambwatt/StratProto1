@@ -109,8 +109,8 @@ public class Conductor : MonoBehaviour {
 		manager.order.setDirection(d);
 	}
 
-	void setOrderType(){
-
+	public void setOrderKey(string key){
+		manager.order.setOrderKey(key);
 	}
 
 	void assignMoveOrder(int d){

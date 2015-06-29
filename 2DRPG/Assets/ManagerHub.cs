@@ -45,6 +45,7 @@ public class ManagerHub : MonoBehaviour {
 		order = new Order(commandFactory);
 		order.setDirection(0);
 		order.setMagnitude(1);
+		order.setOrderKey("none");
 	}
 
 	public void resolve(){

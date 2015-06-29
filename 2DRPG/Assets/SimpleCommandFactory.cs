@@ -11,10 +11,13 @@ public class SimpleCommandFactory : CommandFactory {
 	}
 
 	public Command getCommand(string key, Square s, int dir, int mag){
-//		if(ManagerHub.gameState=="planning"){//enumerate this state later
-//			return new SimpleScratchMoveCommand(s, dir);
-//		}else{
+
+		switch(key){
+		case "move":
 			return new SimpleRealMoveCommand(s, dir, mag);
-		//}
+		default:
+			Debug.Log("recieved order of type: "+key);
+			return new SimpleRealMoveCommand(s, 0, 1);
+		}
 	}
 }
