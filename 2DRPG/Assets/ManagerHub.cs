@@ -21,6 +21,7 @@ public class ManagerHub : MonoBehaviour {
 	public int frameCount = 0;
 	public int minMagnitude = 1;
 	public int maxMagnitude = 3;
+	public int unitsPerPlayer = 0;
 
 	public const int maxTurns = 3;
 
@@ -58,9 +59,11 @@ public class ManagerHub : MonoBehaviour {
 	void Start(){
 
 
-
-		addUnit(0,0,0);
-		addUnit(1,1,1);
+		for(int i = 0; i<players.Length; i++){
+			for(int j = 0; j<unitsPerPlayer; j++){
+				if(!addUnit(i,(int)Mathf.Floor(Random.value*board.width),(int)Mathf.Floor(Random.value*board.height))) j--;
+			}
+		}
 
 		activePlayer = 0;
 		order = players[0].getOrder();
@@ -74,12 +77,14 @@ public class ManagerHub : MonoBehaviour {
 		onPlayerChange();
 	}
 
-	private void addUnit(int p, int x, int y){
+	private bool addUnit(int p, int x, int y){
 		GameObject unit = initializeUnit(p);
 		if(board.register(unit, x, y)){
 			unit.GetComponent<Movement>().setPosition(board.convertBoardSquaresToWorldCoords(new Square(x,y)));
+			return true;
 		}else{
 			Debug.Log ("Error: could not place unit for player "+p+" at ["+x+","+y+"] because space was occuied");
+			return false;
 		}
 	}
 
