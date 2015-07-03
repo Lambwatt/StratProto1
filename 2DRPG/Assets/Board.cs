@@ -58,6 +58,10 @@ public class GridSlot{
 		unit.GetComponent<Movement>().deselect();
 	}
 
+	public int getPlayerNumber(){
+		return unit.GetComponent<Movement>().getPlayerNumber();
+	}
+
 	public bool hasUnit(){
 		return unit!=null;
 	}
@@ -130,6 +134,10 @@ public class Board : MonoBehaviour{//Make this not a game object.
 				return TurnMetaData.Answer.MAYBE;
 		}else
 			return TurnMetaData.Answer.NO;
+	}
+
+	public int getPlayerNumber(Square s){
+		return grid[s.x,s.y].getPlayerNumber();
 	}
 
 	public bool isOccupied(Square s){

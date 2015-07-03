@@ -27,7 +27,7 @@ public class Selector : MonoBehaviour {
 
 	private void selectOrDeselect(Square s){
 
-		if(manager.board.squareInBounds(s, Direction.getDirection(Direction.NONE)) && manager.board.isOccupied(s)){
+		if(manager.board.squareInBounds(s, Direction.getDirection(Direction.NONE)) && manager.board.isOccupied(s) && unitBelongsToPlayer(s)){
 
 			if(selectedUnits.Contains(s)){
 
@@ -42,6 +42,10 @@ public class Selector : MonoBehaviour {
 
 		//Debug.Log(selectedUnits[manager.turn].ToString()+", "+selectedUnits[manager.turn].ToArray().Length);
 
+	}
+
+	private bool unitBelongsToPlayer(Square s){
+		return manager.board.getPlayerNumber(s)==manager.activePlayer;
 	}
 
 	private void select(Square s){

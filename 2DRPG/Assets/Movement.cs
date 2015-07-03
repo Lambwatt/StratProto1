@@ -45,6 +45,14 @@ public class Movement : MonoBehaviour {
 //		}
 	}
 
+	public void setPlayerNumber(int i){
+		player = i;
+	}
+
+	public int getPlayerNumber(){
+		return player;
+	}
+
 	void Destroy(){
 		//ManagerHub.onTurnChange-=changeTurn;
 		ManagerHub.onAnimationPlay-=playNextAnimation;

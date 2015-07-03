@@ -14,8 +14,7 @@ public class ManagerHub : MonoBehaviour {
 	public CommandFactory commandFactory;
 	public int turn = 0;
 	public Player[] players;
-//	public Player player1;
-//	public Player player2;
+	public int activePlayer;
 	public Order order;
 	public string state = "planning";
 	public Board board;
@@ -30,6 +29,9 @@ public class ManagerHub : MonoBehaviour {
 
 	public delegate void PlayAnimationAction();
 	public static event PlayAnimationAction onAnimationPlay;
+
+	public delegate void PlayerChangeAction();
+	public static event PlayerChangeAction onPlayerChange;
 
 	// Use this for initialization
 	void Awake () {
@@ -46,7 +48,7 @@ public class ManagerHub : MonoBehaviour {
 
 
 
-		order = players[0].getOrder();
+
 		selector = GetComponent<Selector>();
 		conductor = GetComponent<Conductor>();
 		resolver = new Resolver();
@@ -54,9 +56,22 @@ public class ManagerHub : MonoBehaviour {
 	}
 
 	void Start(){
+
+
+
 		addUnit(0,0,0);
 		addUnit(1,1,1);
 
+		activePlayer = 0;
+		order = players[0].getOrder();
+		onPlayerChange();
+
+	}
+
+	public void changePlayer(){
+		activePlayer = (activePlayer+1)%2;
+		order = players[activePlayer].getOrder();
+		onPlayerChange();
 	}
 
 	private void addUnit(int p, int x, int y){
@@ -71,6 +86,7 @@ public class ManagerHub : MonoBehaviour {
 	private GameObject initializeUnit(int player){
 		GameObject unit = Instantiate<GameObject>(Resources.Load<GameObject>("PlayerPrefab")) as GameObject;
 		unit.GetComponent<SpriteRenderer>().sprite = players[player].getSprite();
+		unit.GetComponent<Movement>().setPlayerNumber(player);
 		return unit;
 	}
 	
