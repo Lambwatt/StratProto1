@@ -185,6 +185,19 @@ public class Board : MonoBehaviour{//Make this not a game object.
 			grid[cPos.x, cPos.y].unit = unit;
 	}
 
+	public bool register(GameObject unit, int x, int y){
+		//FIXME needs to return information about occupancy
+		
+		Square cPos = new Square(x,y);
+		if(!grid[cPos.x, cPos.y].hasUnit()){
+			grid[cPos.x, cPos.y].addUnit(unit);
+			return true;
+		}else
+			return false;
+
+	}
+
+
 	public void selectSquareContents(Square s){
 		grid[s.x, s.y].select();
 	}

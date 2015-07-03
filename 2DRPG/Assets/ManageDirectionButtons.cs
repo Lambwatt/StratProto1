@@ -43,18 +43,16 @@ public class ManageDirectionButtons : MonoBehaviour {
 	private void processButtonClick(bool val, int d){
 		if(val){
 			if(d==buttonSelected)//re-selected active button
-				Debug.Log("Left on");//do nothing
+				;
 			else{//selected new direction
-				Debug.Log("turned on");
 				setDirection(d);
 				clearOtherButtons(d);
 			}
 		}else{
 			if(d==buttonSelected){//re-clicked active button
-				Debug.Log("Turned back on");
 				buttons[d].isOn = true;//set to true and re-select
 			}else//button deactivated
-				Debug.Log("Left off");//do nothing
+				;//do nothing
 		}
 	}
 

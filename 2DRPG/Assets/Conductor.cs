@@ -26,66 +26,66 @@ public class Conductor : MonoBehaviour {
 		if(manager.state == "animating"){
 			;//Do nothing
 		}else{
-			if(Input.GetKeyDown(KeyCode.LeftBracket)){
-				board.reset();//Shouldn't need a board reference.
-			}
+//			if(Input.GetKeyDown(KeyCode.LeftBracket)){
+//				board.reset();//Shouldn't need a board reference.
+//			}
+//
+//			else if(Input.GetKeyDown(KeyCode.RightBracket)){
+//				manager.resolve();
+//			}
 
-			else if(Input.GetKeyDown(KeyCode.RightBracket)){
-				manager.resolve();
-			}
-
-			else if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow)) {
-				Debug.Log ("EAST");
-				assignMoveOrder(Direction.EAST);
-				
-			}
-			
-			// For left, we have to subtract the direction
-			else if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow)) {
-				Debug.Log ("WEST");
-				assignMoveOrder(Direction.WEST);
-			}
-			
-			else if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)) {
-				Debug.Log ("NORTH");
-				assignMoveOrder(Direction.NORTH);
-			}
-			
-			// Same as for the left, subtraction for down
-			else if (Input.GetKeyDown(KeyCode.X) || Input.GetKeyDown(KeyCode.DownArrow)) {
-				Debug.Log ("SOUTH");
-				assignMoveOrder( Direction.SOUTH );
-			}
-			
-			//Diagonals 
-			else if (Input.GetKeyDown(KeyCode.E)) {
-				Debug.Log ("NORTHEAST");
-				assignMoveOrder( Direction.NORTHEAST );
-				
-			}
-			
-			// For left, we have to subtract the direction
-			else if (Input.GetKeyDown(KeyCode.Q)) {
-				Debug.Log ("NORTHWEST");
-				assignMoveOrder( Direction.NORTHWEST );
-			}
-			
-			else if (Input.GetKeyDown(KeyCode.C)) {
-				Debug.Log ("SOUTHEAST");
-				assignMoveOrder( Direction.SOUTHEAST );
-			}
-			
-			// Same as for the left, subtraction for down
-			else if (Input.GetKeyDown(KeyCode.Z)) {
-				Debug.Log ("SOUTHWEST");
-				assignMoveOrder( Direction.SOUTHWEST );
-			}
-			
-			// No direction
-			else if (Input.GetKeyDown(KeyCode.S)) {
-				Debug.Log ("NONE");
-				assignMoveOrder( Direction.NONE );
-			}
+//			else if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow)) {
+//				Debug.Log ("EAST");
+//				assignMoveOrder(Direction.EAST);
+//				
+//			}
+//			
+//			// For left, we have to subtract the direction
+//			else if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow)) {
+//				Debug.Log ("WEST");
+//				assignMoveOrder(Direction.WEST);
+//			}
+//			
+//			else if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)) {
+//				Debug.Log ("NORTH");
+//				assignMoveOrder(Direction.NORTH);
+//			}
+//			
+//			// Same as for the left, subtraction for down
+//			else if (Input.GetKeyDown(KeyCode.X) || Input.GetKeyDown(KeyCode.DownArrow)) {
+//				Debug.Log ("SOUTH");
+//				assignMoveOrder( Direction.SOUTH );
+//			}
+//			
+//			//Diagonals 
+//			else if (Input.GetKeyDown(KeyCode.E)) {
+//				Debug.Log ("NORTHEAST");
+//				assignMoveOrder( Direction.NORTHEAST );
+//				
+//			}
+//			
+//			// For left, we have to subtract the direction
+//			else if (Input.GetKeyDown(KeyCode.Q)) {
+//				Debug.Log ("NORTHWEST");
+//				assignMoveOrder( Direction.NORTHWEST );
+//			}
+//			
+//			else if (Input.GetKeyDown(KeyCode.C)) {
+//				Debug.Log ("SOUTHEAST");
+//				assignMoveOrder( Direction.SOUTHEAST );
+//			}
+//			
+//			// Same as for the left, subtraction for down
+//			else if (Input.GetKeyDown(KeyCode.Z)) {
+//				Debug.Log ("SOUTHWEST");
+//				assignMoveOrder( Direction.SOUTHWEST );
+//			}
+//			
+//			// No direction
+//			else if (Input.GetKeyDown(KeyCode.S)) {
+//				Debug.Log ("NONE");
+//				assignMoveOrder( Direction.NONE );
+//			}
 
 			if(Input.GetKeyDown(KeyCode.Return)) {
 				manager.resolve();

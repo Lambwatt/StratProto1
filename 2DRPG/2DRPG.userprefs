@@ -1,29 +1,10 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/SimpleRealMoveCommand.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/ManagerHub.cs">
     <Files>
-      <File FileName="Assets/ManagerHub.cs" Line="21" Column="30" />
-      <File FileName="Assets/Movement.cs" Line="12" Column="4" />
-      <File FileName="Assets/SimpleRealMoveAction.cs" Line="1" Column="1" />
-      <File FileName="Assets/Curve.cs" Line="1" Column="1" />
-      <File FileName="Assets/TurnMetaData.cs" Line="1" Column="1" />
-      <File FileName="Assets/Board.cs" Line="14" Column="1" />
-      <File FileName="Assets/Resolver.cs" Line="1" Column="1" />
-      <File FileName="Assets/Direction.cs" Line="52" Column="25" />
-      <File FileName="Assets/Action.cs" Line="1" Column="1" />
-      <File FileName="Assets/SpriteMovement.cs" Line="1" Column="1" />
-      <File FileName="Assets/LinearMoveCurve.cs" Line="1" Column="1" />
-      <File FileName="Assets/Conductor.cs" Line="82" Column="5" />
-      <File FileName="Assets/SimpleScratchMoveAction.cs" Line="32" Column="32" />
-      <File FileName="Assets/SimpleRealMoveCommand.cs" Line="23" Column="85" />
-      <File FileName="Assets/SimpleScratchMoveCommand.cs" Line="1" Column="1" />
-      <File FileName="Assets/ManageDirectionButtons.cs" Line="79" Column="43" />
-      <File FileName="Assets/ManageMagnitudeButtons.cs" Line="19" Column="1" />
-      <File FileName="Assets/Order.cs" Line="43" Column="1" />
-      <File FileName="Assets/SimpleCommandFactory.cs" Line="12" Column="2" />
-      <File FileName="Assets/ScratchBoard.cs" Line="13" Column="36" />
-      <File FileName="Assets/SimpleMoveAnimation.cs" Line="22" Column="3" />
-      <File FileName="Assets/CommandFactory.cs" Line="6" Column="59" />
+      <File FileName="Assets/Player.cs" Line="17" Column="3" />
+      <File FileName="Assets/Order.cs" Line="17" Column="17" />
+      <File FileName="Assets/ManagerHub.cs" Line="46" Column="3" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

@@ -12,6 +12,9 @@ public class Order  {
 
 	public Order(CommandFactory cf){
 		commandFactory = cf;
+		orderKey = "none";
+		direction = 0;
+		magnitude = 1;
 	}
 
 	public int getMagnitude(){

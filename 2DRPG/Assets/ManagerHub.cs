@@ -13,6 +13,9 @@ public class ManagerHub : MonoBehaviour {
 	public Resolver resolver;
 	public CommandFactory commandFactory;
 	public int turn = 0;
+	public Player[] players;
+//	public Player player1;
+//	public Player player2;
 	public Order order;
 	public string state = "planning";
 	public Board board;
@@ -34,24 +37,54 @@ public class ManagerHub : MonoBehaviour {
 		//scratchBoard = new ScratchBoard(realBoard);
 		board = realBoard;
 		commandFactory = new SimpleCommandFactory();
-		initializeOrder();
+
+		players = new Player[]{	new Player(0, Resources.Load<Sprite>("player1")),
+								new Player(1, Resources.Load<Sprite>("player2"))};
+
+		players[0].setOrder(initializeOrders(commandFactory));
+		players[1].setOrder(initializeOrders(commandFactory));
+
+
+
+		order = players[0].getOrder();
 		selector = GetComponent<Selector>();
 		conductor = GetComponent<Conductor>();
 		resolver = new Resolver();
 
 	}
 
-	private void initializeOrder(){
-		order = new Order(commandFactory);
-		order.setDirection(0);
-		order.setMagnitude(1);
-		order.setOrderKey("none");
+	void Start(){
+		addUnit(0,0,0);
+		addUnit(1,1,1);
+
 	}
+
+	private void addUnit(int p, int x, int y){
+		GameObject unit = initializeUnit(p);
+		if(board.register(unit, x, y)){
+			unit.GetComponent<Movement>().setPosition(board.convertBoardSquaresToWorldCoords(new Square(x,y)));
+		}else{
+			Debug.Log ("Error: could not place unit for player "+p+" at ["+x+","+y+"] because space was occuied");
+		}
+	}
+
+	private GameObject initializeUnit(int player){
+		GameObject unit = Instantiate<GameObject>(Resources.Load<GameObject>("PlayerPrefab")) as GameObject;
+		unit.GetComponent<SpriteRenderer>().sprite = players[player].getSprite();
+		return unit;
+	}
+	
+	private Order initializeOrders(CommandFactory commandFactory){
+		return new Order(commandFactory);
+	}
+	
 
 	public void resolve(){
 		order.setSquares(selector.selectedUnits);
 		frameCount = resolver.resolve(board, order);
-		initializeOrder();//Old order has been used. Not longer needs to be preserved
+		players[0].setOrder(initializeOrders(commandFactory));
+		players[0].setOrder(initializeOrders(commandFactory));
+		order = players[0].getOrder();//Old order has been used. Not longer needs to be preserved
 		onAnimationPlay();
 		state = "animating";
 	}

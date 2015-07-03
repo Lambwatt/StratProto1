@@ -7,6 +7,7 @@ public class Movement : MonoBehaviour {
 	public int idNo;
 	public ManagerHub manager;
 	public GameObject selectionBox;
+	public int player;
 	//private int turn = 0;
 //	private Vector2 pos;
 	//private bool moving = false;
