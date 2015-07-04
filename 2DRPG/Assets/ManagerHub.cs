@@ -36,6 +36,9 @@ public class ManagerHub : MonoBehaviour {
 
 	// Use this for initialization
 	void Awake () {
+
+
+
 		realBoard = GetComponent<Board>();
 		//scratchBoard = new ScratchBoard(realBoard);
 		board = realBoard;
@@ -58,16 +61,17 @@ public class ManagerHub : MonoBehaviour {
 
 	void Start(){
 
+		unitsPerPlayer = board.width*board.height/2<unitsPerPlayer ? board.width*board.height/2 : unitsPerPlayer;
 
 		for(int i = 0; i<players.Length; i++){
 			for(int j = 0; j<unitsPerPlayer; j++){
-				if(!addUnit(i,(int)Mathf.Floor(Random.value*board.width),(int)Mathf.Floor(Random.value*board.height))) j--;
+				addUnit(i,board.getFreeSquare());
 			}
 		}
 
 		activePlayer = 0;
 		order = players[0].getOrder();
-		onPlayerChange();
+//		onPlayerChange();
 
 	}
 
@@ -77,15 +81,18 @@ public class ManagerHub : MonoBehaviour {
 		onPlayerChange();
 	}
 
-	private bool addUnit(int p, int x, int y){
+	private void addUnit(int p, Square s){
+
 		GameObject unit = initializeUnit(p);
-		if(board.register(unit, x, y)){
-			unit.GetComponent<Movement>().setPosition(board.convertBoardSquaresToWorldCoords(new Square(x,y)));
-			return true;
-		}else{
-			Debug.Log ("Error: could not place unit for player "+p+" at ["+x+","+y+"] because space was occuied");
-			return false;
-		}
+
+
+		if(board.register(unit, s))
+			unit.GetComponent<Movement>().setPosition(board.convertBoardSquaresToWorldCoords(s));
+
+		else
+			Debug.Log ("Error: could not place unit for player "+p+" at ["+s.x+","+s.y+"] because space was occuied");
+
+
 	}
 
 	private GameObject initializeUnit(int player){

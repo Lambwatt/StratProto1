@@ -193,18 +193,25 @@ public class Board : MonoBehaviour{//Make this not a game object.
 			grid[cPos.x, cPos.y].unit = unit;
 	}
 
-	public bool register(GameObject unit, int x, int y){
-		//FIXME needs to return information about occupancy
-		
-		Square cPos = new Square(x,y);
-		if(!grid[cPos.x, cPos.y].hasUnit()){
-			grid[cPos.x, cPos.y].addUnit(unit);
+	public bool register(GameObject unit, Square s){
+
+		if(!grid[s.x, s.y].hasUnit()){
+			grid[s.x, s.y].addUnit(unit);
 			return true;
 		}else
 			return false;
 
 	}
 
+	public Square getFreeSquare(){
+		Square s;
+		//int countdown = ;
+		do{
+			s = new Square((int)Mathf.Floor(Random.value*width),(int)Mathf.Floor(Random.value*height));
+			Debug.Log ("placing at ["+s.x+","+s.y+"]");
+		}while(grid[s.x, s.y].hasUnit() /*&& countdown>0*/);
+		return s;
+	}
 
 	public void selectSquareContents(Square s){
 		grid[s.x, s.y].select();
