@@ -27,7 +27,10 @@ public class Order  {
 	}
 
 	public void setSquares(List<Square> l){
-		squares = l;
+		squares.Clear();
+		foreach(Square s in l){
+			squares.Add(s);
+		}
 	}
 
 	public List<Square> getSquares(){
