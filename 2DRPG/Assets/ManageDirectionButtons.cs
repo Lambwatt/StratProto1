@@ -13,6 +13,7 @@ public class ManageDirectionButtons : MonoBehaviour {
 
 		manager = GameObject.Find("manager").GetComponent<ManagerHub>();
 		ManagerHub.onAnimationPlay+=resetButtons;
+		ManagerHub.onPlayerChange+=updateDisplay;
 		buttonSelected = 0;
 
 		//Order needs to be the same as direction hash
@@ -72,8 +73,12 @@ public class ManageDirectionButtons : MonoBehaviour {
 		buttons[0].isOn = true;
 	}
 
+	private void updateDisplay(){
+		buttons[manager.order.getDirection()].isOn = true;
+	}
+
 	void Destroy(){
-		//ManagerHub.onTurnChange-=changeTurn;
+		ManagerHub.onPlayerChange-=updateDisplay;
 		ManagerHub.onAnimationPlay-=resetButtons;
 	}
 }

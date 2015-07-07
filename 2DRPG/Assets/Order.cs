@@ -42,8 +42,16 @@ public class Order  {
 		Debug.Log ("set order key to "+orderKey);
 	}
 
+	public string getKey(){
+		return orderKey;
+	}
+
 	public void setDirection(int d){
 		direction = d;
+	}
+
+	public int getDirection(){
+		return direction;
 	}
 
 	public List<Command> getCommands(){

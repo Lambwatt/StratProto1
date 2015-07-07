@@ -14,6 +14,7 @@ public class ManageOrderButton : MonoBehaviour {
 		
 		manager = GameObject.Find("manager").GetComponent<ManagerHub>();
 		ManagerHub.onAnimationPlay+=resetButtons;
+		ManagerHub.onPlayerChange+=updateDisplay;
 		buttonSelected = "none";
 
 		buttons = new Dictionary<string, Toggle>();
@@ -62,9 +63,13 @@ public class ManageOrderButton : MonoBehaviour {
 	private void resetButtons(){
 		buttons["none"].isOn = true;
 	}
+
+	private void updateDisplay(){
+		buttons[manager.order.getKey()].isOn = true;
+	}
 	
 	void Destroy(){
-		//ManagerHub.onTurnChange-=changeTurn;
+		ManagerHub.onPlayerChange-=updateDisplay;
 		ManagerHub.onAnimationPlay-=resetButtons;
 	}
 }

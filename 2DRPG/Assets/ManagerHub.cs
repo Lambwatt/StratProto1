@@ -24,14 +24,15 @@ public class ManagerHub : MonoBehaviour {
 	public int unitsPerPlayer = 0;
 	public const int maxTurns = 3;
 
-//	public delegate void TurnChangeAction(int oldTurn);
-//	public static event TurnChangeAction onTurnChange;
-
 	public delegate void PlayAnimationAction();
 	public static event PlayAnimationAction onAnimationPlay;
 
 	public delegate void PlayerChangeAction();
 	public static event PlayerChangeAction onPlayerChange;
+
+	//Only neccessary if playerChange has side effects.
+	public delegate void NewTurnAction();
+	public static event NewTurnAction onNewTurn;
 
 	private int firstPlayer = 0;
 	private int orderCount = 2;
@@ -76,22 +77,8 @@ public class ManagerHub : MonoBehaviour {
 
 	public void changePlayer(){
 		order.setSquares(selector.selectedUnits);
-
-		Debug.Log (""+activePlayer+":"+(activePlayer+1)%2);
-
-		Debug.Log ("At player change:");
-		order.print();
-		players[activePlayer].getOrder().print();
-		players[(activePlayer+1)%2].getOrder().print();
-
 		activePlayer = (activePlayer+1)%2;
 		order = players[activePlayer].getOrder();
-
-		Debug.Log ("Before sending event:");
-		players[activePlayer].getOrder().print();
-		players[(activePlayer+1)%2].getOrder().print();
-		order.print();
-
 		onPlayerChange();
 	}
 
@@ -120,21 +107,16 @@ public class ManagerHub : MonoBehaviour {
 	
 
 	public void resolve(){
+
 		order.setSquares(selector.selectedUnits);
 
-		Debug.Log ("Initial orders:");
-		players[resolvingPlayer].getOrder().print();
-		players[(resolvingPlayer+1)%2].getOrder().print();
-
 		order = players[resolvingPlayer].getOrder();
-		order.print();
+
 		frameCount = resolver.resolve(board, order, resolvingPlayer);
+
 		players[resolvingPlayer].setOrder(initializeOrder(commandFactory));
 		resolvingPlayer = (resolvingPlayer+1)%2;
-//		order = players[resolvingPlayer].getOrder();
 		ordersRun++;
-		//players[1].setOrder(initializeOrders(commandFactory));
-		//Old order has been used. Not longer needs to be preserved
 
 		state = "animating";
 		onAnimationPlay();
@@ -152,7 +134,6 @@ public class ManagerHub : MonoBehaviour {
 					resolvingPlayer = firstPlayer;
 					activePlayer = firstPlayer;
 					order = players[activePlayer].getOrder();
-					Debug.Log ("set state to planning");
 					state = "planning";
 				}
 				else{
@@ -161,26 +142,4 @@ public class ManagerHub : MonoBehaviour {
 			}
 		}
 	}
-//
-//	public void setFrameCount(int i){
-//		frameCount = i;
-//	}
-
-//	public void changeTurn(int t){
-//
-//		//Debug.Log (t);
-//		if(t < 0 || t >= maxTurns){
-//			Debug.Log("rejected in manager");
-//			return;
-//		}
-//		
-//		int oldTurn = turn;	
-//		turn = t;
-//
-//		if(onTurnChange!=null){
-//			onTurnChange(oldTurn);
-//		}
-//
-//		Debug.Log("new turn = "+t);
-//	}
 }

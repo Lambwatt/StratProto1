@@ -15,6 +15,7 @@ public class ManageMagnitudeButtons : MonoBehaviour {
 		
 		manager = GameObject.Find("manager").GetComponent<ManagerHub>();
 		ManagerHub.onAnimationPlay+=resetButtons;
+		ManagerHub.onPlayerChange+=updateDisplay;
 
 		field = GameObject.FindWithTag("ShowMagnitude").GetComponent<Text>();
 
@@ -30,7 +31,12 @@ public class ManageMagnitudeButtons : MonoBehaviour {
 		field.text = "1";
 	}
 
+	private void updateDisplay(){
+		field.text = ""+manager.order.getMagnitude();
+	}
+
 	void Destroy(){
 		ManagerHub.onAnimationPlay-=resetButtons;
+		ManagerHub.onPlayerChange-=updateDisplay;
 	}
 }
