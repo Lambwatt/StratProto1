@@ -39,6 +39,7 @@ public class Order  {
 
 	public void setOrderKey(string s){
 		orderKey = s;
+		Debug.Log ("set order key to "+orderKey);
 	}
 
 	public void setDirection(int d){
@@ -55,6 +56,25 @@ public class Order  {
 		}
 
 		return res;
+
+	}
+
+	public void print(){
+		string result = "{";
+
+		result+="Key: "+orderKey;
+
+		result+=" Squares: [ ";
+		foreach(Square s in squares){
+			result+="("+s.x+", "+s.y+")";
+		}
+		result+="]";
+
+		result +=" Direction: "+Direction.getDirectionString(direction);
+
+		result+= " Magnitude: "+magnitude+"}";
+
+		Debug.Log(result);
 
 	}
 }

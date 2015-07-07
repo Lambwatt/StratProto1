@@ -31,23 +31,27 @@ public class Conductor : MonoBehaviour {
 	}
 
 	public int raiseMagnitude(){
-		if(manager.order.getMagnitude()<manager.maxMagnitude)
+		if(manager.state=="planning" && manager.order.getMagnitude()<manager.maxMagnitude)
 			manager.order.setMagnitude(manager.order.getMagnitude()+1);
 		return manager.order.getMagnitude();
 	}
 
 	public int lowerMagnitude(){
-		if(manager.order.getMagnitude()>manager.minMagnitude)
+		if(manager.state=="planning" && manager.order.getMagnitude()>manager.minMagnitude)
 			manager.order.setMagnitude(manager.order.getMagnitude()-1);
 		return manager.order.getMagnitude();
 	}
 
 	public void setDirection(int d){
-		manager.order.setDirection(d);
+		if(manager.state=="planning")
+			manager.order.setDirection(d);
 	}
 
 	public void setOrderKey(string key){
-		manager.order.setOrderKey(key);
+		if(manager.state=="planning"){
+			Debug.Log("state "+manager.state);
+			manager.order.setOrderKey(key);
+		}
 	}
 
 	void assignMoveOrder(int d){

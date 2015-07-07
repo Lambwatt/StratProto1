@@ -56,6 +56,32 @@ public class Direction{
 		}
 	}
 
+	public static string getDirectionString(int d){
+		switch(d){
+		case NONE:
+			return "NONE";
+		case NORTHEAST:
+			return "NORTHEAST";
+		case EAST:
+			return "EAST";
+		case SOUTHEAST:
+			return "SOUTHEAST";
+		case SOUTH:
+			return "SOUTH";
+		case SOUTHWEST:
+			return "SOUTHWEST";
+		case WEST:
+			return "WEST";
+		case NORTHWEST:
+			return "NORTHWEST";
+		case NORTH:
+			return "NORTH";
+		default:
+			//Debug.Log ("undefined direction detected!");
+			return "ERROR: NOT A VALID DIRECTION";//FIXME figure out an exception to stick here.
+		}
+	}
+
 	public int invertDirection(int direction){
 		if(direction==0)
 			return 0;

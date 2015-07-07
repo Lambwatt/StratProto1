@@ -19,9 +19,10 @@ public class Resolver {
 		}
 
 		public void step(){
+			Debug.Log ("Complete before: "+complete);
 			if(!complete){
 				complete = !iterator.MoveNext();
-				//Debug.Log ("Complete? : "+complete);
+				Debug.Log ("Complete after: "+complete);
 			}
 		}
 

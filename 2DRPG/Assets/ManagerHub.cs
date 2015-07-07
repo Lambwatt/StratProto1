@@ -49,8 +49,8 @@ public class ManagerHub : MonoBehaviour {
 		players = new Player[]{	new Player(0, Resources.Load<Sprite>("player1")),
 								new Player(1, Resources.Load<Sprite>("player2"))};
 
-		players[0].setOrder(initializeOrders(commandFactory));
-		players[1].setOrder(initializeOrders(commandFactory));
+		players[0].setOrder(initializeOrder(commandFactory));
+		players[1].setOrder(initializeOrder(commandFactory));
 
 		selector = GetComponent<Selector>();
 		conductor = GetComponent<Conductor>();
@@ -76,9 +76,22 @@ public class ManagerHub : MonoBehaviour {
 
 	public void changePlayer(){
 		order.setSquares(selector.selectedUnits);
+
+		Debug.Log (""+activePlayer+":"+(activePlayer+1)%2);
+
+		Debug.Log ("At player change:");
+		order.print();
+		players[activePlayer].getOrder().print();
+		players[(activePlayer+1)%2].getOrder().print();
+
 		activePlayer = (activePlayer+1)%2;
 		order = players[activePlayer].getOrder();
-		//selector.Reselect(order.getSquares);//Need to figure this part out.
+
+		Debug.Log ("Before sending event:");
+		players[activePlayer].getOrder().print();
+		players[(activePlayer+1)%2].getOrder().print();
+		order.print();
+
 		onPlayerChange();
 	}
 
@@ -101,22 +114,30 @@ public class ManagerHub : MonoBehaviour {
 		return unit;
 	}
 	
-	private Order initializeOrders(CommandFactory commandFactory){
+	private Order initializeOrder(CommandFactory commandFactory){
 		return new Order(commandFactory);
 	}
 	
 
 	public void resolve(){
 		order.setSquares(selector.selectedUnits);
-		frameCount = resolver.resolve(board, order, resolvingPlayer);
-		players[resolvingPlayer].setOrder(initializeOrders(commandFactory));
-		resolvingPlayer = (resolvingPlayer+1)%2;
+
+		Debug.Log ("Initial orders:");
+		players[resolvingPlayer].getOrder().print();
+		players[(resolvingPlayer+1)%2].getOrder().print();
+
 		order = players[resolvingPlayer].getOrder();
+		order.print();
+		frameCount = resolver.resolve(board, order, resolvingPlayer);
+		players[resolvingPlayer].setOrder(initializeOrder(commandFactory));
+		resolvingPlayer = (resolvingPlayer+1)%2;
+//		order = players[resolvingPlayer].getOrder();
 		ordersRun++;
 		//players[1].setOrder(initializeOrders(commandFactory));
 		//Old order has been used. Not longer needs to be preserved
-		onAnimationPlay();
+
 		state = "animating";
+		onAnimationPlay();
 	}
 
 	void Update () {
@@ -124,10 +145,14 @@ public class ManagerHub : MonoBehaviour {
 		if(state=="animating"){
 			frameCount--;
 			if(frameCount<0){
+				Debug.Log (""+ordersRun+":"+orderCount);
 				if(ordersRun == orderCount){
 					ordersRun = 0;
 					firstPlayer = (firstPlayer+1)%2;
 					resolvingPlayer = firstPlayer;
+					activePlayer = firstPlayer;
+					order = players[activePlayer].getOrder();
+					Debug.Log ("set state to planning");
 					state = "planning";
 				}
 				else{
