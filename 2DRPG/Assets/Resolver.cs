@@ -19,15 +19,16 @@ public class Resolver {
 		}
 
 		public void step(){
-			Debug.Log ("Complete before: "+complete);
 			if(!complete){
 				complete = !iterator.MoveNext();
-				Debug.Log ("Complete after: "+complete);
 			}
 		}
 
 		public Action getAction(){
-			return (Action)iterator.Current;
+			if(complete)
+				return new EmptyAction();
+			else
+				return (Action)iterator.Current;
 		}
 
 		public void replaceActions(List<Action> l ){
