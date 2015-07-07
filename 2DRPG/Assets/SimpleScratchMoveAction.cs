@@ -22,8 +22,8 @@ public class SimpleScratchMoveAction : Action {
 		return board.moveAllowed(square, dir);
 	}
 
-	public void checkIfExecutable(Board board, TurnMetaData dat){
-
+	public List<Action> checkIfExecutable(Board board, TurnMetaData dat){
+		return null;
 		//Do nothing for now
 	}
 	

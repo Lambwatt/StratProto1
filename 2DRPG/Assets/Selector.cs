@@ -23,6 +23,7 @@ public class Selector : MonoBehaviour {
 //		}
 
 		ManagerHub.onAnimationPlay+=clearSelection;
+		ManagerHub.onPlayerChange+=changePlayer;
 	}
 
 	private void selectOrDeselect(Square s){
@@ -58,6 +59,15 @@ public class Selector : MonoBehaviour {
 		manager.board.deselectSquareContents(s);
 	}
 
+	void changePlayer(){
+		hideSelections();
+		clearSelection();
+		foreach(Square s in manager.order.getSquares()){
+			selectedUnits.Add(s);
+		}
+		showSelections();
+	}
+
 	void clearSelection(){
 		selectedUnits.Clear();//Should be unnecessary.
 	}
@@ -68,6 +78,20 @@ public class Selector : MonoBehaviour {
 			deselect(selectedUnits[i]);
 		}
 	}
+
+	void hideSelections(){
+		for(int i = 0; i<selectedUnits.Count; i++){
+			manager.board.deselectSquareContents(selectedUnits[i]);
+		}
+	}
+
+	void showSelections(){
+		for(int i = 0; i<selectedUnits.Count; i++){
+			manager.board.selectSquareContents(selectedUnits[i]);
+		}
+	}
+
+
 
 	// Update is called once per frame
 	void Update () {

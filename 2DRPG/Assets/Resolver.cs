@@ -29,16 +29,21 @@ public class Resolver {
 			return (Action)iterator.Current;
 		}
 
+		public void replaceActions(List<Action> l ){
+			iterator = l.GetEnumerator();
+			step ();
+		}
+
 	}
 
-	public int resolve(Board b, Order o){
+	public int resolve(Board b, Order o, int player){
 
 		//Create metaData
 
 		List<Command> commands = o.getCommands();
 		List<SequenceTracker> actionSequences = new List<SequenceTracker>();
 
-		TurnMetaData data = new TurnMetaData();
+		TurnMetaData data = new TurnMetaData(player);
 
 		foreach(Command c in commands){
 			actionSequences.Add(new SequenceTracker(c.execute().GetEnumerator()));
@@ -50,7 +55,9 @@ public class Resolver {
 		do{
 			int loopMax = 0;
 			foreach(SequenceTracker st in actionSequences){
-				st.getAction().checkIfExecutable(b, data);
+				List<Action> res = st.getAction().checkIfExecutable(b, data);
+				if(res!=null)
+					st.replaceActions(res);
 			}
 
 			foreach(SequenceTracker st in actionSequences){

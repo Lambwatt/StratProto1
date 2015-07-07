@@ -19,9 +19,11 @@ public class SimpleRealMoveAction : Action{
 
 	private bool postCanMove(Board board, TurnMetaData data){
 
-		TurnMetaData.Answer ans = board.moveAllowed(square, dir);
-		data.postMoving(square,ans);
-		return ans != TurnMetaData.Answer.NO;
+		if(board.isOccupied(square) && board.getPlayerNumber(square)==data.getActivePlayer()){
+			TurnMetaData.Answer ans = board.moveAllowed(square, dir);
+			data.postMoving(square,ans);
+			return ans != TurnMetaData.Answer.NO;
+		}else return false;
 	}
 
 	public bool willMove(Square square, TurnMetaData data){
@@ -39,8 +41,21 @@ public class SimpleRealMoveAction : Action{
 		}
 	}
 
-	public void checkIfExecutable(Board board, TurnMetaData data){
-		postCanMove(board, data);
+	public List<Action> checkIfExecutable(Board board, TurnMetaData data){
+		if(postCanMove(board, data))
+			return null;//success state.
+		else{
+			if(board.isOccupied(square)){
+				List<Action> res =  new List<Action>();
+				res.Add(new SimpleRealMoveAction(square, Direction.getDirection(Direction.NONE), true));
+				return res;
+			}else{
+				List<Action> res =  new List<Action>();
+				res.Add(new EmptyAction());
+				return res;
+			}
+		}
+
 	}
 
 	public int execute(Board board, TurnMetaData data){

@@ -7,9 +7,11 @@ public class TurnMetaData {
 	public enum Answer{NO, YES, MAYBE};
 
 	private Dictionary<Square, Answer> moving;
+	private int activePlayer;
 
-	public TurnMetaData(){
+	public TurnMetaData(int ap){
 		moving = new Dictionary<Square, Answer>();
+		activePlayer = ap;
 	}
 
 	public void postMoving(Square s, Answer a){
@@ -37,5 +39,9 @@ public class TurnMetaData {
 
 	public void clearData(){
 		moving.Clear();
+	}
+
+	public int getActivePlayer(){
+		return activePlayer;
 	}
 }

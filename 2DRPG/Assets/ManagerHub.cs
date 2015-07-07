@@ -22,7 +22,6 @@ public class ManagerHub : MonoBehaviour {
 	public int minMagnitude = 1;
 	public int maxMagnitude = 3;
 	public int unitsPerPlayer = 0;
-
 	public const int maxTurns = 3;
 
 //	public delegate void TurnChangeAction(int oldTurn);
@@ -34,10 +33,13 @@ public class ManagerHub : MonoBehaviour {
 	public delegate void PlayerChangeAction();
 	public static event PlayerChangeAction onPlayerChange;
 
+	private int firstPlayer = 0;
+	private int orderCount = 2;
+	private int ordersRun = 0;
+	private int resolvingPlayer = 0;
+
 	// Use this for initialization
 	void Awake () {
-
-
 
 		realBoard = GetComponent<Board>();
 		//scratchBoard = new ScratchBoard(realBoard);
@@ -49,9 +51,6 @@ public class ManagerHub : MonoBehaviour {
 
 		players[0].setOrder(initializeOrders(commandFactory));
 		players[1].setOrder(initializeOrders(commandFactory));
-
-
-
 
 		selector = GetComponent<Selector>();
 		conductor = GetComponent<Conductor>();
@@ -76,8 +75,10 @@ public class ManagerHub : MonoBehaviour {
 	}
 
 	public void changePlayer(){
+		order.setSquares(selector.selectedUnits);
 		activePlayer = (activePlayer+1)%2;
 		order = players[activePlayer].getOrder();
+		//selector.Reselect(order.getSquares);//Need to figure this part out.
 		onPlayerChange();
 	}
 
@@ -85,13 +86,11 @@ public class ManagerHub : MonoBehaviour {
 
 		GameObject unit = initializeUnit(p);
 
-
 		if(board.register(unit, s))
 			unit.GetComponent<Movement>().setPosition(board.convertBoardSquaresToWorldCoords(s));
 
 		else
 			Debug.Log ("Error: could not place unit for player "+p+" at ["+s.x+","+s.y+"] because space was occuied");
-
 
 	}
 
@@ -109,10 +108,13 @@ public class ManagerHub : MonoBehaviour {
 
 	public void resolve(){
 		order.setSquares(selector.selectedUnits);
-		frameCount = resolver.resolve(board, order);
-		players[0].setOrder(initializeOrders(commandFactory));
-		players[0].setOrder(initializeOrders(commandFactory));
-		order = players[0].getOrder();//Old order has been used. Not longer needs to be preserved
+		frameCount = resolver.resolve(board, order, resolvingPlayer);
+		players[resolvingPlayer].setOrder(initializeOrders(commandFactory));
+		resolvingPlayer = (resolvingPlayer+1)%2;
+		order = players[resolvingPlayer].getOrder();
+		ordersRun++;
+		//players[1].setOrder(initializeOrders(commandFactory));
+		//Old order has been used. Not longer needs to be preserved
 		onAnimationPlay();
 		state = "animating";
 	}
@@ -121,8 +123,17 @@ public class ManagerHub : MonoBehaviour {
 
 		if(state=="animating"){
 			frameCount--;
-			if(frameCount<0)
-				state = "planning";
+			if(frameCount<0){
+				if(ordersRun == orderCount){
+					ordersRun = 0;
+					firstPlayer = (firstPlayer+1)%2;
+					resolvingPlayer = firstPlayer;
+					state = "planning";
+				}
+				else{
+					resolve();
+				}
+			}
 		}
 	}
 //

@@ -15,6 +15,7 @@ public class Order  {
 		orderKey = "none";
 		direction = 0;
 		magnitude = 1;
+		squares = new List<Square>();
 	}
 
 	public int getMagnitude(){
@@ -27,6 +28,10 @@ public class Order  {
 
 	public void setSquares(List<Square> l){
 		squares = l;
+	}
+
+	public List<Square> getSquares(){
+		return squares;
 	}
 
 	public void setOrderKey(string s){

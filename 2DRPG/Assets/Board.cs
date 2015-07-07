@@ -208,7 +208,6 @@ public class Board : MonoBehaviour{//Make this not a game object.
 		//int countdown = ;
 		do{
 			s = new Square((int)Mathf.Floor(Random.value*width),(int)Mathf.Floor(Random.value*height));
-			Debug.Log ("placing at ["+s.x+","+s.y+"]");
 		}while(grid[s.x, s.y].hasUnit() /*&& countdown>0*/);
 		return s;
 	}

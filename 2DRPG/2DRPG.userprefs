@@ -1,15 +1,22 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Board.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/SimpleRealMoveAction.cs">
     <Files>
-      <File FileName="Assets/Board.cs" Line="209" Column="8" />
+      <File FileName="Assets/Board.cs" Line="210" Column="95" />
       <File FileName="Assets/Player.cs" Line="1" Column="1" />
-      <File FileName="Assets/Order.cs" Line="17" Column="17" />
-      <File FileName="Assets/ManagerHub.cs" Line="89" Column="77" />
-      <File FileName="Assets/Conductor.cs" Line="32" Column="2" />
-      <File FileName="Assets/Selector.cs" Line="30" Column="133" />
-      <File FileName="Assets/Movement.cs" Line="42" Column="32" />
-      <File FileName="Assets/ManagePlayerNumber.cs" Line="15" Column="51" />
+      <File FileName="Assets/Order.cs" Line="1" Column="1" />
+      <File FileName="Assets/ManagerHub.cs" Line="1" Column="1" />
+      <File FileName="Assets/Conductor.cs" Line="1" Column="1" />
+      <File FileName="Assets/Selector.cs" Line="1" Column="1" />
+      <File FileName="Assets/Movement.cs" Line="1" Column="1" />
+      <File FileName="Assets/ManagePlayerNumber.cs" Line="1" Column="1" />
+      <File FileName="Assets/ManageDirectionButtons.cs" Line="1" Column="1" />
+      <File FileName="Assets/ManageOrderButton.cs" Line="1" Column="1" />
+      <File FileName="Assets/Action.cs" Line="6" Column="2" />
+      <File FileName="Assets/Resolver.cs" Line="34" Column="12" />
+      <File FileName="Assets/TurnMetaData.cs" Line="40" Column="26" />
+      <File FileName="Assets/SimpleRealMoveAction.cs" Line="49" Column="30" />
+      <File FileName="Assets/SimpleScratchMoveAction.cs" Line="26" Column="14" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
