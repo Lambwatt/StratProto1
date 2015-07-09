@@ -86,9 +86,8 @@ public class Selector : MonoBehaviour {
 	}
 
 	void showSelections(){
-		Debug.Log (""+selectedUnits.Count+" units to select");
+
 		for(int i = 0; i<selectedUnits.Count; i++){
-			Debug.Log ("Selecting "+i+"th unit.");
 			manager.board.selectSquareContents(selectedUnits[i]);
 		}
 	}
@@ -104,7 +103,7 @@ public class Selector : MonoBehaviour {
 			
 			Square boardPos = manager.board.convertMouseClickToBoardCoords(mousePos);
 			
-			Debug.Log (boardPos.x+" "+ boardPos.y);
+			//Debug.Log (boardPos.x+" "+ boardPos.y);
 
 			selectOrDeselect(boardPos);
 

@@ -5,6 +5,11 @@ using System.Collections.Generic;
 //Holds and manages tiles containing units
 
 public struct Square{
+
+	public static Square getNullSquare(){
+		return new Square(-1,-1);
+	}
+
 	public int x { get; private set; }
 	public int y { get; private set; }
 
@@ -18,7 +23,7 @@ public struct Square{
 //		hash = hash * 31 + Y;
 //		return hash;
 //	}
-	
+
 	public override bool Equals(object o)
 	{
 		return o is Square ? Equals((Square)o) : false;
@@ -76,6 +81,18 @@ public class GridSlot{
 	public void removeUnit(){
 		unit = pendingUnit;
 		pendingUnit = null;
+	}
+
+	public int getAttackDamage(){
+		return unit.GetComponent<Movement>().getAttackDamage();
+	}
+
+	public bool applyDamage(int damage){
+		return unit.GetComponent<Movement>().deductDamageFromHealth(damage);
+	}
+
+	public int getRange(){
+		return unit.GetComponent<Movement>().getRange();
 	}
 }
 
@@ -178,6 +195,16 @@ public class Board : MonoBehaviour{//Make this not a game object.
 		//Debug.Log("["+end.x+":"+start.x+"]|["+end.y+":"+start.y+"]");
 //		if(end.x!=start.x || end.y!=start.y)
 //			grid[start.x, start.y].unit = null;
+	}
+
+	public bool applyDamage(Square attacker, Square target){
+		int damage = grid[attacker.x,attacker.y].getAttackDamage();
+		return grid[target.x, target.y].applyDamage(damage);
+	}
+
+	public int getRange(Square s){
+		Debug.Log ("checking range for ["+s.x+","+s.y+"]");
+		return grid[s.x, s.y].getRange();
 	}
 
 	public void resetPosition(Square s){

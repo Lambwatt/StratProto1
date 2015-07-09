@@ -8,14 +8,16 @@ public class Movement : MonoBehaviour {
 	public ManagerHub manager;
 	public GameObject selectionBox;
 	public int player;
-	//private int turn = 0;
-//	private Vector2 pos;
-	//private bool moving = false;
+	public int totalHealth;
+	public int aimedAttackDamage;
+	public int readyAttackDamage;
+	public int range;
 	private SpriteMovement currentAnimation;
+	private Transform healthbar;
+	private int health;
 	
 	//FIXME Fix everything here to be designed around a single round. and clarify moves vs rounds vs turns teminology throughout
-
-	//Moves turn forward or back
+	
 
 	public void printMovement(){
 		Debug.Log ("Movement:["+currentAnimation.printMoves()+"]");
@@ -30,20 +32,18 @@ public class Movement : MonoBehaviour {
 	}
 	
 	public void select(){
-		//selection[manager.turn] = true;
 		showSelection();
 	}
 
 	public void deselect(){
-		//selection[manager.turn] = false;
 		hideSelection();
 	}
 
-	private void clearSelection(){
+//	private void clearSelection(){
 //		for(int i = 0; i<3; i++){
 //			selection[i] = false;
 //		}
-	}
+//	}
 
 	public void setPlayerNumber(int i){
 		player = i;
@@ -54,12 +54,13 @@ public class Movement : MonoBehaviour {
 	}
 
 	void Destroy(){
-		//ManagerHub.onTurnChange-=changeTurn;
 		ManagerHub.onAnimationPlay-=playNextAnimation;
 	}
 
 	void Start () {
 
+		health = totalHealth;
+		healthbar = transform.FindChild("healthFG");
 		manager = GameObject.Find("manager").GetComponent<ManagerHub>();
 		selectionBox = transform.FindChild("selection").gameObject;
 		selectionBox.GetComponent<Renderer>().enabled = false;
@@ -69,15 +70,13 @@ public class Movement : MonoBehaviour {
 		ManagerHub.onAnimationPlay+=playNextAnimation;
 	}
 	
-	void Update () {//This is long. should shorten it or move it.
+	void Update () {
 
 		if(manager.state=="animating"){
-			//Debug.Log("animation is "+currentAnimation.complete());
 			if(currentAnimation.complete()){
 				if(currentAnimation.hasNext()){
 					currentAnimation = currentAnimation.getNext();
 					transform.position = currentAnimation.getStep();
-					//Debug.Log ("Moved to next animation with tag: "+currentAnimation.getSpriteName());
 				}
 			}else{
 				transform.position = currentAnimation.getStep();
@@ -87,11 +86,20 @@ public class Movement : MonoBehaviour {
 	}
 
 	private void playNextAnimation(){
-		//printMovement();
 		if(currentAnimation.hasNext()){
 			currentAnimation = currentAnimation.getNext();
 		}
 		hideSelection();
+	}
+
+	public void updateHealthDisplay(){
+		int healthLost = totalHealth - health;
+
+		Debug.Log ("health lost: "+healthLost);
+
+		healthbar.localScale = new Vector3(health>0 ? (float)health/(float)totalHealth : 0, healthbar.localScale.y, healthbar.localScale.z);
+		healthbar.position = new Vector3(transform.position.x-((GetComponent<Renderer>().bounds.size.x / (float)totalHealth / 2.0f) * (float)healthLost), healthbar.position.y, healthbar.position.z);//need to get the constant out of here.
+
 	}
 	
 	private void showSelection(){
@@ -102,5 +110,23 @@ public class Movement : MonoBehaviour {
 		selectionBox.GetComponent<Renderer>().enabled = false;
 	}
 	
+	public bool deductDamageFromHealth(int damage){
+		Debug.Log ("Deducting "+damage+" from "+health);
+		health = health - damage;
+		health = health>0 ? health : 0;
+		updateHealthDisplay();//Maybe put this call outside the object when it needs to be distinguished from death
+		return health == 0;
+	}
 
+	public int getAttackDamage(){
+		return aimedAttackDamage;
+	}
+
+	public int getReadyDamage(){
+		return readyAttackDamage;
+	}
+
+	public int getRange(){
+		return range;
+	}
 }

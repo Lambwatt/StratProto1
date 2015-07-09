@@ -127,7 +127,6 @@ public class ManagerHub : MonoBehaviour {
 		if(state=="animating"){
 			frameCount--;
 			if(frameCount<0){
-				Debug.Log (""+ordersRun+":"+orderCount);
 				if(ordersRun == orderCount){
 					ordersRun = 0;
 					firstPlayer = (firstPlayer+1)%2;

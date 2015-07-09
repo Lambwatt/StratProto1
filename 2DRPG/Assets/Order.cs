@@ -39,7 +39,6 @@ public class Order  {
 
 	public void setOrderKey(string s){
 		orderKey = s;
-		Debug.Log ("set order key to "+orderKey);
 	}
 
 	public string getKey(){

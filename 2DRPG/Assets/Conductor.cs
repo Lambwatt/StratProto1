@@ -49,7 +49,6 @@ public class Conductor : MonoBehaviour {
 
 	public void setOrderKey(string key){
 		if(manager.state=="planning"){
-			Debug.Log("state "+manager.state);
 			manager.order.setOrderKey(key);
 		}
 	}

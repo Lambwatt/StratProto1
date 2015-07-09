@@ -1,22 +1,20 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/SimpleRealMoveAction.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/ManageMagnitudeButtons.cs">
     <Files>
-      <File FileName="Assets/Board.cs" Line="210" Column="95" />
-      <File FileName="Assets/Player.cs" Line="1" Column="1" />
-      <File FileName="Assets/Order.cs" Line="1" Column="1" />
-      <File FileName="Assets/ManagerHub.cs" Line="1" Column="1" />
-      <File FileName="Assets/Conductor.cs" Line="1" Column="1" />
-      <File FileName="Assets/Selector.cs" Line="1" Column="1" />
-      <File FileName="Assets/Movement.cs" Line="1" Column="1" />
-      <File FileName="Assets/ManagePlayerNumber.cs" Line="1" Column="1" />
-      <File FileName="Assets/ManageDirectionButtons.cs" Line="1" Column="1" />
-      <File FileName="Assets/ManageOrderButton.cs" Line="1" Column="1" />
-      <File FileName="Assets/Action.cs" Line="6" Column="2" />
-      <File FileName="Assets/Resolver.cs" Line="34" Column="12" />
-      <File FileName="Assets/TurnMetaData.cs" Line="40" Column="26" />
-      <File FileName="Assets/SimpleRealMoveAction.cs" Line="49" Column="30" />
-      <File FileName="Assets/SimpleScratchMoveAction.cs" Line="26" Column="14" />
+      <File FileName="Assets/ManagerHub.cs" Line="129" Column="21" />
+      <File FileName="Assets/Order.cs" Line="85" Column="3" />
+      <File FileName="Assets/Movement.cs" Line="21" Column="3" />
+      <File FileName="Assets/SimpleRealMoveCommand.cs" Line="13" Column="14" />
+      <File FileName="Assets/SimpleRealMoveAction.cs" Line="5" Column="43" />
+      <File FileName="Assets/SimpleRealAttackCommand.cs" Line="3" Column="1" />
+      <File FileName="Assets/SimpleRealAttackAction.cs" Line="82" Column="31" />
+      <File FileName="Assets/Board.cs" Line="265" Column="4" />
+      <File FileName="Assets/SimpleCommandFactory.cs" Line="21" Column="46" />
+      <File FileName="Assets/Conductor.cs" Line="53" Column="4" />
+      <File FileName="Assets/LinearMoveCurve.cs" Line="14" Column="4" />
+      <File FileName="Assets/ManageMagnitudeButtons.cs" Line="20" Column="72" />
+      <File FileName="Assets/Selector.cs" Line="95" Column="2" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

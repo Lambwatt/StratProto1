@@ -75,6 +75,8 @@
      <Compile Include="Assets\SimpleActionFactory.cs" />
      <Compile Include="Assets\SimpleCommandFactory.cs" />
      <Compile Include="Assets\SimpleMoveAnimation.cs" />
+     <Compile Include="Assets\SimpleRealAttackAction.cs" />
+     <Compile Include="Assets\SimpleRealAttackCommand.cs" />
      <Compile Include="Assets\SimpleRealMoveAction.cs" />
      <Compile Include="Assets\SimpleRealMoveCommand.cs" />
      <Compile Include="Assets\SimpleScratchMoveAction.cs" />
