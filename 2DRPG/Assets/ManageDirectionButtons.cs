@@ -38,6 +38,7 @@ public class ManageDirectionButtons : MonoBehaviour {
 	private void setupListener(int i){
 		buttons[i].onValueChanged.AddListener((value)=>{
 				processButtonClick(value, i);
+			Debug.Log ("called for "+Direction.getDirectionString(i));
 		});
 	}
 

@@ -49,6 +49,7 @@ public class SimpleRealAttackAction : Action {
 			                                              board.convertBoardSquaresToWorldCoords(result), 
 			                                              board.convertBoardSquaresToWorldCoords(result),
 			                                              25));
+				board.kill(result);
 				return 25;//return get shot + die time
 			}else{
 				board.setAnimation(result, new SpriteMovement("hit", 

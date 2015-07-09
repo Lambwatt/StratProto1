@@ -134,6 +134,7 @@ public class ManagerHub : MonoBehaviour {
 					activePlayer = firstPlayer;
 					order = players[activePlayer].getOrder();
 					state = "planning";
+					onNewTurn();
 				}
 				else{
 					resolve();

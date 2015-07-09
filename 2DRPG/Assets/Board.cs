@@ -41,10 +41,14 @@ public class GridSlot{
 
 	public GameObject unit;
 	public GameObject pendingUnit;
+	public List<GameObject> deadUnits;
 
+	public GridSlot(){
+		deadUnits = new List<GameObject>();
+		ManagerHub.onNewTurn+=clearDeadUnits;
+	}
 
 	public void setPosition(Vector3 pos){
-
 		//deselect();//Not sure if this will hold up. this may need to live somewhere else.
 		unit.GetComponent<Movement>().setPosition(pos);
 	}
@@ -89,6 +93,20 @@ public class GridSlot{
 
 	public bool applyDamage(int damage){
 		return unit.GetComponent<Movement>().deductDamageFromHealth(damage);
+	}
+
+	public void kill(){
+		deadUnits.Add(unit);
+		unit = null;
+	}
+
+	private void clearDeadUnits(){
+		foreach(GameObject u in deadUnits)
+			GameObject.Destroy(u);
+	}
+
+	public void clearEvents(){
+		ManagerHub.onNewTurn-=clearDeadUnits;
 	}
 
 	public int getRange(){
@@ -250,6 +268,10 @@ public class Board : MonoBehaviour{//Make this not a game object.
 	public void setAnimation(Square s, SpriteMovement a){
 		grid[s.x, s.y].setAnimation(a);
 	}
+
+	public void kill(Square s){
+		grid[s.x, s.y].kill();
+	}
 	
 //	// Update is called once per frame. Eventually, this should not be a behaviour
 	void Update () {
@@ -270,5 +292,13 @@ public class Board : MonoBehaviour{//Make this not a game object.
 
 	public void reset(){
 
+	}
+
+	void Destroy(){
+		for(int i = 0; i< width; i++){
+			for(int j = 0; j<height; j++ ){
+				grid[i,j].clearEvents();
+			}
+		}
 	}
 }

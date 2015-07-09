@@ -20,7 +20,7 @@ public class Conductor : MonoBehaviour {
 			;//Do nothing
 		}else{
 
-			if(Input.GetKeyDown(KeyCode.Return)) {
+			if(Input.GetKeyDown(KeyCode.G)) {
 				manager.resolve();
 			}
 
@@ -31,8 +31,11 @@ public class Conductor : MonoBehaviour {
 	}
 
 	public int raiseMagnitude(){
-		if(manager.state=="planning" && manager.order.getMagnitude()<manager.maxMagnitude)
+		if(manager.state=="planning" && manager.order.getMagnitude()<manager.maxMagnitude){
+			Debug.Log("before: "+manager.order.getMagnitude());
 			manager.order.setMagnitude(manager.order.getMagnitude()+1);
+			Debug.Log("now: "+manager.order.getMagnitude());
+		}
 		return manager.order.getMagnitude();
 	}
 
