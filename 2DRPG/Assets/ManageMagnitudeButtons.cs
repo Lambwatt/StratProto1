@@ -20,10 +20,10 @@ public class ManageMagnitudeButtons : MonoBehaviour {
 		field = GameObject.FindWithTag("ShowMagnitude").GetComponent<Text>();
 
 		up = GameObject.FindWithTag("RaiseMagnitude").GetComponent<Button>();
-		up.onClick.AddListener(()=>{field.text = manager.conductor.raiseMagnitude().ToString(); Debug.Log ("raised magnitude = "+manager.order.getMagnitude().ToString());});
+		up.onClick.AddListener(()=>{field.text = manager.conductor.raiseMagnitude().ToString(); });
 
 		down = GameObject.FindWithTag("LowerMagnitude").GetComponent<Button>();
-		down.onClick.AddListener(()=>{field.text = manager.conductor.lowerMagnitude().ToString(); Debug.Log ("lowered magnitude = "+manager.order.getMagnitude().ToString());});
+		down.onClick.AddListener(()=>{field.text = manager.conductor.lowerMagnitude().ToString(); });
 		
 	}
 

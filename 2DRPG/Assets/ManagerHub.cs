@@ -40,7 +40,7 @@ public class ManagerHub : MonoBehaviour {
 	public delegate void GoToStartAction();
 	public static event GoToStartAction onGoToStart;
 
-	public delegate void GoToEndAction();
+	public delegate void GoToEndAction(int player);
 	public static event GoToEndAction onGoToEnd;
 
 	public delegate void GoToTransitionAction();
@@ -72,12 +72,14 @@ public class ManagerHub : MonoBehaviour {
 
 	}
 
-	void Start(){
+	void start(){
 
 		unitsPerPlayer = board.width*board.height/2<unitsPerPlayer ? board.width*board.height/2 : unitsPerPlayer;
 
 		for(int i = 0; i<players.Length; i++){
+			players[i].clearUnits();
 			for(int j = 0; j<unitsPerPlayer; j++){
+				players[i].addUnit();
 				addUnit(i,board.getFreeSquare());
 			}
 		}
@@ -105,7 +107,7 @@ public class ManagerHub : MonoBehaviour {
 			unit.GetComponent<Movement>().setPosition(board.convertBoardSquaresToWorldCoords(s));
 
 		else
-			Debug.Log ("Error: could not place unit for player "+p+" at ["+s.x+","+s.y+"] because space was occuied");
+			Debug.Log ("Error: could not place unit for player "+p+" at ["+s.x+","+s.y+"] because space was occupied");
 
 	}
 
@@ -145,9 +147,19 @@ public class ManagerHub : MonoBehaviour {
 		return playersVisited==players.Length;
 	}
 
+	public void registerDeath(int playerNumb){
+		players[playerNumb].removeUnit();
+		Debug.Log ("players dead? "+playersDead());
+		if(playersDead()){
+			int p = getSurvivingPlayer();
+			win(p);
+		}
+	}
+
 	//Call these from conductor for consistency and test paramaters there.
 	public void reset(){
 		state = "title";
+		clearBoard();
 		onGoToStart();
 	}
 
@@ -162,14 +174,15 @@ public class ManagerHub : MonoBehaviour {
 	}
 
 	public void win(int player){
+		Debug.Log ("#WINNING");
 		state = "over";
-		onGoToEnd();
+		onGoToEnd(player);
 	}
 
 	public void startGame(){
 		state = "planning";
 		clearBoard();
-		Start();
+		start();
 		onGoToGame();
 	}
 
@@ -178,6 +191,7 @@ public class ManagerHub : MonoBehaviour {
 		if(state=="animating"){
 			frameCount--;
 			if(frameCount<0){
+
 				if(ordersRun == orderCount){
 					ordersRun = 0;
 					firstPlayer = (firstPlayer+1)%2;
@@ -194,4 +208,27 @@ public class ManagerHub : MonoBehaviour {
 			}
 		}
 	}
+
+	private bool playersDead(){
+		return players[0].allUnitsLost() || players[1].allUnitsLost();
+	}
+
+	private int getSurvivingPlayer(){
+		if(players[0].allUnitsLost() && players[1].allUnitsLost())
+			return -1;
+		else if(players[0].allUnitsLost())
+			return 1;
+		else //if(players[1].allUnitsLost())
+			return 0;
+
+	}
+
+
+
+
+
+
+
+
+
 }

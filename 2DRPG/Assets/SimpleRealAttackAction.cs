@@ -69,11 +69,11 @@ public class SimpleRealAttackAction : Action {
 	}
 
 	public Square checkSquare(Board b, TurnMetaData d, int count, Square s){
-//		Debug.Log ("checked square ["+s.x+","+s.y+"]");
+
 		if(b.isOccupied(s)){//square occupied
-//			Debug.Log ("\tSquare is occupied");
+
 			if(b.getPlayerNumber(s)==d.getActivePlayer()){//unit is friend
-//				Debug.Log ("\t\tSquare is an enemy");
+
 				if(false){//friendly fire on
 					return Square.getNullSquare();
 				}else{ //friendly fire off
@@ -82,12 +82,12 @@ public class SimpleRealAttackAction : Action {
 			}else//unit is foe
 				return s;
 		}else{//square empty
-//			Debug.Log ("\tSquare is empty.");
+
 			if(count>=b.getRange(square)){//range exhausted
-//				Debug.Log ("\t\tRange "+b.getRange(square)+" reached by "+count+".");
+
 				return Square.getNullSquare();//missed
 			}else{//range not reached
-//				Debug.Log ("\t\tRecursing.");
+
 				return checkSquare(b, d, count+1, new Square(s.x+dir.getX(), s.y+dir.getY()));//keep going
 			}
 		}

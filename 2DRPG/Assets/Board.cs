@@ -101,8 +101,13 @@ public class GridSlot{
 	}
 
 	private void clearDeadUnits(){
-		foreach(GameObject u in deadUnits)
+		foreach(GameObject u in deadUnits){
+			Debug.Log ("Killing!");
+			u.GetComponent<Movement>().registerDeath();
 			GameObject.Destroy(u);
+
+		}
+		deadUnits.Clear();
 	}
 
 	public void clearEvents(){
@@ -193,9 +198,7 @@ public class Board : MonoBehaviour{//Make this not a game object.
 		grid[end.x, end.y].addUnit(grid[start.x, start.y].unit);
 		grid[start.x, start.y].removeUnit();
 
-		//Debug.Log("["+end.x+":"+start.x+"]|["+end.y+":"+start.y+"]");
-//		if(end.x!=start.x || end.y!=start.y)
-//			grid[start.x, start.y].unit = null;
+
 	}
 
 	//hopefully this one can be removed
@@ -215,9 +218,7 @@ public class Board : MonoBehaviour{//Make this not a game object.
 		
 		grid[end.x, end.y].addUnit(grid[start.x, start.y].unit);
 		grid[start.x, start.y].removeUnit();
-		//Debug.Log("["+end.x+":"+start.x+"]|["+end.y+":"+start.y+"]");
-//		if(end.x!=start.x || end.y!=start.y)
-//			grid[start.x, start.y].unit = null;
+
 	}
 
 	public bool applyDamage(Square attacker, Square target){
@@ -226,7 +227,7 @@ public class Board : MonoBehaviour{//Make this not a game object.
 	}
 
 	public int getRange(Square s){
-		Debug.Log ("checking range for ["+s.x+","+s.y+"]");
+		//Debug.Log ("checking range for ["+s.x+","+s.y+"]");
 		return grid[s.x, s.y].getRange();
 	}
 

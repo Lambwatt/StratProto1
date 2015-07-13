@@ -16,6 +16,7 @@ public class ManageUIVisisbility : MonoBehaviour {
 
 		group = GetComponent<CanvasGroup>();
 
+		hideUI();
 	}
 
 	private void showUI(){
@@ -24,7 +25,7 @@ public class ManageUIVisisbility : MonoBehaviour {
 		group.blocksRaycasts = true;
 	}
 
-	private void hideUI(){
+	private void hideUI(int holder = 0){
 		group.alpha = 0;
 		group.interactable = false;
 		group.blocksRaycasts = false;

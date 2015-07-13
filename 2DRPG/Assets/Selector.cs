@@ -41,7 +41,7 @@ public class Selector : MonoBehaviour {
 			}
 		}
 
-		//Debug.Log(selectedUnits[manager.turn].ToString()+", "+selectedUnits[manager.turn].ToArray().Length);
+	
 
 	}
 
@@ -102,8 +102,7 @@ public class Selector : MonoBehaviour {
 			Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 			
 			Square boardPos = manager.board.convertMouseClickToBoardCoords(mousePos);
-			
-			//Debug.Log (boardPos.x+" "+ boardPos.y);
+
 
 			selectOrDeselect(boardPos);
 

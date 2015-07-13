@@ -36,7 +36,6 @@ public class SpriteMovement {
 
 	public bool complete(){
 		if(totalFrames>0){
-			//Debug.Log(frame+"<"+totalFrames+":"+(frame < totalFrames));
 			return frame > totalFrames;
 		}else {
 			return false;

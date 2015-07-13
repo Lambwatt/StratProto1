@@ -10,20 +10,22 @@ public class ManagePlayerNumber : MonoBehaviour {
 	void Start(){
 		
 		manager = GameObject.Find("manager").GetComponent<ManagerHub>();
+		//Sureley one of these is at least partially obselete.
 		ManagerHub.onPlayerChange+=updateDisplay;
 		ManagerHub.onNewTurn+=updateDisplay;
+		ManagerHub.onGoToGame+=updateDisplay;
 		
 		field = GameObject.FindWithTag("ShowPlayerNumber").GetComponent<Text>();
 		
 	}
 	
 	private void updateDisplay(){
-		Debug.Log ("Updated display to match player "+manager.activePlayer+".");
 		field.text = ""+(manager.activePlayer+1);
 	}
 	
 	void Destroy(){
 		ManagerHub.onPlayerChange-=updateDisplay;
 		ManagerHub.onNewTurn-=updateDisplay;
+		ManagerHub.onGoToGame-=updateDisplay;
 	}
 }

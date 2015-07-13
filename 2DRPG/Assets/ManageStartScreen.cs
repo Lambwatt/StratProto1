@@ -18,11 +18,13 @@ public class ManageStartScreen : MonoBehaviour {
 		startButton.onClick.AddListener(()=>{manager.startGame();});
 
 		group = GetComponent<CanvasGroup>();
-		hideScreen();
+		showScreen();
 	}
 	
 	private void showScreen(){
-		gameObject.SetActive(true);
+		group.alpha = 1;
+		group.interactable = true;
+		group.blocksRaycasts = true;
 	}
 	
 	private void hideScreen(){

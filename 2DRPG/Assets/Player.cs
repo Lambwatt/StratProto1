@@ -6,10 +6,12 @@ public class Player {
 	Sprite sprite;
 	Order order;
 	int playerNumber;
+	int units;
 
 	public Player(int i, Sprite s){
 		playerNumber  = i;
 		sprite = s;
+		units = 0;
 	}
 
 	public Order getOrder(){
@@ -24,5 +26,20 @@ public class Player {
 		return sprite;
 	}
 
+	public void addUnit(){
+		units++;
+	}
+
+	public void removeUnit(){
+		units--;
+	}
+
+	public bool allUnitsLost(){
+		return units==0;
+	}
+
+	public void clearUnits(){
+		units = 0;
+	}
 
 }

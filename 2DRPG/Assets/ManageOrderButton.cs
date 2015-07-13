@@ -25,10 +25,10 @@ public class ManageOrderButton : MonoBehaviour {
 		buttons.Add ("move",GameObject.FindWithTag("MoveButton").GetComponent<Toggle>());
 		buttons.Add ("ready",GameObject.FindWithTag("ReadyButton").GetComponent<Toggle>());
 		
-		buttons["none"].onValueChanged.AddListener((value)=>{processButtonClick(value, "none"); Debug.Log ("Changed key to none");});
-		buttons["attack"].onValueChanged.AddListener((value)=>{processButtonClick(value, "attack"); Debug.Log ("Changed key to attack");});
-		buttons["move"].onValueChanged.AddListener((value)=>{processButtonClick(value, "move"); Debug.Log ("Changed key to move");});
-		buttons["ready"].onValueChanged.AddListener((value)=>{processButtonClick(value, "ready"); Debug.Log ("Changed key to ready");});
+		buttons["none"].onValueChanged.AddListener((value)=>{processButtonClick(value, "none"); });
+		buttons["attack"].onValueChanged.AddListener((value)=>{processButtonClick(value, "attack"); });
+		buttons["move"].onValueChanged.AddListener((value)=>{processButtonClick(value, "move"); });
+		buttons["ready"].onValueChanged.AddListener((value)=>{processButtonClick(value, "ready"); });
 		
 	}
 	

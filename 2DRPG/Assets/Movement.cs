@@ -53,8 +53,14 @@ public class Movement : MonoBehaviour {
 		return player;
 	}
 
-	void Destroy(){
+	void OnDestroy(){
+		Debug.Log ("pulling out");
 		ManagerHub.onAnimationPlay-=playNextAnimation;
+	}
+
+	void Destroy(){
+
+//		ManagerHub.onAnimationPlay-=playNextAnimation;
 	}
 
 	void Start () {
@@ -95,7 +101,6 @@ public class Movement : MonoBehaviour {
 	public void updateHealthDisplay(){
 		int healthLost = totalHealth - health;
 
-		Debug.Log ("health lost: "+healthLost);
 
 		healthbar.localScale = new Vector3(health>0 ? (float)health/(float)totalHealth : 0, healthbar.localScale.y, healthbar.localScale.z);
 		healthbar.position = new Vector3(transform.position.x-((GetComponent<Renderer>().bounds.size.x / (float)totalHealth / 2.0f) * (float)healthLost), healthbar.position.y, healthbar.position.z);//need to get the constant out of here.
@@ -111,7 +116,6 @@ public class Movement : MonoBehaviour {
 	}
 	
 	public bool deductDamageFromHealth(int damage){
-		Debug.Log ("Deducting "+damage+" from "+health);
 		health = health - damage;
 		health = health>0 ? health : 0;
 		updateHealthDisplay();//Maybe put this call outside the object when it needs to be distinguished from death
@@ -128,5 +132,11 @@ public class Movement : MonoBehaviour {
 
 	public int getRange(){
 		return range;
+	}
+
+	public void registerDeath(){
+		Debug.Log ("Dying");
+		ManagerHub.onAnimationPlay-=playNextAnimation;
+		manager.registerDeath(player);
 	}
 }

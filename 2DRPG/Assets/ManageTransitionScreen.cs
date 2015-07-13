@@ -13,7 +13,7 @@ public class ManageTransitionScreen : MonoBehaviour {
 		manager = GameObject.Find("manager").GetComponent<ManagerHub>();
 		ManagerHub.onGoToGame+=hideScreen;
 		ManagerHub.onGoToTransition+=showScreen;
-		ManagerHub.onGoToEnd+=hideScreen;
+//		ManagerHub.onGoToEnd+=hideScreen;
 
 		playerReadyButton = GameObject.FindWithTag("PlayerReadyButton").GetComponent<Button>();
 		playerReadyButton.onClick.AddListener(()=>{manager.finishTransition();});
@@ -37,6 +37,6 @@ public class ManageTransitionScreen : MonoBehaviour {
 	void Destroy(){
 		ManagerHub.onGoToGame-=hideScreen;
 		ManagerHub.onGoToTransition-=showScreen;
-		ManagerHub.onGoToEnd-=hideScreen;
+//		ManagerHub.onGoToEnd-=hideScreen;
 	}
 }
