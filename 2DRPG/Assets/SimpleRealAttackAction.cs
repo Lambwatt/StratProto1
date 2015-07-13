@@ -26,8 +26,6 @@ public class SimpleRealAttackAction : Action {
 		
 	}
 
-
-	
 	public int execute(Board board, TurnMetaData data){
 
 		board.setAnimation(square, new SpriteMovement("shoot", 

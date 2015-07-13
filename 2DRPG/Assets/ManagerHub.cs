@@ -34,10 +34,23 @@ public class ManagerHub : MonoBehaviour {
 	public delegate void NewTurnAction();
 	public static event NewTurnAction onNewTurn;
 
+	public delegate void GoToGameAction();
+	public static event GoToGameAction onGoToGame;
+
+	public delegate void GoToStartAction();
+	public static event GoToStartAction onGoToStart;
+
+	public delegate void GoToEndAction();
+	public static event GoToEndAction onGoToEnd;
+
+	public delegate void GoToTransitionAction();
+	public static event GoToTransitionAction onGoToTransition;
+
 	private int firstPlayer = 0;
 	private int orderCount = 2;
 	private int ordersRun = 0;
 	private int resolvingPlayer = 0;
+	private int playersVisited = 1;
 
 	// Use this for initialization
 	void Awake () {
@@ -78,8 +91,10 @@ public class ManagerHub : MonoBehaviour {
 	public void changePlayer(){
 		order.setSquares(selector.selectedUnits);
 		activePlayer = (activePlayer+1)%2;
+		playersVisited++;
 		order = players[activePlayer].getOrder();
 		onPlayerChange();
+		startTransition();
 	}
 
 	private void addUnit(int p, Square s){
@@ -122,6 +137,42 @@ public class ManagerHub : MonoBehaviour {
 		onAnimationPlay();
 	}
 
+	private void clearBoard(){
+		board.clearTiles();
+	}
+
+	public bool allPlayersVisited(){
+		return playersVisited==players.Length;
+	}
+
+	//Call these from conductor for consistency and test paramaters there.
+	public void reset(){
+		state = "title";
+		onGoToStart();
+	}
+
+	public void startTransition(){
+		state = "transitioning";
+		onGoToTransition();
+	}
+
+	public void finishTransition(){
+		state = "planning";
+		onGoToGame();
+	}
+
+	public void win(int player){
+		state = "over";
+		onGoToEnd();
+	}
+
+	public void startGame(){
+		state = "planning";
+		clearBoard();
+		Start();
+		onGoToGame();
+	}
+
 	void Update () {
 
 		if(state=="animating"){
@@ -133,6 +184,7 @@ public class ManagerHub : MonoBehaviour {
 					resolvingPlayer = firstPlayer;
 					activePlayer = firstPlayer;
 					order = players[activePlayer].getOrder();
+					playersVisited = 1;
 					state = "planning";
 					onNewTurn();
 				}

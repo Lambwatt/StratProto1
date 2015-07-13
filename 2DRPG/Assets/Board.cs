@@ -109,6 +109,11 @@ public class GridSlot{
 		ManagerHub.onNewTurn-=clearDeadUnits;
 	}
 
+	public void clearTile(){
+		if(unit!=null){GameObject.Destroy(unit); unit = null;}
+		if(pendingUnit!=null){GameObject.Destroy(pendingUnit); pendingUnit = null;}
+	}
+
 	public int getRange(){
 		return unit.GetComponent<Movement>().getRange();
 	}
@@ -292,6 +297,14 @@ public class Board : MonoBehaviour{//Make this not a game object.
 
 	public void reset(){
 
+	}
+
+	public void clearTiles(){
+		for(int j = height-1; j>=0; j--){
+			for(int i = 0; i<width; i++){
+				grid[i,j].clearTile();
+			}
+		}
 	}
 
 	void Destroy(){

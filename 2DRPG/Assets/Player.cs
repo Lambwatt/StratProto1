@@ -23,4 +23,6 @@ public class Player {
 	public Sprite getSprite(){
 		return sprite;
 	}
+
+
 }
