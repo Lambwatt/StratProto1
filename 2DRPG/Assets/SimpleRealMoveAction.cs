@@ -76,6 +76,7 @@ public class SimpleRealMoveAction : Action{
 			                                         	 0));
 			}
 			board.move(square, dir);
+			square = new Square(square.x+dir.getX(), square.y+dir.getY());
 			
 		}else{
 			data.updateMoving(square, false);//Simplifies future data queries.
@@ -84,14 +85,72 @@ public class SimpleRealMoveAction : Action{
 		return isLast ? 11 : 10;
 	}
 
-	public void checkForConsequences(Board board){
-		
+	public void checkForConsequences(Board board, TurnMetaData data){
+		Debug.Log ("Running check");
+		List<Square> shooters = data.getAllShooters();
+		Debug.Log ("Testing "+shooters.Count+" shooters.");
+		foreach(Square s in shooters){
+			if(Mathf.Abs(s.x-square.x)<board.getRange(s) || Mathf.Abs(s.y-square.y)<board.getRange(s)){
+				data.trip(s,square);
+				Debug.Log ("Tripped "+s);
+			}
+		}
+
 	}
 	
-	public void applyConsequences(Board board){
-		
+	public int applyConsequences(Board board, TurnMetaData data){
+
+		int res = 0;
+		if(data.isTarget(square)){
+			Debug.Log ("Was target");
+			List<Square> shooters = data.getMyShooters(square);
+			foreach(Square s in shooters){
+				if(isTarget(data.getTargets(s))){
+					data.cancelReadiness(s);
+					int newRes = getShotBy(board, s);
+					if(newRes>res)
+						res = newRes;
+				}
+			}
+		}
+		return res;
 	}
 
+	private bool isTarget(List<Square> targets){
+		Square closest = targets[0];
+		foreach(Square s in targets){
+			if(Mathf.Abs(s.x-square.x)<=Mathf.Abs(s.x-closest.x) || Mathf.Abs(s.y-square.y)<=Mathf.Abs(s.y-closest.y)){
+				closest = s;
+			}
+		}
+		return closest.Equals(square);
+	}
 
+	private int getShotBy(Board board, Square shooter){
+		board.setAnimation(shooter, new SpriteMovement("shootReadied", 
+		                                              new LinearMoveCurve(null), 
+		                                              board.convertBoardSquaresToWorldCoords(shooter), 
+		                                              board.convertBoardSquaresToWorldCoords(shooter),
+		                                              10));
 
+		bool dead = board.applyReadyDamage(shooter, square);
+		if(dead){
+			board.setAnimation(square, new SpriteMovement("die", 
+			                                              new LinearMoveCurve(null), 
+			                                              board.convertBoardSquaresToWorldCoords(square), 
+			                                              board.convertBoardSquaresToWorldCoords(square),
+			                                              25));
+			board.kill(square);
+			return 25;//return get shot + die time
+		}else{
+			board.setAnimation(square, new SpriteMovement("hit", 
+			                                              new LinearMoveCurve(null), 
+			                                              board.convertBoardSquaresToWorldCoords(square), 
+			                                              board.convertBoardSquaresToWorldCoords(square),
+			                                              20));
+			return 20;//return get shot + get hit time
+		}
+	}
 }
+
+

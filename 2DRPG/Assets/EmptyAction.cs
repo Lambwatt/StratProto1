@@ -14,7 +14,9 @@ public class EmptyAction : Action {
 		return 0; 
 	}
 
-	public void checkForConsequences(Board board){}
+	public void checkForConsequences(Board board, TurnMetaData data){}
 	
-	public void applyConsequences(Board board){}
+	public int applyConsequences(Board board, TurnMetaData data){
+		return 0;
+	}
 }

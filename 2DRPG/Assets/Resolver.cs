@@ -8,6 +8,12 @@ using System.Collections.Generic;
 
 public class Resolver {
 
+	TurnMetaData lastData;
+
+	public Resolver(){
+		lastData = new TurnMetaData(-1);
+	}
+
 	private class SequenceTracker{
 
 		public bool complete;
@@ -46,6 +52,7 @@ public class Resolver {
 		List<SequenceTracker> actionSequences = new List<SequenceTracker>();
 
 		TurnMetaData data = new TurnMetaData(player);
+		TurnMetaData.copyData(lastData, data);
 
 		foreach(Command c in commands){
 			actionSequences.Add(new SequenceTracker(c.execute().GetEnumerator()));
@@ -55,7 +62,8 @@ public class Resolver {
 
 		bool complete;
 		do{
-			int loopMax = 0;
+			int executeLoopMax = 0;
+			int applyLoopMax = 0;
 			foreach(SequenceTracker st in actionSequences){
 				List<Action> res = st.getAction().checkIfExecutable(b, data);
 				if(res!=null)
@@ -64,17 +72,18 @@ public class Resolver {
 
 			foreach(SequenceTracker st in actionSequences){
 				int f = st.getAction().execute(b, data);
-				if(f>loopMax) loopMax = f;
+				if(f>executeLoopMax) executeLoopMax = f;
 			}
 
 
 			foreach(SequenceTracker st in actionSequences){
-				st.getAction().checkForConsequences(b);
+				st.getAction().checkForConsequences(b, data);
 			}
 
 
 			foreach(SequenceTracker st in actionSequences){
-				st.getAction().applyConsequences(b);
+				int f = st.getAction().applyConsequences(b, data);
+				if(f>applyLoopMax) applyLoopMax = f;
 			}
 
 			complete = true;
@@ -84,15 +93,18 @@ public class Resolver {
 
 			}
 
-			frames+=loopMax;
+			frames+=executeLoopMax+applyLoopMax;
 			data.clearData();
 
 		}while(!complete);
 
+		TurnMetaData.copyData(data, lastData);
 		return frames;
 	}
 
-
+	public void wipeData(){
+		lastData = new TurnMetaData(-1);
+	}
 
 
 //	public void resolveMovement(){

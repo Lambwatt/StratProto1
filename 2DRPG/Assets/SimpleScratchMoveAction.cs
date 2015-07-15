@@ -22,12 +22,12 @@ public class SimpleScratchMoveAction : Action {
 		return board.moveAllowed(square, dir);
 	}
 
-	public List<Action> checkIfExecutable(Board board, TurnMetaData dat){
+	public List<Action> checkIfExecutable(Board board, TurnMetaData data){
 		return null;
 		//Do nothing for now
 	}
 	
-	public int execute(Board board, TurnMetaData dat){
+	public int execute(Board board, TurnMetaData data){
 		
 		List<Response> res = new List<Response>();
 
@@ -40,13 +40,13 @@ public class SimpleScratchMoveAction : Action {
 		return 0;
 	}
 	
-	public void checkForConsequences(Board board){
+	public void checkForConsequences(Board board, TurnMetaData data){
 
 		// do nothing
 	}
 	
-	public void applyConsequences(Board board){
-
+	public int applyConsequences(Board board, TurnMetaData data){
+		return 0;
 		// do nothing
 	}
 }

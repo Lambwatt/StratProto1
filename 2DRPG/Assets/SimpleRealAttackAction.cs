@@ -28,7 +28,7 @@ public class SimpleRealAttackAction : Action {
 
 	public int execute(Board board, TurnMetaData data){
 
-		board.setAnimation(square, new SpriteMovement("shoot", 
+		board.setAnimation(square, new SpriteMovement("shootAimed", 
 		                                              new LinearMoveCurve(null), 
 		                                              board.convertBoardSquaresToWorldCoords(square), 
 		                                              board.convertBoardSquaresToWorldCoords(square),
@@ -40,7 +40,7 @@ public class SimpleRealAttackAction : Action {
 		if(result.Equals(Square.getNullSquare())){
 			return 10;//return length of shoot
 		}else{
-			bool dead = board.applyDamage(square, result);
+			bool dead = board.applyAttackDamage(square, result);
 			if(dead){
 				board.setAnimation(result, new SpriteMovement("die", 
 			                                              new LinearMoveCurve(null), 
@@ -60,12 +60,13 @@ public class SimpleRealAttackAction : Action {
 		}
 	}
 	
-	public void checkForConsequences(Board board){
+	public void checkForConsequences(Board board, TurnMetaData data){
 		//Do nothing, no consequences can be tripped
 	}
 	
-	public void applyConsequences(Board board){
+	public int applyConsequences(Board board, TurnMetaData data){
 		//do nothing, no consequences can be tripped
+		return 0;
 	}
 
 	public Square checkSquare(Board b, TurnMetaData d, int count, Square s){

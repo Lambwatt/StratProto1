@@ -39,12 +39,6 @@ public class Movement : MonoBehaviour {
 		hideSelection();
 	}
 
-//	private void clearSelection(){
-//		for(int i = 0; i<3; i++){
-//			selection[i] = false;
-//		}
-//	}
-
 	public void setPlayerNumber(int i){
 		player = i;
 	}
@@ -54,7 +48,6 @@ public class Movement : MonoBehaviour {
 	}
 
 	void OnDestroy(){
-		Debug.Log ("pulling out");
 		ManagerHub.onAnimationPlay-=playNextAnimation;
 	}
 

@@ -17,6 +17,8 @@ public class SimpleCommandFactory : CommandFactory {
 			return new SimpleRealMoveCommand(s, dir, mag);
 		case "attack":
 			return new SimpleRealAttackCommand(s, dir, mag);
+		case "ready":
+			return new SimpleRealReadyCommand(s, dir, mag);
 		default:
 			Debug.Log("recieved order of type: "+key);
 			return new SimpleRealMoveCommand(s, 0, 1);

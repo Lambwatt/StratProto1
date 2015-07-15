@@ -149,7 +149,6 @@ public class ManagerHub : MonoBehaviour {
 
 	public void registerDeath(int playerNumb){
 		players[playerNumb].removeUnit();
-		Debug.Log ("players dead? "+playersDead());
 		if(playersDead()){
 			int p = getSurvivingPlayer();
 			win(p);
@@ -174,7 +173,6 @@ public class ManagerHub : MonoBehaviour {
 	}
 
 	public void win(int player){
-		Debug.Log ("#WINNING");
 		state = "over";
 		onGoToEnd(player);
 	}
@@ -200,6 +198,7 @@ public class ManagerHub : MonoBehaviour {
 					order = players[activePlayer].getOrder();
 					playersVisited = 1;
 					state = "planning";
+					resolver.wipeData();
 					onNewTurn();
 				}
 				else{

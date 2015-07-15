@@ -91,6 +91,10 @@ public class GridSlot{
 		return unit.GetComponent<Movement>().getAttackDamage();
 	}
 
+	public int getReadyDamage(){
+		return unit.GetComponent<Movement>().getReadyDamage();
+	}
+
 	public bool applyDamage(int damage){
 		return unit.GetComponent<Movement>().deductDamageFromHealth(damage);
 	}
@@ -102,7 +106,6 @@ public class GridSlot{
 
 	private void clearDeadUnits(){
 		foreach(GameObject u in deadUnits){
-			Debug.Log ("Killing!");
 			u.GetComponent<Movement>().registerDeath();
 			GameObject.Destroy(u);
 
@@ -221,8 +224,21 @@ public class Board : MonoBehaviour{//Make this not a game object.
 
 	}
 
-	public bool applyDamage(Square attacker, Square target){
+//	public Square checkForTargetsInRange(Square attacker){
+//		
+//	}
+//
+//	public Square checkIfInRange(Square target){
+//
+//	}
+
+	public bool applyAttackDamage(Square attacker, Square target){
 		int damage = grid[attacker.x,attacker.y].getAttackDamage();
+		return grid[target.x, target.y].applyDamage(damage);
+	}
+
+	public bool applyReadyDamage(Square attacker, Square target){
+		int damage = grid[attacker.x,attacker.y].getReadyDamage();
 		return grid[target.x, target.y].applyDamage(damage);
 	}
 

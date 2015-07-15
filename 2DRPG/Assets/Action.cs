@@ -8,7 +8,7 @@ public interface Action {
 
 	int execute(Board board, TurnMetaData data); 
 
-	void checkForConsequences(Board board);
+	void checkForConsequences(Board board, TurnMetaData data);
 
-	void applyConsequences(Board board);
+	int applyConsequences(Board board, TurnMetaData data);
 }

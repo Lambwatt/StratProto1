@@ -84,6 +84,8 @@
      <Compile Include="Assets\SimpleRealAttackCommand.cs" />
      <Compile Include="Assets\SimpleRealMoveAction.cs" />
      <Compile Include="Assets\SimpleRealMoveCommand.cs" />
+     <Compile Include="Assets\SimpleRealReadyAction.cs" />
+     <Compile Include="Assets\SimpleRealReadyCommand.cs" />
      <Compile Include="Assets\SimpleScratchMoveAction.cs" />
      <Compile Include="Assets\SimpleScratchMoveCommand.cs" />
      <Compile Include="Assets\SpriteMovement.cs" />
