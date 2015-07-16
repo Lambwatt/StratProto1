@@ -294,6 +294,12 @@ public class Board : MonoBehaviour{//Make this not a game object.
 	public void kill(Square s){
 		grid[s.x, s.y].kill();
 	}
+
+//	public bool unitHasCover(Square shooter, Square target){
+//
+//	}
+
+//	public 
 	
 //	// Update is called once per frame. Eventually, this should not be a behaviour
 	void Update () {

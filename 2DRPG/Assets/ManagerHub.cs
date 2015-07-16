@@ -70,6 +70,8 @@ public class ManagerHub : MonoBehaviour {
 		conductor = GetComponent<Conductor>();
 		resolver = new Resolver();
 
+		Direction.testDirections();
+
 	}
 
 	void start(){
