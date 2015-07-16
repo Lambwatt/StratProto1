@@ -55,18 +55,28 @@ public class SimpleRealReadyAction : Action {
 	public int applyConsequences(Board board, TurnMetaData data){
 
 		if(data.hasTarget(square)){
+
 			List<Square> targets = data.getTargets(square);
+
+			data.cancelReadiness(square);
+
 			Square target;
 			if(targets.Count == 1)
 				target = targets[0];
 			else{
 				target = targets[0];
 				foreach(Square t in targets){
-					if(Mathf.Abs(t.x-square.x)<Mathf.Abs(target.x-square.x) || Mathf.Abs(t.y-square.y)<Mathf.Abs(target.y-square.y) ){
+					if(Mathf.Abs(t.x-square.x)<=Mathf.Abs(target.x-square.x) && Mathf.Abs(t.y-square.y)<=Mathf.Abs(target.y-square.y) ){
 						target = t;
 					}
 				}
 			}
+
+			board.setAnimation(square, new SpriteMovement("shootReadied", 
+			                                              new LinearMoveCurve(null), 
+			                                              board.convertBoardSquaresToWorldCoords(square), 
+			                                              board.convertBoardSquaresToWorldCoords(square),
+			                                              10));
 
 			bool dead = board.applyReadyDamage(square, target);
 			if(dead){
@@ -74,16 +84,16 @@ public class SimpleRealReadyAction : Action {
 				                                              new LinearMoveCurve(null), 
 				                                              board.convertBoardSquaresToWorldCoords(target), 
 				                                              board.convertBoardSquaresToWorldCoords(target),
-				                                              25));
+				                                             10));
 				board.kill(target);
-				return 25;//return get shot + die time
+				return 10;//return get shot + die time
 			}else{
 				board.setAnimation(target, new SpriteMovement("hit", 
 				                                              new LinearMoveCurve(null), 
 				                                              board.convertBoardSquaresToWorldCoords(target), 
 				                                              board.convertBoardSquaresToWorldCoords(target),
-				                                              20));
-				return 20;//return get shot + get hit time
+				                                              10));
+				return 10;//return get shot + get hit time
 			}
 		}else
 			return 0;

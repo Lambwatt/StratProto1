@@ -128,7 +128,6 @@ public class Movement : MonoBehaviour {
 	}
 
 	public void registerDeath(){
-		Debug.Log ("Dying");
 		ManagerHub.onAnimationPlay-=playNextAnimation;
 		manager.registerDeath(player);
 	}

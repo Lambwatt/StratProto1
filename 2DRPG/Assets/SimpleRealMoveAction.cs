@@ -86,13 +86,11 @@ public class SimpleRealMoveAction : Action{
 	}
 
 	public void checkForConsequences(Board board, TurnMetaData data){
-		Debug.Log ("Running check");
 		List<Square> shooters = data.getAllShooters();
-		Debug.Log ("Testing "+shooters.Count+" shooters.");
 		foreach(Square s in shooters){
-			if(Mathf.Abs(s.x-square.x)<board.getRange(s) || Mathf.Abs(s.y-square.y)<board.getRange(s)){
+			if(Mathf.Abs(s.x-square.x)<board.getRange(s) && Mathf.Abs(s.y-square.y)<board.getRange(s)){
 				data.trip(s,square);
-				Debug.Log ("Tripped "+s);
+				//Debug.Log ("Tripped "+s+". ["+Mathf.Abs(s.x-square.x)+"<"+board.getRange(s)+"||"+Mathf.Abs(s.y-square.y)+"<"+board.getRange(s)+":"+(Mathf.Abs(s.x-square.x)<board.getRange(s) && Mathf.Abs(s.y-square.y)<board.getRange(s))+"]");
 			}
 		}
 
@@ -102,7 +100,6 @@ public class SimpleRealMoveAction : Action{
 
 		int res = 0;
 		if(data.isTarget(square)){
-			Debug.Log ("Was target");
 			List<Square> shooters = data.getMyShooters(square);
 			foreach(Square s in shooters){
 				if(isTarget(data.getTargets(s))){
@@ -119,7 +116,7 @@ public class SimpleRealMoveAction : Action{
 	private bool isTarget(List<Square> targets){
 		Square closest = targets[0];
 		foreach(Square s in targets){
-			if(Mathf.Abs(s.x-square.x)<=Mathf.Abs(s.x-closest.x) || Mathf.Abs(s.y-square.y)<=Mathf.Abs(s.y-closest.y)){
+			if(Mathf.Abs(s.x-square.x)<=Mathf.Abs(s.x-closest.x) && Mathf.Abs(s.y-square.y)<=Mathf.Abs(s.y-closest.y)){
 				closest = s;
 			}
 		}
@@ -139,16 +136,16 @@ public class SimpleRealMoveAction : Action{
 			                                              new LinearMoveCurve(null), 
 			                                              board.convertBoardSquaresToWorldCoords(square), 
 			                                              board.convertBoardSquaresToWorldCoords(square),
-			                                              25));
+			                                              10));
 			board.kill(square);
-			return 25;//return get shot + die time
+			return 10;//return get shot + die time
 		}else{
 			board.setAnimation(square, new SpriteMovement("hit", 
 			                                              new LinearMoveCurve(null), 
 			                                              board.convertBoardSquaresToWorldCoords(square), 
 			                                              board.convertBoardSquaresToWorldCoords(square),
-			                                              20));
-			return 20;//return get shot + get hit time
+			                                              1));
+			return 1;//return get shot + get hit time
 		}
 	}
 }
