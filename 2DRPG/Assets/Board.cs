@@ -329,9 +329,11 @@ public class Board : MonoBehaviour{//Make this not a game object.
 
 	public bool unitHasCover(Square shooter, Square target){
 		int[] dirs = Direction.getRelativeDirection(shooter, target);
+		//Debug.Log ("dirs.Length "+dirs.Length);
 		if(dirs.Length==2){//dirs can only be 1 or 2 slots long
 //			int subDirection = Direction.getDirectionDifference(dirs[0], dirs[1]); Well that was apparently a waste of time. :(
-			return pathBlocked(shooter, 0, Direction.getStepsRequired(shooter, target, dirs[0]), Direction.getDirection(dirs[0]), 0, Direction.getStepsRequired(shooter, target, dirs[1]), Direction.getDirection(dirs[1]));
+			Debug.Log ("calling pathBlocked(["+shooter.x+","+shooter.y+"], 0, "+(Direction.getStepsRequired(shooter, target, dirs[0])-1)+", "+Direction.getDirectionString(dirs[0])+", 0, "+Direction.getStepsRequired(shooter, target, dirs[1])+", "+Direction.getDirectionString(dirs[1])+")");
+			return pathBlocked(shooter, 0, Direction.getStepsRequired(shooter, target, dirs[0])-1, Direction.getDirection(dirs[0]), 0, Direction.getStepsRequired(shooter, target, dirs[1]), Direction.getDirection(dirs[1]));
 		}else{
 			return pathBlocked (shooter, 0, Direction.getStepsRequired(shooter, target, dirs[0]), Direction.getDirection(dirs[0]));
 		}
@@ -349,22 +351,30 @@ public class Board : MonoBehaviour{//Make this not a game object.
 		}
 	}
 
-	private bool pathBlocked(Square s, int perpStepsTaken, int maxPerpSteps, Direction perpDirection, int diagStepsTaken, int maxDiagSteps, Direction diagDirection){
-		if(perpStepsTaken == maxPerpSteps && diagStepsTaken == maxDiagSteps)
+	//Debug this one.
+	private bool pathBlocked(Square s, int perpStepsTaken, int maxPerpSteps, Direction perpDirection, int diagStepsTaken, int maxDiagSteps, Direction diagDirection, string tabs = ""){
+		if(perpStepsTaken == maxPerpSteps && diagStepsTaken == maxDiagSteps){
+			Debug.Log (tabs+"target reached");
 			return false;
-		else if(grid[s.x, s.y].hasBarrel()){
-				return true;
+		}else if(grid[s.x, s.y].hasBarrel()){
+			Debug.Log (tabs+"found barrel");
+			return true;
 		}else{
-			if(diagStepsTaken < diagStepsTaken){
-				if(pathBlocked(new Square(s.x+diagDirection.getX(), s.y+diagDirection.getY()), perpStepsTaken, maxPerpSteps, perpDirection, diagStepsTaken + 1, maxDiagSteps, diagDirection)){
+			if(diagStepsTaken < maxDiagSteps){
+				Debug.Log (tabs+"recursing in  diagDirection");
+				if(pathBlocked(new Square(s.x+diagDirection.getX(), s.y+diagDirection.getY()), perpStepsTaken, maxPerpSteps, perpDirection, diagStepsTaken + 1, maxDiagSteps, diagDirection, tabs+"\t")){
 					if(perpStepsTaken < maxPerpSteps){
-						return pathBlocked(new Square(s.x+perpDirection.getX(), s.y+perpDirection.getY()), perpStepsTaken+1, maxPerpSteps, perpDirection, diagStepsTaken, maxDiagSteps, diagDirection);
+						Debug.Log (tabs+"failed. recursing in perpDirection");
+						return pathBlocked(new Square(s.x+perpDirection.getX(), s.y+perpDirection.getY()), perpStepsTaken+1, maxPerpSteps, perpDirection, diagStepsTaken, maxDiagSteps, diagDirection, tabs+"\t");
 					}
 				}
-				return true;
+				Debug.Log (tabs+"diag path was clear");//special case because recursion was in an if condition
+				return false;
 			}else if(perpStepsTaken < maxPerpSteps){
-				return pathBlocked(new Square(s.x+perpDirection.getX(), s.y+perpDirection.getY()), perpStepsTaken+1, maxPerpSteps, perpDirection, diagStepsTaken, maxDiagSteps, diagDirection);
+				Debug.Log (tabs+"recursing in perpDirection");
+				return pathBlocked(new Square(s.x+perpDirection.getX(), s.y+perpDirection.getY()), perpStepsTaken+1, maxPerpSteps, perpDirection, diagStepsTaken, maxDiagSteps, diagDirection, tabs+"\t");
 			}else{
+				Debug.Log (tabs+"only path from this point is blocked");
 				return true;
 			}
 		}

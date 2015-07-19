@@ -45,7 +45,7 @@ public class SimpleRealReadyAction : Action {
 				Square testSquare = new Square(square.x-range+i, square.y-range+j);
 				if(board.squareInBounds(testSquare, Direction.getDirection(Direction.NONE))){
 					if(board.isOccupied(testSquare) && board.getPlayerNumber(testSquare)!=data.getActivePlayer()){
-						Debug.Log ("["+square.x+","+square.y+"] to ["+testSquare.x+","+testSquare.y+"]");
+						//Debug.Log ("["+square.x+","+square.y+"] to ["+testSquare.x+","+testSquare.y+"]");
 						data.trip(square, testSquare);
 					}
 				}
@@ -85,29 +85,35 @@ public class SimpleRealReadyAction : Action {
 				}
 			}
 
-			board.setAnimation(square, new SpriteMovement("shootReadied", 
-			                                              new LinearMoveCurve(null), 
-			                                              board.convertBoardSquaresToWorldCoords(square), 
-			                                              board.convertBoardSquaresToWorldCoords(square),
-			                                              10));
-
-			bool dead = board.applyReadyDamage(square, target);
-			if(dead){
-				board.setAnimation(target, new SpriteMovement("die", 
-				                                              new LinearMoveCurve(null), 
-				                                              board.convertBoardSquaresToWorldCoords(target), 
-				                                              board.convertBoardSquaresToWorldCoords(target),
-				                                             10));
-				board.kill(target);
-				return 10;//return get shot + die time
+			if(board.unitHasCover(square, target)){
+				Debug.Log ("Detected cover.");
+				return 0;
 			}else{
-				board.setAnimation(target, new SpriteMovement("hit", 
+				board.setAnimation(square, new SpriteMovement("shootReadied", 
 				                                              new LinearMoveCurve(null), 
-				                                              board.convertBoardSquaresToWorldCoords(target), 
-				                                              board.convertBoardSquaresToWorldCoords(target),
+				                                              board.convertBoardSquaresToWorldCoords(square), 
+				                                              board.convertBoardSquaresToWorldCoords(square),
 				                                              10));
-				return 10;//return get shot + get hit time
+
+				bool dead = board.applyReadyDamage(square, target);
+				if(dead){
+					board.setAnimation(target, new SpriteMovement("die", 
+					                                              new LinearMoveCurve(null), 
+					                                              board.convertBoardSquaresToWorldCoords(target), 
+					                                              board.convertBoardSquaresToWorldCoords(target),
+					                                             10));
+					board.kill(target);
+					return 10;//return get shot + die time
+				}else{
+					board.setAnimation(target, new SpriteMovement("hit", 
+					                                              new LinearMoveCurve(null), 
+					                                              board.convertBoardSquaresToWorldCoords(target), 
+					                                              board.convertBoardSquaresToWorldCoords(target),
+					                                              10));
+					return 10;//return get shot + get hit time
+				}
 			}
+
 		}else
 			return 0;
 	}

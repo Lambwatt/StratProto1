@@ -1,10 +1,15 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/ManagerHub.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Direction.cs">
     <Files>
-      <File FileName="Assets/Board.cs" Line="344" Column="5" />
-      <File FileName="Assets/Direction.cs" Line="169" Column="52" />
-      <File FileName="Assets/ManagerHub.cs" Line="116" Column="30" />
+      <File FileName="Assets/Board.cs" Line="338" Column="46" />
+      <File FileName="Assets/Direction.cs" Line="162" Column="12" />
+      <File FileName="Assets/ManagerHub.cs" Line="21" Column="28" />
+      <File FileName="Assets/Stay.cs" Line="10" Column="2" />
+      <File FileName="Assets/Movement.cs" Line="4" Column="8" />
+      <File FileName="Assets/SimpleRealAttackAction.cs" Line="43" Column="56" />
+      <File FileName="Assets/SimpleRealMoveAction.cs" Line="64" Column="4" />
+      <File FileName="Assets/SimpleRealReadyAction.cs" Line="87" Column="4" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

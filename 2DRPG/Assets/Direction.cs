@@ -157,18 +157,21 @@ public class Direction{
 	}
 
 	public static int getStepsRequired(Square s, Square d, int dirInd){
+		//Debug.Log ("getting steps required");
 		Direction dir = getDirection(dirInd);
 		Square step = new Square(s.x, s.y);
 		int diff;
-		int nexDiff = Mathf.Abs(s.x-d.x)+Mathf.Abs(s.y-d.y);;
+		int nexDiff = Mathf.Abs(s.x-d.x)+Mathf.Abs(s.y-d.y);
 		int count = 0;
 		do{
 			diff = nexDiff;
 			count++;
 			step = new Square(step.x+dir.getX(), step.y+dir.getY());
-			nexDiff = Mathf.Abs(s.x-d.x)+Mathf.Abs(s.y-d.y);
+			nexDiff = Mathf.Abs(step.x-d.x)+Mathf.Abs(step.y-d.y);
+			//Debug.Log (diff+":"+nexDiff);
 		}while(nexDiff<diff);
-		return count;
+		//Debug.Log ("returning "+count);
+		return count-1;//Loop aborts after one step too many.
 	}
 
 	public static void testDirectionDifferences(){
