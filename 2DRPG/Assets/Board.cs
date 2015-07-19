@@ -125,7 +125,11 @@ public class GridSlot{
 	}
 
 	public void kill(){
-		deadUnits.Add(unit);
+		if(hasBarrel()){
+			GameObject.Destroy(unit);
+		}else{
+			deadUnits.Add(unit);
+		}
 		unit = null;
 	}
 
@@ -332,10 +336,12 @@ public class Board : MonoBehaviour{//Make this not a game object.
 		//Debug.Log ("dirs.Length "+dirs.Length);
 		if(dirs.Length==2){//dirs can only be 1 or 2 slots long
 //			int subDirection = Direction.getDirectionDifference(dirs[0], dirs[1]); Well that was apparently a waste of time. :(
-			Debug.Log ("calling pathBlocked(["+shooter.x+","+shooter.y+"], 0, "+(Direction.getStepsRequired(shooter, target, dirs[0])-1)+", "+Direction.getDirectionString(dirs[0])+", 0, "+Direction.getStepsRequired(shooter, target, dirs[1])+", "+Direction.getDirectionString(dirs[1])+")");
-			return pathBlocked(shooter, 0, Direction.getStepsRequired(shooter, target, dirs[0])-1, Direction.getDirection(dirs[0]), 0, Direction.getStepsRequired(shooter, target, dirs[1]), Direction.getDirection(dirs[1]));
+			int diagSteps = Direction.getStepsRequired(shooter, target, dirs[1]);
+			int perpSteps = Mathf.Max(Mathf.Abs(shooter.x-target.x), Mathf.Abs(shooter.y-target.y)) - diagSteps;
+			Debug.Log ("calling pathBlocked(["+shooter.x+","+shooter.y+"], 0, "+perpSteps+", "+Direction.getDirectionString(dirs[0])+", 0, "+diagSteps+", "+Direction.getDirectionString(dirs[1])+")");
+			return pathBlocked(shooter, 0, perpSteps, Direction.getDirection(dirs[0]), 0, diagSteps, Direction.getDirection(dirs[1]));
 		}else{
-			return pathBlocked (shooter, 0, Direction.getStepsRequired(shooter, target, dirs[0]), Direction.getDirection(dirs[0]));
+			return pathBlocked (shooter, 0, Mathf.Max(Mathf.Abs(shooter.x-target.x), Mathf.Abs(shooter.y-target.y)), Direction.getDirection(dirs[0]));
 		}
 	}
 
@@ -354,27 +360,30 @@ public class Board : MonoBehaviour{//Make this not a game object.
 	//Debug this one.
 	private bool pathBlocked(Square s, int perpStepsTaken, int maxPerpSteps, Direction perpDirection, int diagStepsTaken, int maxDiagSteps, Direction diagDirection, string tabs = ""){
 		if(perpStepsTaken == maxPerpSteps && diagStepsTaken == maxDiagSteps){
-			Debug.Log (tabs+"target reached");
+			//Debug.Log (tabs+"target reached");
 			return false;
 		}else if(grid[s.x, s.y].hasBarrel()){
-			Debug.Log (tabs+"found barrel");
+			//Debug.Log (tabs+"found barrel");
 			return true;
 		}else{
 			if(diagStepsTaken < maxDiagSteps){
-				Debug.Log (tabs+"recursing in  diagDirection");
+				//Debug.Log (tabs+"recursing in  diagDirection");
 				if(pathBlocked(new Square(s.x+diagDirection.getX(), s.y+diagDirection.getY()), perpStepsTaken, maxPerpSteps, perpDirection, diagStepsTaken + 1, maxDiagSteps, diagDirection, tabs+"\t")){
 					if(perpStepsTaken < maxPerpSteps){
-						Debug.Log (tabs+"failed. recursing in perpDirection");
+						//Debug.Log (tabs+"failed. recursing in perpDirection");
 						return pathBlocked(new Square(s.x+perpDirection.getX(), s.y+perpDirection.getY()), perpStepsTaken+1, maxPerpSteps, perpDirection, diagStepsTaken, maxDiagSteps, diagDirection, tabs+"\t");
+					}else{
+						return true;
 					}
+				}else{
+					//Debug.Log (tabs+"diag path was clear");//special case because recursion was in an if condition
+					return false;
 				}
-				Debug.Log (tabs+"diag path was clear");//special case because recursion was in an if condition
-				return false;
 			}else if(perpStepsTaken < maxPerpSteps){
-				Debug.Log (tabs+"recursing in perpDirection");
+				//Debug.Log (tabs+"recursing in perpDirection");
 				return pathBlocked(new Square(s.x+perpDirection.getX(), s.y+perpDirection.getY()), perpStepsTaken+1, maxPerpSteps, perpDirection, diagStepsTaken, maxDiagSteps, diagDirection, tabs+"\t");
 			}else{
-				Debug.Log (tabs+"only path from this point is blocked");
+				//Debug.Log (tabs+"only path from this point is blocked");
 				return true;
 			}
 		}
@@ -410,6 +419,10 @@ public class Board : MonoBehaviour{//Make this not a game object.
 			}
 		}
 	}
+
+//	public void clearTile(Square s){
+//		grid[s.x,s.y].clearTile();
+//	}
 
 	void Destroy(){
 		for(int i = 0; i< width; i++){

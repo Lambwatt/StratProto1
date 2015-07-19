@@ -119,13 +119,15 @@ public class ManagerHub : MonoBehaviour {
 
 	}
 
-	private void addBarrel(Square s){
+	public void addBarrel(Square s){
 		GameObject unit = Instantiate<GameObject>(Resources.Load<GameObject>("Barrel")) as GameObject;
 		if(board.register(unit, s))
 			unit.GetComponent<Stay>().setPosition(board.convertBoardSquaresToWorldCoords(s));
 		
-		else
+		else{
 			Debug.Log ("Error: could not place barrel at ["+s.x+","+s.y+"] because space was occupied");
+			GameObject.Destroy(unit);
+		}
 	}
 
 	private GameObject initializeUnit(int player){

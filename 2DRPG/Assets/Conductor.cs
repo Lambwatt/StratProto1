@@ -15,20 +15,21 @@ public class Conductor : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-//		
+		
 //		if(manager.state == "animating"){
 //			;//Do nothing
-//		}else{
+//		}
+//		if(manager.state == "planning"){
 //
-////			if(Input.GetKeyDown(KeyCode.G)) {
-////				//Soon to be in a button response 
-////				manager.resolve();
-////
-////			}
-////
-////			else if(Input.GetKeyDown(KeyCode.Tab)) {
-////				manager.changePlayer();
-////			}
+//			if(Input.GetKeyDown(KeyCode.G)) {
+//				//Soon to be in a button response 
+//				manager.resolve();
+//
+//			}
+//
+//			else if(Input.GetKeyDown(KeyCode.Tab)) {
+//				manager.changePlayer();
+//			}
 //		}
 	}
 
