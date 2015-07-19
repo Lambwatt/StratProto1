@@ -39,15 +39,16 @@ public class Selector : MonoBehaviour {
 				select(s);
 
 			}
-		}else{
-			if(manager.board.squareInBounds(s, Direction.getDirection(Direction.NONE))){
-				if(manager.board.hasBarrel(s)){
-					manager.board.kill(s);
-				}else{
-					manager.addBarrel(s);
-				}
-			}
 		}
+//		}else{
+//			if(manager.board.squareInBounds(s, Direction.getDirection(Direction.NONE))){
+//				if(manager.board.hasBarrel(s)){
+//					manager.board.kill(s);
+//				}else{
+//					manager.addBarrel(s);
+//				}
+//			}
+//		}
 
 	
 

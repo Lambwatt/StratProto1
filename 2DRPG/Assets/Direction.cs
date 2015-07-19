@@ -148,7 +148,7 @@ public class Direction{
 		}
 	}
 
-	private static int boolToInt(bool b){
+	public static int boolToInt(bool b){
 		return b ? 1 : 0;
 	}
 

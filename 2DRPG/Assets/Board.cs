@@ -311,6 +311,33 @@ public class Board : MonoBehaviour{//Make this not a game object.
 		return s;
 	}
 
+	public Square getFreeSquareInBounds(int x, int y, int localWidth, int localHeight){
+		Square s;
+		//int countdown = ;
+		do{
+			s = new Square(x+(int)Mathf.Floor(Random.value*localWidth),y+(int)Mathf.Floor(Random.value*localHeight));
+		}while(grid[s.x, s.y].hasUnit() /*&& countdown>0*/);
+		return s;
+	}
+
+	public Square getFreeBarrelSquare(){
+		Square res;
+		do{
+			res = getFreeSquare();//getFreeSquareInBounds(1, 1, width-2, width-2);
+		}while(!isValidBarrelSquare(res));
+		return res;
+	}
+
+	public bool isValidBarrelSquare(Square s){
+		int contacts = 0;
+		for(int i = 1; i<=8; i++){
+			Direction dir = Direction.getDirection(i);
+			if(squareInBounds(s,dir))
+				contacts += Direction.boolToInt(grid[s.x+dir.getX(), s.y+dir.getY()].hasBarrel());
+		}
+		return contacts<2;
+	}
+
 	public void selectSquareContents(Square s){
 		grid[s.x, s.y].select();
 	}

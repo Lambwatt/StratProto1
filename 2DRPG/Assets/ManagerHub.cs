@@ -22,7 +22,8 @@ public class ManagerHub : MonoBehaviour {
 	public int minMagnitude = 1;
 	public int maxMagnitude = 3;
 	public int unitsPerPlayer = 0;
-	public const int maxTurns = 3;
+	//public const int maxTurns = 3;
+	public int barrels = 8;
 
 	public delegate void PlayAnimationAction();
 	public static event PlayAnimationAction onAnimationPlay;
@@ -77,7 +78,8 @@ public class ManagerHub : MonoBehaviour {
 
 		unitsPerPlayer = board.width*board.height/2<unitsPerPlayer ? board.width*board.height/2 : unitsPerPlayer;
 
-		addBarrel(new Square(3,3));
+		//addBarrel(new Square(3,3));
+		generateBarrels(barrels);
 
 		for(int i = 0; i<players.Length; i++){
 			players[i].clearUnits();
@@ -96,6 +98,12 @@ public class ManagerHub : MonoBehaviour {
 		activePlayer = 0;
 		order = players[0].getOrder();
 //		onPlayerChange();
+	}
+
+	public void generateBarrels(int numBarrels){
+		for(int i = 0; i<numBarrels; i++){
+			addBarrel(board.getFreeBarrelSquare());
+		}
 	}
 
 	public void changePlayer(){
