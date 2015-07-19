@@ -45,6 +45,7 @@ public class SimpleRealReadyAction : Action {
 				Square testSquare = new Square(square.x-range+i, square.y-range+j);
 				if(board.squareInBounds(testSquare, Direction.getDirection(Direction.NONE))){
 					if(board.isOccupied(testSquare) && board.getPlayerNumber(testSquare)!=data.getActivePlayer()){
+						Debug.Log ("["+square.x+","+square.y+"] to ["+testSquare.x+","+testSquare.y+"]");
 						data.trip(square, testSquare);
 					}
 				}
@@ -59,15 +60,27 @@ public class SimpleRealReadyAction : Action {
 			List<Square> targets = data.getTargets(square);
 
 			data.cancelReadiness(square);
-
+			Debug.Log ("Targets: "+targets.Count);
 			Square target;
 			if(targets.Count == 1)
 				target = targets[0];
 			else{
-				target = targets[0];
+
+				//select a non barrel initial target. 
+				int i = 0;
+				do{
+					target = targets[i];
+					i++;
+				}while(board.hasBarrel(target) && i<targets.Count);
+
+				if(board.hasBarrel(target))//No the 
+					return 0;
+
 				foreach(Square t in targets){
-					if(Mathf.Abs(t.x-square.x)<=Mathf.Abs(target.x-square.x) && Mathf.Abs(t.y-square.y)<=Mathf.Abs(target.y-square.y) ){
+					//Debug.Log ("for ["+t.x+", "+t.y+"] !board.hasBarrel(target) = "+!board.hasBarrel(t));
+					if(Mathf.Abs(t.x-square.x)<=Mathf.Abs(target.x-square.x) && Mathf.Abs(t.y-square.y)<=Mathf.Abs(target.y-square.y) && !board.hasBarrel(t)){
 						target = t;
+						//Debug.Log ("switched to targeting ["+t.x+", "+t.y+"] because !board.hasBarrel(target) = "+!board.hasBarrel(target));
 					}
 				}
 			}

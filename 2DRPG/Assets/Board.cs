@@ -50,36 +50,52 @@ public class GridSlot{
 
 	public void setPosition(Vector3 pos){
 		//deselect();//Not sure if this will hold up. this may need to live somewhere else.
-		unit.GetComponent<Movement>().setPosition(pos);
+		if(!hasBarrel())
+			unit.GetComponent<Movement>().setPosition(pos);
 	}
 
 	public void setAnimation(SpriteMovement a){
-		unit.GetComponent<Movement>().setNextAnimation(a);
+		if(!hasBarrel())
+			unit.GetComponent<Movement>().setNextAnimation(a);
 	}
 
 	public void select(){
-
-		unit.GetComponent<Movement>().select();
+		if(!hasBarrel())
+			unit.GetComponent<Movement>().select();
 	}
 
 	public void deselect(){
-
-		unit.GetComponent<Movement>().deselect();
+		if(!hasBarrel())
+			unit.GetComponent<Movement>().deselect();
 	}
 
 	public int getPlayerNumber(){
-		return unit.GetComponent<Movement>().getPlayerNumber();
+		if(hasBarrel())
+			return -1;
+		else
+			return unit.GetComponent<Movement>().getPlayerNumber();
 	}
 
 	public bool hasUnit(){
 		return unit!=null;
 	}
 
+	public bool hasBarrel(){
+		if(unit != null){
+			//Debug.Log (""+unit.CompareTag("Barrel")+" because tag = "+unit.tag);
+			return unit.CompareTag("Barrel");
+		}
+		return false;
+	}
+
 	public void addUnit(GameObject u){
-		if(hasUnit())
+		if(hasUnit()){
 			pendingUnit = u;
-		else
+			if(hasBarrel()) 
+				Debug.Log ("WARNING: Trying to move into a barrel");
+		}else
 			unit = u;
+
 	}
 
 	public void removeUnit(){
@@ -88,15 +104,24 @@ public class GridSlot{
 	}
 
 	public int getAttackDamage(){
-		return unit.GetComponent<Movement>().getAttackDamage();
+		if(hasBarrel())
+			return 0;
+		else
+			return unit.GetComponent<Movement>().getAttackDamage();
 	}
 
 	public int getReadyDamage(){
-		return unit.GetComponent<Movement>().getReadyDamage();
+		if(hasBarrel())
+			return 0;
+		else
+			return unit.GetComponent<Movement>().getReadyDamage();
 	}
 
 	public bool applyDamage(int damage){
-		return unit.GetComponent<Movement>().deductDamageFromHealth(damage);
+		if(hasBarrel())
+			return false;
+		else
+			return unit.GetComponent<Movement>().deductDamageFromHealth(damage);
 	}
 
 	public void kill(){
@@ -123,7 +148,10 @@ public class GridSlot{
 	}
 
 	public int getRange(){
-		return unit.GetComponent<Movement>().getRange();
+		if(hasBarrel())
+			return 0;
+		else
+			return unit.GetComponent<Movement>().getRange();
 	}
 }
 
@@ -295,9 +323,52 @@ public class Board : MonoBehaviour{//Make this not a game object.
 		grid[s.x, s.y].kill();
 	}
 
-//	public bool unitHasCover(Square shooter, Square target){
-//
-//	}
+	public bool hasBarrel(Square s){
+		return grid[s.x, s.y].hasBarrel();
+	}
+
+	public bool unitHasCover(Square shooter, Square target){
+		int[] dirs = Direction.getRelativeDirection(shooter, target);
+		if(dirs.Length==2){//dirs can only be 1 or 2 slots long
+//			int subDirection = Direction.getDirectionDifference(dirs[0], dirs[1]); Well that was apparently a waste of time. :(
+			return pathBlocked(shooter, 0, Direction.getStepsRequired(shooter, target, dirs[0]), Direction.getDirection(dirs[0]), 0, Direction.getStepsRequired(shooter, target, dirs[1]), Direction.getDirection(dirs[1]));
+		}else{
+			return pathBlocked (shooter, 0, Direction.getStepsRequired(shooter, target, dirs[0]), Direction.getDirection(dirs[0]));
+		}
+	}
+
+	//Write the 2 directional version of this. also test;
+	private bool pathBlocked(Square s, int stepsTaken, int maxSteps, Direction dir){
+
+		if(stepsTaken>=maxSteps){
+			return false;
+		}else if(grid[s.x, s.y].hasBarrel()){
+			return true;
+		}else{
+			return pathBlocked(new Square(s.x+dir.getX(), s.y+dir.getY()), stepsTaken+1, maxSteps, dir);
+		}
+	}
+
+	private bool pathBlocked(Square s, int perpStepsTaken, int maxPerpSteps, Direction perpDirection, int diagStepsTaken, int maxDiagSteps, Direction diagDirection){
+		if(perpStepsTaken == maxPerpSteps && diagStepsTaken == maxDiagSteps)
+			return false;
+		else if(grid[s.x, s.y].hasBarrel()){
+				return true;
+		}else{
+			if(diagStepsTaken < diagStepsTaken){
+				if(pathBlocked(new Square(s.x+diagDirection.getX(), s.y+diagDirection.getY()), perpStepsTaken, maxPerpSteps, perpDirection, diagStepsTaken + 1, maxDiagSteps, diagDirection)){
+					if(perpStepsTaken < maxPerpSteps){
+						return pathBlocked(new Square(s.x+perpDirection.getX(), s.y+perpDirection.getY()), perpStepsTaken+1, maxPerpSteps, perpDirection, diagStepsTaken, maxDiagSteps, diagDirection);
+					}
+				}
+				return true;
+			}else if(perpStepsTaken < maxPerpSteps){
+				return pathBlocked(new Square(s.x+perpDirection.getX(), s.y+perpDirection.getY()), perpStepsTaken+1, maxPerpSteps, perpDirection, diagStepsTaken, maxDiagSteps, diagDirection);
+			}else{
+				return true;
+			}
+		}
+	}
 
 //	public 
 	

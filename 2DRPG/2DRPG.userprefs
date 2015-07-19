@@ -1,14 +1,10 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/SimpleRealAttackCommand.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/ManagerHub.cs">
     <Files>
-      <File FileName="Assets/Conductor.cs" Line="52" Column="6" />
-      <File FileName="Assets/SimpleRealAttackAction.cs" Line="43" Column="50" />
-      <File FileName="Assets/Board.cs" Line="167" Column="28" />
-      <File FileName="Assets/SimpleRealReadyAction.cs" Line="47" Column="8" />
-      <File FileName="Assets/TurnMetaData.cs" Line="28" Column="32" />
-      <File FileName="Assets/SimpleRealMoveAction.cs" Line="91" Column="62" />
-      <File FileName="Assets/SimpleRealAttackCommand.cs" Line="3" Column="1" />
+      <File FileName="Assets/Board.cs" Line="344" Column="5" />
+      <File FileName="Assets/Direction.cs" Line="169" Column="52" />
+      <File FileName="Assets/ManagerHub.cs" Line="116" Column="30" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

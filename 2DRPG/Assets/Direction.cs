@@ -87,6 +87,7 @@ public class Direction{
 		}
 	}
 
+	//These pairs must always be [cardinal, diagonal]
 	private static int[] getComboDirection(int ind){
 		switch(ind){
 		case 0:
@@ -149,6 +150,33 @@ public class Direction{
 
 	private static int boolToInt(bool b){
 		return b ? 1 : 0;
+	}
+
+	public static int getDirectionDifference(int a, int b){
+		return (((a-1)-((b-1)-(a-1)))+8)%8 + 1;
+	}
+
+	public static int getStepsRequired(Square s, Square d, int dirInd){
+		Direction dir = getDirection(dirInd);
+		Square step = new Square(s.x, s.y);
+		int diff;
+		int nexDiff = Mathf.Abs(s.x-d.x)+Mathf.Abs(s.y-d.y);;
+		int count = 0;
+		do{
+			diff = nexDiff;
+			count++;
+			step = new Square(step.x+dir.getX(), step.y+dir.getY());
+			nexDiff = Mathf.Abs(s.x-d.x)+Mathf.Abs(s.y-d.y);
+		}while(nexDiff<diff);
+		return count;
+	}
+
+	public static void testDirectionDifferences(){
+		for(int i = 2; i<=8; i+=2){
+			Debug.Log (getDirectionString(i+1)+" - "+getDirectionString(i) +" = "+getDirectionString(getDirectionDifference(i+1, i)));
+			Debug.Log (getDirectionString(i-1)+" - "+getDirectionString(i) +" = "+getDirectionString(getDirectionDifference(i-1, i)));
+		}
+		Debug.Log ((getDirectionString(1)+" - "+getDirectionString(8) +" = "+getDirectionString(getDirectionDifference(1, 8))));
 	}
 
 	public static void testDirections(){

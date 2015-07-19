@@ -70,13 +70,14 @@ public class ManagerHub : MonoBehaviour {
 		conductor = GetComponent<Conductor>();
 		resolver = new Resolver();
 
-		Direction.testDirections();
-
+		//Direction.testDirectionDifferences();
 	}
 
 	void start(){
 
 		unitsPerPlayer = board.width*board.height/2<unitsPerPlayer ? board.width*board.height/2 : unitsPerPlayer;
+
+		addBarrel(new Square(3,3));
 
 		for(int i = 0; i<players.Length; i++){
 			players[i].clearUnits();
@@ -86,10 +87,15 @@ public class ManagerHub : MonoBehaviour {
 			}
 		}
 
+
+
+//		for(int i = 0; i<barrels; i++){
+//
+//		}
+
 		activePlayer = 0;
 		order = players[0].getOrder();
 //		onPlayerChange();
-
 	}
 
 	public void changePlayer(){
@@ -111,6 +117,15 @@ public class ManagerHub : MonoBehaviour {
 		else
 			Debug.Log ("Error: could not place unit for player "+p+" at ["+s.x+","+s.y+"] because space was occupied");
 
+	}
+
+	private void addBarrel(Square s){
+		GameObject unit = Instantiate<GameObject>(Resources.Load<GameObject>("Barrel")) as GameObject;
+		if(board.register(unit, s))
+			unit.GetComponent<Stay>().setPosition(board.convertBoardSquaresToWorldCoords(s));
+		
+		else
+			Debug.Log ("Error: could not place barrel at ["+s.x+","+s.y+"] because space was occupied");
 	}
 
 	private GameObject initializeUnit(int player){
@@ -223,13 +238,5 @@ public class ManagerHub : MonoBehaviour {
 			return 0;
 
 	}
-
-
-
-
-
-
-
-
-
+	
 }
