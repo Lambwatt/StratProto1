@@ -27,6 +27,10 @@ public class Direction{
 		this.y = y;
 	}
 
+	public bool equals(Direction d){
+		return x==d.x && y==d.y;
+	}
+
 	public int getX(){
 		return x;
 	}

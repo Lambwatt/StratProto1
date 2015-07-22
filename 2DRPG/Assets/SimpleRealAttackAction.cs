@@ -34,6 +34,10 @@ public class SimpleRealAttackAction : Action {
 		                                              board.convertBoardSquaresToWorldCoords(square),
 		                                              10));
 
+		if(dir.equals(Direction.getDirection(Direction.NONE)))//you can't shoot yourself
+			return 10;
+
+		//Debug.Log ();
 
 		Square result = checkSquare(board, data, 1, new Square(square.x+dir.getX(), square.y+dir.getY()));
 			
