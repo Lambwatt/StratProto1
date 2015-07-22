@@ -180,8 +180,15 @@ public class Board : MonoBehaviour{//Make this not a game object.
 		for(int i = 0; i< width; i++){
 			for(int j = 0; j<height; j++ ){
 				grid[i,j]=new GridSlot();
+				initializeTile(i, j);
 			}
 		}
+	}
+
+	private GameObject initializeTile(int x, int y){
+		GameObject tile = Instantiate<GameObject>(Resources.Load<GameObject>("tile"+((x+y)%2))) as GameObject;
+		tile.transform.position = convertBoardSquaresToWorldCoords(new Square(x,y));
+		return tile;
 	}
 
 	public List<Square> getActiveSquares(){
