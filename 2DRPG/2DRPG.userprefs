@@ -1,17 +1,21 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/ManagerHub.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/ManageEndScreen.cs">
     <Files>
-      <File FileName="Assets/Board.cs" Line="335" Column="29" />
-      <File FileName="Assets/Direction.cs" Line="150" Column="2" />
-      <File FileName="Assets/ManagerHub.cs" Line="26" Column="24" />
+      <File FileName="Assets/SimpleRealAttackAction.cs" Line="37" Column="27" />
+      <File FileName="Assets/Board.cs" Line="58" Column="31" />
+      <File FileName="Assets/Direction.cs" Line="30" Column="20" />
+      <File FileName="Assets/ManagerHub.cs" Line="212" Column="16" />
       <File FileName="Assets/Stay.cs" Line="1" Column="1" />
       <File FileName="Assets/Movement.cs" Line="1" Column="1" />
-      <File FileName="Assets/SimpleRealAttackAction.cs" Line="1" Column="1" />
       <File FileName="Assets/SimpleRealMoveAction.cs" Line="1" Column="1" />
       <File FileName="Assets/SimpleRealReadyAction.cs" Line="1" Column="1" />
-      <File FileName="Assets/Conductor.cs" Line="29" Column="3" />
-      <File FileName="Assets/Selector.cs" Line="42" Column="4" />
+      <File FileName="Assets/Conductor.cs" Line="1" Column="1" />
+      <File FileName="Assets/Selector.cs" Line="1" Column="1" />
+      <File FileName="Assets/ManageEndScreen.cs" Line="38" Column="31" />
+      <File FileName="Assets/ManagePlayerNumber.cs" Line="20" Column="3" />
+      <File FileName="Assets/ManageMagnitudeButtons.cs" Line="9" Column="13" />
+      <File FileName="Assets/ManageTransitionScreen.cs" Line="22" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

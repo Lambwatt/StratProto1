@@ -52,6 +52,7 @@
      <Compile Include="Assets\AnimationBuilder.cs" />
      <Compile Include="Assets\AnimationBuilderFactory.cs" />
      <Compile Include="Assets\Board.cs" />
+     <Compile Include="Assets\Bullet.cs" />
      <Compile Include="Assets\Command.cs" />
      <Compile Include="Assets\CommandFactory.cs" />
      <Compile Include="Assets\Conductor.cs" />

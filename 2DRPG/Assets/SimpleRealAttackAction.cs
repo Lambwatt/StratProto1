@@ -44,6 +44,16 @@ public class SimpleRealAttackAction : Action {
 		if(result.Equals(Square.getNullSquare())){
 			return 10;//return length of shoot
 		}else{
+
+			GameObject bullet = GameObject.Instantiate<GameObject>(Resources.Load<GameObject>("Bullet")) as GameObject;
+			bullet.GetComponent<Bullet>().setCourse(new SpriteMovement(null, 
+			                                                       new LinearMoveCurve(null), 
+			                                                       board.convertBoardSquaresToWorldCoords(square), 
+			                                                       board.convertBoardSquaresToWorldCoords(result),
+			                                                       30), Mathf.Atan2(result.y-square.y, result.x-square.x));
+				
+			
+
 			bool dead = board.applyAttackDamage(square, result);
 			if(dead){
 				board.setAnimation(result, new SpriteMovement("die", 
