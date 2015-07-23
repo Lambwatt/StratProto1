@@ -120,8 +120,10 @@ public class GridSlot{
 	public bool applyDamage(int damage){
 		if(hasBarrel())
 			return false;
-		else
+		else if(hasUnit())
 			return unit.GetComponent<Movement>().deductDamageFromHealth(damage);
+		else
+			return false;
 	}
 
 	public void kill(){
