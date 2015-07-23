@@ -178,6 +178,7 @@ public class ManagerHub : MonoBehaviour {
 		players[playerNumb].removeUnit();
 		if(playersDead()){
 			int p = getSurvivingPlayer();
+			Debug.Log ("game winner = "+p);
 			win(p);
 		}
 	}

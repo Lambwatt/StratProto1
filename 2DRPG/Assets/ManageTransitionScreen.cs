@@ -7,6 +7,7 @@ public class ManageTransitionScreen : MonoBehaviour {
 	ManagerHub manager;
 	Button playerReadyButton;
 	CanvasGroup group;
+	Text field;
 	
 	void Start(){
 		
@@ -18,11 +19,15 @@ public class ManageTransitionScreen : MonoBehaviour {
 		playerReadyButton = GameObject.FindWithTag("PlayerReadyButton").GetComponent<Button>();
 		playerReadyButton.onClick.AddListener(()=>{manager.finishTransition();});
 
+		field = GameObject.FindWithTag("NextPlayer").GetComponent<Text>();
+
 		group = GetComponent<CanvasGroup>();
 		hideScreen();
 	}
 	
 	private void showScreen(){
+		field.text = ""+(manager.activePlayer+1);
+
 		group.alpha = 1;
 		group.interactable = true;
 		group.blocksRaycasts = true;

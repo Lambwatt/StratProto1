@@ -18,6 +18,7 @@ public class ManageEndScreen : MonoBehaviour {
 		ManagerHub.onGoToGame+=hideScreen;
 
 		winnerText = GameObject.FindWithTag("WinningPlayer").GetComponent<Text>();
+		Debug.Log(winnerText);
 
 		replayButton = GameObject.FindWithTag("ReplayButton").GetComponent<Button>();
 		replayButton.onClick.AddListener(()=>{manager.startGame();});
@@ -32,7 +33,7 @@ public class ManageEndScreen : MonoBehaviour {
 	private void showScreen(int p){
 		winnerText.text = ""+(p+1);
 
-		group.alpha = 1;
+		group.alpha = 1;	
 		group.interactable = true;
 		group.blocksRaycasts = true;
 	}
