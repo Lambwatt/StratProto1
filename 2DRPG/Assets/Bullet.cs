@@ -5,21 +5,25 @@ public class Bullet: MonoBehaviour{
 	
 
 	SpriteMovement course;
+	int delay = -1;
 
-	public void setCourse(SpriteMovement c, float angle){
-		Debug.Log ("Set the bloody course!");
+	public void setCourse(SpriteMovement c, int d){
 		course = c;
-		transform.Rotate(Vector3.forward,Mathf.Rad2Deg*angle-45);
-		Debug.Log("rotation in deg:"+transform.rotation.z );
+		delay = d;
 	}
 
 	void Update () {
-
-		if(course.complete()){
-			//Debug.Log ("Destroying");
-			GameObject.Destroy(this.gameObject);
-		}else{
-			transform.position = course.getStep();
+		if(delay>-1){
+			if(delay == 0){
+				if(course.complete()){
+					//Debug.Log ("Destroying");
+					GameObject.Destroy(this.gameObject);
+				}else{
+					transform.position = course.getStep();
+				}
+			}else{
+				delay--;
+			}
 		}
 
 	}

@@ -45,12 +45,18 @@ public class SimpleRealAttackAction : Action {
 			return 10;//return length of shoot
 		}else{
 
-			GameObject bullet = GameObject.Instantiate<GameObject>(Resources.Load<GameObject>("Bullet")) as GameObject;
+			GameObject smoke = GameObject.Instantiate(Resources.Load<GameObject>("GunFire"), board.convertBoardSquaresToWorldCoords(square), Quaternion.identity) as GameObject;
+
+			GameObject bullet = GameObject.Instantiate(Resources.Load<GameObject>("Bullet"), 
+			                                           board.convertBoardSquaresToWorldCoords(square), 
+			                                           Quaternion.Euler(new Vector3(0,0,(Mathf.Rad2Deg*Mathf.Atan2(result.y-square.y, result.x-square.x))-45))
+			                             )as GameObject;
+
 			bullet.GetComponent<Bullet>().setCourse(new SpriteMovement(null, 
 			                                                       new LinearMoveCurve(null), 
 			                                                       board.convertBoardSquaresToWorldCoords(square), 
 			                                                       board.convertBoardSquaresToWorldCoords(result),
-			                                                       30), Mathf.Atan2(result.y-square.y, result.x-square.x));
+			                                                       3), 3);
 				
 			
 
