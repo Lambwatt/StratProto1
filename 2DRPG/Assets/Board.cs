@@ -55,7 +55,7 @@ public class GridSlot{
 	}
 
 	public void setAnimation(SpriteMovement a){
-		if(!hasBarrel())
+		if(!hasBarrel() && hasUnit())
 			unit.GetComponent<Movement>().setNextAnimation(a);
 	}
 
