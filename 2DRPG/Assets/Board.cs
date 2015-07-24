@@ -167,6 +167,7 @@ public class Board : MonoBehaviour{//Make this not a game object.
 	public int height;
 	public int width;
 	public GridSlot[,] grid;//manage this better later. Yeah, this will eventually wind up being a dictionary
+	Square lastBarrel;
 		
 	public Square convertMouseClickToBoardCoords(Vector3 click){//find or creat coordinate type.
 		return new Square(Mathf.FloorToInt(click.x/32) + (width/2),Mathf.FloorToInt(click.y/32) + (height/2));
@@ -367,6 +368,10 @@ public class Board : MonoBehaviour{//Make this not a game object.
 		return grid[s.x, s.y].hasBarrel();
 	}
 
+	public Square getLastBarrel(){
+		return lastBarrel;
+	}
+
 	public bool unitHasCover(Square shooter, Square target){
 		int[] dirs = Direction.getRelativeDirection(shooter, target);
 		//Debug.Log ("dirs.Length "+dirs.Length);
@@ -400,6 +405,7 @@ public class Board : MonoBehaviour{//Make this not a game object.
 			return false;
 		}else if(grid[s.x, s.y].hasBarrel()){
 			//Debug.Log (tabs+"found barrel");
+			lastBarrel = new Square(s.x, s.y);
 			return true;
 		}else{
 			if(diagStepsTaken < maxDiagSteps){

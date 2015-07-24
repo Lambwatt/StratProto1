@@ -87,8 +87,44 @@ public class SimpleRealReadyAction : Action {
 
 			if(board.unitHasCover(square, target)){
 				Debug.Log ("Detected cover.");
-				return 0;
+
+				Square result = board.getLastBarrel();
+
+				board.setAnimation(square, new SpriteMovement("shootReadied", 
+				                                              new LinearMoveCurve(null), 
+				                                              board.convertBoardSquaresToWorldCoords(square), 
+				                                              board.convertBoardSquaresToWorldCoords(square),
+				                                              10));
+
+				GameObject smoke = GameObject.Instantiate(Resources.Load<GameObject>("GunFire"), board.convertBoardSquaresToWorldCoords(square), Quaternion.identity) as GameObject;
+				
+				GameObject bullet = GameObject.Instantiate(Resources.Load<GameObject>("Bullet"), 
+				                                           board.convertBoardSquaresToWorldCoords(square), 
+				                                           Quaternion.Euler(new Vector3(0,0,(Mathf.Rad2Deg*Mathf.Atan2(result.y-square.y, result.x-square.x))-45))
+				                                           )as GameObject;
+				
+				bullet.GetComponent<Bullet>().setCourse(new SpriteMovement(null, 
+				                                                           new LinearMoveCurve(null), 
+				                                                           board.convertBoardSquaresToWorldCoords(square), 
+				                                                           board.convertBoardSquaresToWorldCoords(result),
+				                                                           3), 3, board.convertBoardSquaresToWorldCoords(result), false);
+
+				return 10;
 			}else{
+
+				GameObject smoke = GameObject.Instantiate(Resources.Load<GameObject>("GunFire"), board.convertBoardSquaresToWorldCoords(square), Quaternion.identity) as GameObject;
+				
+				GameObject bullet = GameObject.Instantiate(Resources.Load<GameObject>("Bullet"), 
+				                                           board.convertBoardSquaresToWorldCoords(target), 
+				                                           Quaternion.Euler(new Vector3(0,0,(Mathf.Rad2Deg*Mathf.Atan2(target.y-square.y, target.x-square.x))-45))
+				                                           )as GameObject;
+				
+				bullet.GetComponent<Bullet>().setCourse(new SpriteMovement(null, 
+				                                                           new LinearMoveCurve(null), 
+				                                                           board.convertBoardSquaresToWorldCoords(square), 
+				                                                           board.convertBoardSquaresToWorldCoords(target),
+				                                                           3), 3, board.convertBoardSquaresToWorldCoords(target), false);
+
 				board.setAnimation(square, new SpriteMovement("shootReadied", 
 				                                              new LinearMoveCurve(null), 
 				                                              board.convertBoardSquaresToWorldCoords(square), 

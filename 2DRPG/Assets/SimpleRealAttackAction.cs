@@ -56,7 +56,7 @@ public class SimpleRealAttackAction : Action {
 			                                                       new LinearMoveCurve(null), 
 			                                                       board.convertBoardSquaresToWorldCoords(square), 
 			                                                       board.convertBoardSquaresToWorldCoords(result),
-			                                                       3), 3);
+			                                                           3), 3, board.convertBoardSquaresToWorldCoords(result), board.hasBarrel(result));
 				
 			
 
