@@ -188,6 +188,21 @@ public class Board : MonoBehaviour{//Make this not a game object.
 		}
 	}
 
+	public void justify(){
+		for(int i = 0; i< width; i++){
+			for(int j = 0; j<height; j++ ){
+				if(grid[i,j].hasUnit()){
+					grid[i,j].setPosition(convertBoardSquaresToWorldCoords(new Square(i,j)));
+//					setAnimation(new Square(i,j), new SpriteMovement("idle", 
+//					                                              new LinearMoveCurve(null), 
+//					                                              convertBoardSquaresToWorldCoords(new Square(i,j)), 
+//					                                              convertBoardSquaresToWorldCoords(new Square(i,j)),
+//					                                              0));
+				}
+			}
+		}
+	}
+
 	private GameObject initializeTile(int x, int y){
 		GameObject tile = Instantiate<GameObject>(Resources.Load<GameObject>("tile"+((x+y)%2))) as GameObject;
 		tile.transform.position = convertBoardSquaresToWorldCoords(new Square(x,y));
@@ -392,6 +407,7 @@ public class Board : MonoBehaviour{//Make this not a game object.
 		if(stepsTaken>=maxSteps){
 			return false;
 		}else if(grid[s.x, s.y].hasBarrel()){
+			lastBarrel = new Square(s.x, s.y);
 			return true;
 		}else{
 			return pathBlocked(new Square(s.x+dir.getX(), s.y+dir.getY()), stepsTaken+1, maxSteps, dir);

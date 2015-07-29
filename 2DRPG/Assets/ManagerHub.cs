@@ -61,8 +61,23 @@ public class ManagerHub : MonoBehaviour {
 		board = realBoard;
 		commandFactory = new SimpleCommandFactory();
 
-		players = new Player[]{	new Player(0, Resources.Load<Sprite>("player1")),
-								new Player(1, Resources.Load<Sprite>("player2"))};
+		players = new Player[]{	
+			new Player(0, 
+			           Resources.Load<Sprite>("player1idle"), 
+			           Resources.Load<Sprite>("player1shoot"), 
+			           Resources.Load<Sprite>("player1shootReady"), 
+			           Resources.Load<Sprite>("player1ready"), 
+			           Resources.Load<Sprite>("player1hit"),
+			           Resources.Load<Sprite>("player1dead")),
+								
+			new Player(1, 
+			           Resources.Load<Sprite>("player2idle"),
+			           Resources.Load<Sprite>("player2shoot"),
+			           Resources.Load<Sprite>("player2shootReady"),
+			           Resources.Load<Sprite>("player2ready"),
+			           Resources.Load<Sprite>("player2hit"),
+			           Resources.Load<Sprite>("player2dead"))
+		};
 
 		players[0].setOrder(initializeOrder(commandFactory));
 		players[1].setOrder(initializeOrder(commandFactory));
@@ -118,6 +133,7 @@ public class ManagerHub : MonoBehaviour {
 	private void addUnit(int p, Square s){
 
 		GameObject unit = initializeUnit(p);
+		unit.GetComponent<Movement>().setSpriteList(players[p].getSprites());
 
 		if(board.register(unit, s))
 			unit.GetComponent<Movement>().setPosition(board.convertBoardSquaresToWorldCoords(s));
@@ -157,6 +173,7 @@ public class ManagerHub : MonoBehaviour {
 		order = players[resolvingPlayer].getOrder();
 
 		frameCount = resolver.resolve(board, order, resolvingPlayer);
+		Debug.Log ("frameCount = "+frameCount);
 
 		players[resolvingPlayer].setOrder(initializeOrder(commandFactory));
 		resolvingPlayer = (resolvingPlayer+1)%2;
@@ -227,6 +244,7 @@ public class ManagerHub : MonoBehaviour {
 					playersVisited = 1;
 					state = "planning";
 					resolver.wipeData();
+					board.justify();
 					onNewTurn();
 				}
 				else{

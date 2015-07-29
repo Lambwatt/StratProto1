@@ -33,16 +33,21 @@ public class SimpleRealAttackAction : Action {
 		                                              board.convertBoardSquaresToWorldCoords(square), 
 		                                              board.convertBoardSquaresToWorldCoords(square),
 		                                              10));
+		board.setAnimation(square, new SpriteMovement("idle", 
+		                                              new LinearMoveCurve(null), 
+		                                              board.convertBoardSquaresToWorldCoords(square), 
+		                                              board.convertBoardSquaresToWorldCoords(square),
+		                                              0));
 
 		if(dir.equals(Direction.getDirection(Direction.NONE)))//you can't shoot yourself
-			return 10;
+			return 11;
 
 		//Debug.Log ();
 
 		Square result = checkSquare(board, data, 1, new Square(square.x+dir.getX(), square.y+dir.getY()));
 			
 		if(result.Equals(Square.getNullSquare())){
-			return 10;//return length of shoot
+			return 11;//return length of shoot
 		}else{
 
 			GameObject smoke = GameObject.Instantiate(Resources.Load<GameObject>("GunFire"), board.convertBoardSquaresToWorldCoords(square), Quaternion.identity) as GameObject;
@@ -66,16 +71,21 @@ public class SimpleRealAttackAction : Action {
 			                                              new LinearMoveCurve(null), 
 			                                              board.convertBoardSquaresToWorldCoords(result), 
 			                                              board.convertBoardSquaresToWorldCoords(result),
-			                                              25));
+			                                              20));
 				board.kill(result);
-				return 25;//return get shot + die time
+				return 11;//return get shot + die time
 			}else{
 				board.setAnimation(result, new SpriteMovement("hit", 
 				                                              new LinearMoveCurve(null), 
 				                                              board.convertBoardSquaresToWorldCoords(result), 
 				                                              board.convertBoardSquaresToWorldCoords(result),
-				                                              20));
-				return 20;//return get shot + get hit time
+				                                              10));
+				board.setAnimation(result, new SpriteMovement("idle", 
+				                                              new LinearMoveCurve(null), 
+				                                              board.convertBoardSquaresToWorldCoords(result), 
+				                                              board.convertBoardSquaresToWorldCoords(result),
+				                                              0));
+				return 11;//return get shot + get hit time
 			}
 		}
 	}
@@ -86,7 +96,7 @@ public class SimpleRealAttackAction : Action {
 	
 	public int applyConsequences(Board board, TurnMetaData data){
 		//do nothing, no consequences can be tripped
-		return 0;
+		return 10;
 	}
 
 	public Square checkSquare(Board b, TurnMetaData d, int count, Square s){

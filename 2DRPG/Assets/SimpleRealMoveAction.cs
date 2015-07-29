@@ -63,7 +63,7 @@ public class SimpleRealMoveAction : Action{
 		if(willMove(square, data)){
 
 			data.updateMoving(square, true);
-			board.setAnimation(square, new SpriteMovement("move", 
+			board.setAnimation(square, new SpriteMovement("idle", 
 							              			new LinearMoveCurve(null), 
 							              			board.convertBoardSquaresToWorldCoords(square), 
 							              			board.convertBoardSquaresToWorldCoords(new Square(square.x+dir.getX(),square.y+dir.getY())),
@@ -129,6 +129,11 @@ public class SimpleRealMoveAction : Action{
 		                                              board.convertBoardSquaresToWorldCoords(shooter), 
 		                                              board.convertBoardSquaresToWorldCoords(shooter),
 		                                              10));
+		board.setAnimation(shooter, new SpriteMovement("idle", 
+		                                              new LinearMoveCurve(null), 
+		                                              board.convertBoardSquaresToWorldCoords(shooter), 
+		                                              board.convertBoardSquaresToWorldCoords(shooter),
+		                                              0));
 
 		bool dead = board.applyReadyDamage(shooter, square);
 		if(dead){
@@ -136,16 +141,21 @@ public class SimpleRealMoveAction : Action{
 			                                              new LinearMoveCurve(null), 
 			                                              board.convertBoardSquaresToWorldCoords(square), 
 			                                              board.convertBoardSquaresToWorldCoords(square),
-			                                              10));
+			                                              21));
 			board.kill(square);
-			return 10;//return get shot + die time
+			return 11;//return get shot + die time
 		}else{
 			board.setAnimation(square, new SpriteMovement("hit", 
 			                                              new LinearMoveCurve(null), 
 			                                              board.convertBoardSquaresToWorldCoords(square), 
 			                                              board.convertBoardSquaresToWorldCoords(square),
-			                                              1));
-			return 1;//return get shot + get hit time
+			                                              10));
+			board.setAnimation(square, new SpriteMovement("idle", 
+			                                              new LinearMoveCurve(null), 
+			                                              board.convertBoardSquaresToWorldCoords(square), 
+			                                              board.convertBoardSquaresToWorldCoords(square),
+			                                              0));
+			return 11;//return get shot + get hit time
 		}
 	}
 }

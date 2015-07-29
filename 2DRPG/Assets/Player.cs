@@ -3,14 +3,14 @@ using System.Collections;
 
 public class Player {
 
-	Sprite sprite;
+	Sprite[] sprites;
 	Order order;
 	int playerNumber;
 	int units;
 
-	public Player(int i, Sprite s){
+	public Player(int i, Sprite idle, Sprite shootAimed, Sprite shootHit, Sprite ready, Sprite hit, Sprite dead){
 		playerNumber  = i;
-		sprite = s;
+		sprites = new Sprite[6]{idle, shootAimed, shootHit, ready, hit, dead};
 		units = 0;
 	}
 
@@ -23,7 +23,11 @@ public class Player {
 	}
 
 	public Sprite getSprite(){
-		return sprite;
+		return sprites[0];
+	}
+
+	public Sprite[] getSprites(){
+		return sprites;
 	}
 
 	public void addUnit(){

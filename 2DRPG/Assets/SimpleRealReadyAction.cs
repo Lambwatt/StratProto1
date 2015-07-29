@@ -74,7 +74,7 @@ public class SimpleRealReadyAction : Action {
 				}while(board.hasBarrel(target) && i<targets.Count);
 
 				if(board.hasBarrel(target))//No the 
-					return 0;
+					return 10;
 
 				foreach(Square t in targets){
 					//Debug.Log ("for ["+t.x+", "+t.y+"] !board.hasBarrel(target) = "+!board.hasBarrel(t));
@@ -95,6 +95,11 @@ public class SimpleRealReadyAction : Action {
 				                                              board.convertBoardSquaresToWorldCoords(square), 
 				                                              board.convertBoardSquaresToWorldCoords(square),
 				                                              10));
+				board.setAnimation(square, new SpriteMovement("idle", 
+				                                              new LinearMoveCurve(null), 
+				                                              board.convertBoardSquaresToWorldCoords(square), 
+				                                              board.convertBoardSquaresToWorldCoords(square),
+				                                              0));
 
 				GameObject smoke = GameObject.Instantiate(Resources.Load<GameObject>("GunFire"), board.convertBoardSquaresToWorldCoords(square), Quaternion.identity) as GameObject;
 				
@@ -109,7 +114,7 @@ public class SimpleRealReadyAction : Action {
 				                                                           board.convertBoardSquaresToWorldCoords(result),
 				                                                           3), 3, board.convertBoardSquaresToWorldCoords(result), false);
 
-				return 10;
+				return 11;
 			}else{
 
 				GameObject smoke = GameObject.Instantiate(Resources.Load<GameObject>("GunFire"), board.convertBoardSquaresToWorldCoords(square), Quaternion.identity) as GameObject;
@@ -130,6 +135,11 @@ public class SimpleRealReadyAction : Action {
 				                                              board.convertBoardSquaresToWorldCoords(square), 
 				                                              board.convertBoardSquaresToWorldCoords(square),
 				                                              10));
+				board.setAnimation(square, new SpriteMovement("idle", 
+				                                              new LinearMoveCurve(null), 
+				                                              board.convertBoardSquaresToWorldCoords(square), 
+				                                              board.convertBoardSquaresToWorldCoords(square),
+				                                              0));
 
 				bool dead = board.applyReadyDamage(square, target);
 				if(dead){
@@ -137,20 +147,25 @@ public class SimpleRealReadyAction : Action {
 					                                              new LinearMoveCurve(null), 
 					                                              board.convertBoardSquaresToWorldCoords(target), 
 					                                              board.convertBoardSquaresToWorldCoords(target),
-					                                             10));
+					                                             21));
 					board.kill(target);
-					return 10;//return get shot + die time
+					return 11;//return get shot + die time
 				}else{
 					board.setAnimation(target, new SpriteMovement("hit", 
 					                                              new LinearMoveCurve(null), 
 					                                              board.convertBoardSquaresToWorldCoords(target), 
 					                                              board.convertBoardSquaresToWorldCoords(target),
 					                                              10));
-					return 10;//return get shot + get hit time
+					board.setAnimation(target, new SpriteMovement("idle", 
+					                                              new LinearMoveCurve(null), 
+					                                              board.convertBoardSquaresToWorldCoords(target), 
+					                                              board.convertBoardSquaresToWorldCoords(target),
+					                                              0));
+					return 11;//return get shot + get hit time
 				}
 			}
 
 		}else
-			return 0;
+			return 10;
 	}
 }

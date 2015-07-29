@@ -15,9 +15,13 @@ public class Movement : MonoBehaviour {
 	private SpriteMovement currentAnimation;
 	private Transform healthbar;
 	private int health;
+	private Sprite[] sprites;
 	
 	//FIXME Fix everything here to be designed around a single round. and clarify moves vs rounds vs turns teminology throughout
-	
+
+	public void setSpriteList(Sprite[] s){
+		sprites = s;
+	}
 
 	public void printMovement(){
 		Debug.Log ("Movement:["+currentAnimation.printMoves()+"]");
@@ -74,7 +78,9 @@ public class Movement : MonoBehaviour {
 		if(manager.state=="animating"){
 			if(currentAnimation.complete()){
 				if(currentAnimation.hasNext()){
+					Debug.Log ("switching animations");
 					currentAnimation = currentAnimation.getNext();
+					setSprite(currentAnimation.getSpriteName());
 					transform.position = currentAnimation.getStep();
 				}
 			}else{
@@ -84,9 +90,41 @@ public class Movement : MonoBehaviour {
 
 	}
 
+	public void setSprite(string key){
+		switch(key){
+		case "idle":
+			Debug.Log ("switched to idle");
+			GetComponent<SpriteRenderer>().sprite=sprites[0];
+			break;
+		case "shootAimed":
+			Debug.Log ("switched to aimed shot");
+			GetComponent<SpriteRenderer>().sprite=sprites[1];
+			break;
+		case "shootReadied":
+			Debug.Log ("switched to ready shot");
+			GetComponent<SpriteRenderer>().sprite=sprites[2];
+			break;
+		case "ready":
+			Debug.Log ("switched to ready");
+			GetComponent<SpriteRenderer>().sprite=sprites[3];
+			break;
+		case "hit":
+			Debug.Log ("switched to hit");
+			GetComponent<SpriteRenderer>().sprite=sprites[4];
+			break;
+		case "die":
+			Debug.Log ("switched to dead");
+			GetComponent<SpriteRenderer>().sprite=sprites[5];
+			break;
+		default:
+			break;
+		}
+	}
+
 	private void playNextAnimation(){
 		if(currentAnimation.hasNext()){
 			currentAnimation = currentAnimation.getNext();
+			setSprite(currentAnimation.getSpriteName());
 		}
 		hideSelection();
 	}
