@@ -172,8 +172,8 @@ public class ManagerHub : MonoBehaviour {
 
 		order = players[resolvingPlayer].getOrder();
 
-		frameCount = resolver.resolve(board, order, resolvingPlayer);
-		Debug.Log ("frameCount = "+frameCount);
+		frameCount = resolver.resolve(board, order, resolvingPlayer, 2-ordersRun);
+		//Debug.Log ("frameCount = "+frameCount);
 
 		players[resolvingPlayer].setOrder(initializeOrder(commandFactory));
 		resolvingPlayer = (resolvingPlayer+1)%2;

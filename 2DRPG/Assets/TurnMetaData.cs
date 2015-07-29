@@ -10,12 +10,19 @@ public class TurnMetaData {
 	private List<Square> ready;
 	private Dictionary<Square, List<Square>> tripped;
 	private int activePlayer;
+	private int remainingTurns;
 
-	public TurnMetaData(int ap){
+	public TurnMetaData(int ap, int rt){
 		moving = new Dictionary<Square, Answer>();
 		ready = new List<Square>();
 		tripped = new Dictionary<Square, List<Square>>();
 		activePlayer = ap;
+		remainingTurns = rt;
+		//Debug.Log ("remaining turns = "+remainingTurns);
+	}
+
+	public int getRemainingTurn(){
+		return remainingTurns;
 	}
 
 	public void postReady(Square s){

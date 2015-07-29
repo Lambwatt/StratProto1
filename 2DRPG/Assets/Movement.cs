@@ -99,27 +99,27 @@ public class Movement : MonoBehaviour {
 	public void setSprite(string key){
 		switch(key){
 		case "idle":
-			Debug.Log ("switched to idle");
+			//Debug.Log ("switched to idle");
 			GetComponent<SpriteRenderer>().sprite=sprites[0];
 			break;
 		case "shootAimed":
-			Debug.Log ("switched to aimed shot");
+			//Debug.Log ("switched to aimed shot");
 			GetComponent<SpriteRenderer>().sprite=sprites[1];
 			break;
 		case "shootReadied":
-			Debug.Log ("switched to ready shot");
+			//Debug.Log ("switched to ready shot");
 			GetComponent<SpriteRenderer>().sprite=sprites[2];
 			break;
 		case "ready":
-			Debug.Log ("switched to ready");
+			//Debug.Log ("switched to ready");
 			GetComponent<SpriteRenderer>().sprite=sprites[3];
 			break;
 		case "hit":
-			Debug.Log ("switched to hit");
+			//Debug.Log ("switched to hit");
 			GetComponent<SpriteRenderer>().sprite=sprites[4];
 			break;
 		case "die":
-			Debug.Log ("switched to dead");
+			//Debug.Log ("switched to dead");
 			GetComponent<SpriteRenderer>().sprite=sprites[5];
 			break;
 		default:

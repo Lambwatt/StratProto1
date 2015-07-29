@@ -33,8 +33,13 @@ public class SimpleRealReadyAction : Action {
 		                                              new LinearMoveCurve(null), 
 		                                              board.convertBoardSquaresToWorldCoords(square), 
 		                                              board.convertBoardSquaresToWorldCoords(square),
-		                                              10));
-		return 10;
+		                                              10*data.getRemainingTurn()));
+		board.setAnimation(square, new SpriteMovement("idle", 
+		                                              new LinearMoveCurve(null), 
+		                                              board.convertBoardSquaresToWorldCoords(square), 
+		                                              board.convertBoardSquaresToWorldCoords(square),
+		                                              0));
+		return 11;
 	}
 	
 	public void checkForConsequences(Board board, TurnMetaData data){
@@ -60,7 +65,7 @@ public class SimpleRealReadyAction : Action {
 			List<Square> targets = data.getTargets(square);
 
 			data.cancelReadiness(square);
-			Debug.Log ("Targets: "+targets.Count);
+			//Debug.Log ("Targets: "+targets.Count);
 			Square target;
 			if(targets.Count == 1)
 				target = targets[0];

@@ -11,7 +11,7 @@ public class Resolver {
 	TurnMetaData lastData;
 
 	public Resolver(){
-		lastData = new TurnMetaData(-1);
+		lastData = new TurnMetaData(-1, 2);
 	}
 
 	private class SequenceTracker{
@@ -44,14 +44,14 @@ public class Resolver {
 
 	}
 
-	public int resolve(Board b, Order o, int player){
+	public int resolve(Board b, Order o, int player, int remainingTurns){
 
 		//Create metaData
 
 		List<Command> commands = o.getCommands();
 		List<SequenceTracker> actionSequences = new List<SequenceTracker>();
 
-		TurnMetaData data = new TurnMetaData(player);
+		TurnMetaData data = new TurnMetaData(player, remainingTurns);
 		TurnMetaData.copyData(lastData, data);
 
 		foreach(Command c in commands){
@@ -103,7 +103,7 @@ public class Resolver {
 	}
 
 	public void wipeData(){
-		lastData = new TurnMetaData(-1);
+		lastData = new TurnMetaData(-1, 2);
 	}
 
 
