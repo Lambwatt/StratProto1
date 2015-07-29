@@ -67,7 +67,7 @@ public class SimpleRealAttackAction : Action {
 
 			bool dead = board.applyAttackDamage(square, result);
 			if(dead){
-				board.setAnimation(result, new SpriteMovement("die", 
+				board.replaceAnimation(result, new SpriteMovement("die", 
 			                                              new LinearMoveCurve(null), 
 			                                              board.convertBoardSquaresToWorldCoords(result), 
 			                                              board.convertBoardSquaresToWorldCoords(result),
@@ -75,7 +75,7 @@ public class SimpleRealAttackAction : Action {
 				board.kill(result);
 				return 11;//return get shot + die time
 			}else{
-				board.setAnimation(result, new SpriteMovement("hit", 
+				board.replaceAnimation(result, new SpriteMovement("hit", 
 				                                              new LinearMoveCurve(null), 
 				                                              board.convertBoardSquaresToWorldCoords(result), 
 				                                              board.convertBoardSquaresToWorldCoords(result),

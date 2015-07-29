@@ -54,6 +54,11 @@ public class GridSlot{
 			unit.GetComponent<Movement>().setPosition(pos);
 	}
 
+	public void replaceAnimation(SpriteMovement a){
+		if(!hasBarrel() && hasUnit())
+			unit.GetComponent<Movement>().replaceAnimation(a);
+	}
+
 	public void setAnimation(SpriteMovement a){
 		if(!hasBarrel() && hasUnit())
 			unit.GetComponent<Movement>().setNextAnimation(a);
@@ -369,6 +374,10 @@ public class Board : MonoBehaviour{//Make this not a game object.
 	
 	public void deselectSquareContents(Square s){
 		grid[s.x, s.y].deselect();
+	}
+
+	public void replaceAnimation(Square s, SpriteMovement a){
+		grid[s.x, s.y].replaceAnimation(a);
 	}
 
 	public void setAnimation(Square s, SpriteMovement a){

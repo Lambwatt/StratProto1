@@ -31,6 +31,11 @@ public class Movement : MonoBehaviour {
 		currentAnimation.setNext(n);
 	}
 
+	public void replaceAnimation(SpriteMovement n){
+		currentAnimation = n;
+		setSprite(currentAnimation.getSpriteName());
+	}
+
 	public void setPosition(Vector3 dest){
 		transform.position = dest;
 	}
@@ -71,6 +76,7 @@ public class Movement : MonoBehaviour {
 		manager.board.register(this.gameObject, transform.position); //This should be unnecessary in future versions
 
 		ManagerHub.onAnimationPlay+=playNextAnimation;
+
 	}
 	
 	void Update () {

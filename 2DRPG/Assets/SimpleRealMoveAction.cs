@@ -137,7 +137,7 @@ public class SimpleRealMoveAction : Action{
 
 		bool dead = board.applyReadyDamage(shooter, square);
 		if(dead){
-			board.setAnimation(square, new SpriteMovement("die", 
+			board.replaceAnimation(square, new SpriteMovement("die", 
 			                                              new LinearMoveCurve(null), 
 			                                              board.convertBoardSquaresToWorldCoords(square), 
 			                                              board.convertBoardSquaresToWorldCoords(square),
@@ -145,7 +145,7 @@ public class SimpleRealMoveAction : Action{
 			board.kill(square);
 			return 11;//return get shot + die time
 		}else{
-			board.setAnimation(square, new SpriteMovement("hit", 
+			board.replaceAnimation(square, new SpriteMovement("hit", 
 			                                              new LinearMoveCurve(null), 
 			                                              board.convertBoardSquaresToWorldCoords(square), 
 			                                              board.convertBoardSquaresToWorldCoords(square),
