@@ -26,10 +26,13 @@ public class TurnMetaData {
 	}
 
 	public void postReady(Square s){
+		Debug.Log ("Posted Square:["+s.x+","+s.y+"]");
 		ready.Add(s);
+		Debug.Log("ready now has "+ready.Count+" entries.");
 	}
 
 	public List<Square> getAllShooters(){
+		Debug.Log("returning ready with "+ready.Count+" entries.");
 		return ready;
 	}
 
@@ -65,7 +68,9 @@ public class TurnMetaData {
 	}
 
 	public void cancelReadiness(Square s){
+		Debug.Log("Remove ["+s.x+","+s.y+"]");
 		ready.Remove(s);
+		Debug.Log("After removal, ready has "+ready.Count+"entries");
 		if(hasTarget(s))
 			tripped.Remove(s);
 	}
@@ -103,9 +108,11 @@ public class TurnMetaData {
 	}
 
 	public static void copyData(TurnMetaData source, TurnMetaData dest){
-		List<Square> ready = source.getAllShooters();
-		foreach(Square s in ready){
+		List<Square> r = source.getAllShooters();
+		Debug.Log ("copying "+r.Count+" squares");
+		foreach(Square s in r){
 			dest.postReady(s);
+			Debug.Log ("Square:["+s.x+","+s.y+"]");
 		}
 	}
 }

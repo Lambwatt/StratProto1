@@ -64,12 +64,15 @@ public class SimpleRealReadyAction : Action {
 
 			List<Square> targets = data.getTargets(square);
 
-			data.cancelReadiness(square);
+
 			//Debug.Log ("Targets: "+targets.Count);
 			Square target;
-			if(targets.Count == 1)
+			if(targets.Count == 1){
 				target = targets[0];
-			else{
+				if(board.hasBarrel(target)) 
+					return 10;
+
+			}else{
 
 				//select a non barrel initial target. 
 				int i = 0;
@@ -78,7 +81,7 @@ public class SimpleRealReadyAction : Action {
 					i++;
 				}while(board.hasBarrel(target) && i<targets.Count);
 
-				if(board.hasBarrel(target))//No the 
+				if(board.hasBarrel(target)) 
 					return 10;
 
 				foreach(Square t in targets){
@@ -89,6 +92,8 @@ public class SimpleRealReadyAction : Action {
 					}
 				}
 			}
+
+			data.cancelReadiness(square);
 
 			if(board.unitHasCover(square, target)){
 				Debug.Log ("Detected cover.");

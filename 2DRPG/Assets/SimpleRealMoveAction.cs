@@ -5,6 +5,7 @@ using System.Collections.Generic;
 public class SimpleRealMoveAction : Action{
 
 	Square square;
+	Square oldSquare;
 	Direction dir;
 //	bool isFirst;
 	bool isLast;
@@ -76,6 +77,7 @@ public class SimpleRealMoveAction : Action{
 			                                         	 0));
 			}
 			board.move(square, dir);
+			oldSquare = new Square(square.x, square.y);
 			square = new Square(square.x+dir.getX(), square.y+dir.getY());
 			
 		}else{
@@ -87,8 +89,11 @@ public class SimpleRealMoveAction : Action{
 
 	public void checkForConsequences(Board board, TurnMetaData data){
 		List<Square> shooters = data.getAllShooters();
+		Debug.Log ("num shooters: "+shooters.Count);
 		foreach(Square s in shooters){
+			Debug.Log ("Testing : "+Mathf.Abs(s.x-square.x)+"<"+board.getRange(s)+" && "+Mathf.Abs(s.y-square.y)+"<"+board.getRange(s)+" = "+(Mathf.Abs(s.x-square.x)<board.getRange(s) && Mathf.Abs(s.y-square.y)<board.getRange(s)));
 			if(Mathf.Abs(s.x-square.x)<board.getRange(s) && Mathf.Abs(s.y-square.y)<board.getRange(s)){
+				Debug.Log ("Tripped");
 				data.trip(s,square);
 				//Debug.Log ("Tripped "+s+". ["+Mathf.Abs(s.x-square.x)+"<"+board.getRange(s)+"||"+Mathf.Abs(s.y-square.y)+"<"+board.getRange(s)+":"+(Mathf.Abs(s.x-square.x)<board.getRange(s) && Mathf.Abs(s.y-square.y)<board.getRange(s))+"]");
 			}
@@ -100,13 +105,18 @@ public class SimpleRealMoveAction : Action{
 
 		int res = 0;
 		if(data.isTarget(square)){
+			Debug.Log ("\twas target");
 			List<Square> shooters = data.getMyShooters(square);
 			foreach(Square s in shooters){
+				Debug.Log ("\tchecking against ["+s.x+","+s.y+"]");
 				if(isTarget(data.getTargets(s))){
+					Debug.Log ("\twas targeted");
 					data.cancelReadiness(s);
 					int newRes = getShotBy(board, s);
-					if(newRes>res)
+					if(newRes>res){
+						Debug.Log ("\tdied");
 						res = newRes;
+					}
 				}
 			}
 		}
@@ -135,6 +145,19 @@ public class SimpleRealMoveAction : Action{
 		                                              board.convertBoardSquaresToWorldCoords(shooter),
 		                                              0));
 
+		GameObject smoke = GameObject.Instantiate(Resources.Load<GameObject>("GunFire"), board.convertBoardSquaresToWorldCoords(shooter), Quaternion.identity) as GameObject;
+		
+		GameObject bullet = GameObject.Instantiate(Resources.Load<GameObject>("Bullet"), 
+		                                           board.convertBoardSquaresToWorldCoords(square), 
+		                                           Quaternion.Euler(new Vector3(0,0,(Mathf.Rad2Deg*Mathf.Atan2(shooter.y-square.y, shooter.x-square.x))-45))
+		                                           )as GameObject;
+		
+		bullet.GetComponent<Bullet>().setCourse(new SpriteMovement(null, 
+		                                                           new LinearMoveCurve(null), 
+		                                                           board.convertBoardSquaresToWorldCoords(shooter), 
+		                                                           board.convertBoardSquaresToWorldCoords(square),
+		                                                           3), 3, board.convertBoardSquaresToWorldCoords(square), false);
+
 		bool dead = board.applyReadyDamage(shooter, square);
 		if(dead){
 			board.replaceAnimation(square, new SpriteMovement("die", 
@@ -147,14 +170,9 @@ public class SimpleRealMoveAction : Action{
 		}else{
 			board.replaceAnimation(square, new SpriteMovement("hit", 
 			                                              new LinearMoveCurve(null), 
-			                                              board.convertBoardSquaresToWorldCoords(square), 
+			                                              board.convertBoardSquaresToWorldCoords(oldSquare), 
 			                                              board.convertBoardSquaresToWorldCoords(square),
 			                                              10));
-			board.setAnimation(square, new SpriteMovement("idle", 
-			                                              new LinearMoveCurve(null), 
-			                                              board.convertBoardSquaresToWorldCoords(square), 
-			                                              board.convertBoardSquaresToWorldCoords(square),
-			                                              0));
 			return 11;//return get shot + get hit time
 		}
 	}

@@ -7,6 +7,7 @@ public class Movement : MonoBehaviour {
 	public int idNo;
 	public ManagerHub manager;
 	public GameObject selectionBox;
+	public GameObject highlight;
 	public int player;
 	public int totalHealth;
 	public int aimedAttackDamage;
@@ -50,6 +51,7 @@ public class Movement : MonoBehaviour {
 
 	public void setPlayerNumber(int i){
 		player = i;
+		//hightlightOn();
 	}
 
 	public int getPlayerNumber(){
@@ -58,6 +60,14 @@ public class Movement : MonoBehaviour {
 
 	void OnDestroy(){
 		ManagerHub.onAnimationPlay-=playNextAnimation;
+		ManagerHub.onPlayerChange-=hightlightOn;
+		ManagerHub.onGoToGame-=hightlightOn;
+	}
+
+	void hightlightOn(){
+		Debug.Log("Active player = "+manager.activePlayer+" vs "+player);
+		if(manager.activePlayer==player)
+			highlight.GetComponent<Renderer>().enabled = true;
 	}
 
 	void Destroy(){
@@ -72,10 +82,16 @@ public class Movement : MonoBehaviour {
 		manager = GameObject.Find("manager").GetComponent<ManagerHub>();
 		selectionBox = transform.FindChild("selection").gameObject;
 		selectionBox.GetComponent<Renderer>().enabled = false;
+		highlight = transform.FindChild("Highlight").gameObject;
+		highlight.GetComponent<Renderer>().enabled = false;
 		currentAnimation = new SpriteMovement("original idle", new LinearMoveCurve(null), transform.position, transform.position, 0);
 		manager.board.register(this.gameObject, transform.position); //This should be unnecessary in future versions
+		hightlightOn();
 
 		ManagerHub.onAnimationPlay+=playNextAnimation;
+		ManagerHub.onPlayerChange+=hightlightOn;
+		ManagerHub.onGoToGame+=hightlightOn;
+
 
 	}
 	
@@ -146,6 +162,7 @@ public class Movement : MonoBehaviour {
 	
 	private void showSelection(){
 		selectionBox.GetComponent<Renderer>().enabled = true;
+		highlight.GetComponent<Renderer>().enabled = false;
 	}
 
 	private void hideSelection(){
