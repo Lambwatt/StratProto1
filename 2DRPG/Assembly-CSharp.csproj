@@ -62,6 +62,7 @@
      <Compile Include="Assets\EmptyAction.cs" />
      <Compile Include="Assets\LinearMoveCurve.cs" />
      <Compile Include="Assets\ManageDirectionButtons.cs" />
+     <Compile Include="Assets\ManageDirectionLabel.cs" />
      <Compile Include="Assets\ManageDoneButton.cs" />
      <Compile Include="Assets\ManageEndScreen.cs" />
      <Compile Include="Assets\ManageMagnitudeButtons.cs" />

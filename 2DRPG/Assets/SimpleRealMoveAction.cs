@@ -89,11 +89,11 @@ public class SimpleRealMoveAction : Action{
 
 	public void checkForConsequences(Board board, TurnMetaData data){
 		List<Square> shooters = data.getAllShooters();
-		Debug.Log ("num shooters: "+shooters.Count);
+		//Debug.Log ("num shooters: "+shooters.Count);
 		foreach(Square s in shooters){
-			Debug.Log ("Testing : "+Mathf.Abs(s.x-square.x)+"<"+board.getRange(s)+" && "+Mathf.Abs(s.y-square.y)+"<"+board.getRange(s)+" = "+(Mathf.Abs(s.x-square.x)<board.getRange(s) && Mathf.Abs(s.y-square.y)<board.getRange(s)));
+			//Debug.Log ("Testing : "+Mathf.Abs(s.x-square.x)+"<"+board.getRange(s)+" && "+Mathf.Abs(s.y-square.y)+"<"+board.getRange(s)+" = "+(Mathf.Abs(s.x-square.x)<board.getRange(s) && Mathf.Abs(s.y-square.y)<board.getRange(s)));
 			if(Mathf.Abs(s.x-square.x)<board.getRange(s) && Mathf.Abs(s.y-square.y)<board.getRange(s)){
-				Debug.Log ("Tripped");
+				//Debug.Log ("Tripped");
 				data.trip(s,square);
 				//Debug.Log ("Tripped "+s+". ["+Mathf.Abs(s.x-square.x)+"<"+board.getRange(s)+"||"+Mathf.Abs(s.y-square.y)+"<"+board.getRange(s)+":"+(Mathf.Abs(s.x-square.x)<board.getRange(s) && Mathf.Abs(s.y-square.y)<board.getRange(s))+"]");
 			}
@@ -105,16 +105,16 @@ public class SimpleRealMoveAction : Action{
 
 		int res = 0;
 		if(data.isTarget(square)){
-			Debug.Log ("\twas target");
+			//Debug.Log ("\twas target");
 			List<Square> shooters = data.getMyShooters(square);
 			foreach(Square s in shooters){
-				Debug.Log ("\tchecking against ["+s.x+","+s.y+"]");
+				//Debug.Log ("\tchecking against ["+s.x+","+s.y+"]");
 				if(isTarget(data.getTargets(s))){
-					Debug.Log ("\twas targeted");
+					//Debug.Log ("\twas targeted");
 					data.cancelReadiness(s);
 					int newRes = getShotBy(board, s);
 					if(newRes>res){
-						Debug.Log ("\tdied");
+						//Debug.Log ("\tdied");
 						res = newRes;
 					}
 				}

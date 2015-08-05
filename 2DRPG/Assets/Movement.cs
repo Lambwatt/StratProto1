@@ -60,14 +60,17 @@ public class Movement : MonoBehaviour {
 
 	void OnDestroy(){
 		ManagerHub.onAnimationPlay-=playNextAnimation;
+		ManagerHub.onAnimationPlay-=hightlightOn;
 		ManagerHub.onPlayerChange-=hightlightOn;
 		ManagerHub.onGoToGame-=hightlightOn;
 	}
 
 	void hightlightOn(){
-		Debug.Log("Active player = "+manager.activePlayer+" vs "+player);
+		//Debug.Log("Active player = "+manager.activePlayer+" vs "+player);
 		if(manager.activePlayer==player)
 			highlight.GetComponent<Renderer>().enabled = true;
+		else
+			highlight.GetComponent<Renderer>().enabled = false;
 	}
 
 	void Destroy(){
@@ -89,6 +92,7 @@ public class Movement : MonoBehaviour {
 		hightlightOn();
 
 		ManagerHub.onAnimationPlay+=playNextAnimation;
+		ManagerHub.onAnimationPlay+=hightlightOn;
 		ManagerHub.onPlayerChange+=hightlightOn;
 		ManagerHub.onGoToGame+=hightlightOn;
 
@@ -100,7 +104,7 @@ public class Movement : MonoBehaviour {
 		if(manager.state=="animating"){
 			if(currentAnimation.complete()){
 				if(currentAnimation.hasNext()){
-					Debug.Log ("switching animations");
+					//Debug.Log ("switching animations");
 					currentAnimation = currentAnimation.getNext();
 					setSprite(currentAnimation.getSpriteName());
 					transform.position = currentAnimation.getStep();

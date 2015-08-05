@@ -28,7 +28,7 @@ public class Selector : MonoBehaviour {
 
 	private void selectOrDeselect(Square s){
 
-		if(manager.board.squareInBounds(s, Direction.getDirection(Direction.NONE)) && manager.board.isOccupied(s) && unitBelongsToPlayer(s)){
+		if(manager.board.squareInBounds(s, Direction.getDirection(Direction.NONE)) && manager.board.isOccupied(s) && unitBelongsToPlayer(s) && manager.state=="planning"){
 
 			if(selectedUnits.Contains(s)){
 
@@ -37,6 +37,7 @@ public class Selector : MonoBehaviour {
 			}else{
 
 				select(s);
+
 
 			}
 		}
@@ -59,6 +60,7 @@ public class Selector : MonoBehaviour {
 	}
 
 	private void select(Square s){
+		manager.select();
 		selectedUnits.Add(s);
 		manager.board.selectSquareContents(s);
 	}

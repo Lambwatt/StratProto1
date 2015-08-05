@@ -1,17 +1,12 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/TurnMetaData.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/ManagerHub.cs">
     <Files>
-      <File FileName="Assets/Board.cs" Line="148" Column="4" />
-      <File FileName="Assets/ManagerHub.cs" Line="174" Column="3" />
-      <File FileName="Assets/SpriteMovement.cs" Line="41" Column="17" />
-      <File FileName="Assets/Movement.cs" Line="125" Column="11" />
-      <File FileName="Assets/Player.cs" Line="34" Column="11" />
-      <File FileName="Assets/SimpleRealMoveAction.cs" Line="148" Column="26" />
-      <File FileName="Assets/SimpleRealReadyAction.cs" Line="63" Column="30" />
-      <File FileName="Assets/SimpleRealAttackAction.cs" Line="70" Column="27" />
-      <File FileName="Assets/Resolver.cs" Line="60" Column="3" />
-      <File FileName="Assets/TurnMetaData.cs" Line="21" Column="5" />
+      <File FileName="Assets/ManagerHub.cs" Line="234" Column="35" />
+      <File FileName="Assets/ManageOrderButton.cs" Line="97" Column="30" />
+      <File FileName="Assets/ManageDirectionButtons.cs" Line="101" Column="37" />
+      <File FileName="Assets/ManageMagnitudeButtons.cs" Line="21" Column="34" />
+      <File FileName="Assets/Movement.cs" Line="95" Column="30" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

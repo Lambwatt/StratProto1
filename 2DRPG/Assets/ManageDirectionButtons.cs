@@ -7,14 +7,19 @@ public class ManageDirectionButtons : MonoBehaviour {
 	Toggle[] buttons;
 	ManagerHub manager;
 	int buttonSelected;
+	CanvasGroup group;
 	//int selected;
 
 	void Start(){
 
 		manager = GameObject.Find("manager").GetComponent<ManagerHub>();
 		ManagerHub.onAnimationPlay+=resetButtons;
+		ManagerHub.onAnimationPlay+=hideUI;
 		ManagerHub.onPlayerChange+=updateDisplay;
+		ManagerHub.onPlayerChange+=hideUI;
+		ManagerHub.onOrderSelect+=showUI;
 		buttonSelected = 0;
+		group = GetComponent<CanvasGroup>();
 
 		//Order needs to be the same as direction hash
 		buttons = new Toggle[]{
@@ -78,8 +83,24 @@ public class ManageDirectionButtons : MonoBehaviour {
 		buttons[manager.order.getDirection()].isOn = true;
 	}
 
-	void Destroy(){
+	private void showUI(){
+		group.alpha = 1;
+		group.interactable = true;
+		group.blocksRaycasts = true;
+	}
+	
+	private void hideUI(int holder = 0){
+		Debug.Log("hid UI?");
+		group.alpha = 0;
+		group.interactable = false;
+		group.blocksRaycasts = false;
+	}
+
+	void OnDestroy(){
 		ManagerHub.onPlayerChange-=updateDisplay;
 		ManagerHub.onAnimationPlay-=resetButtons;
+		ManagerHub.onAnimationPlay+=hideUI;
+		ManagerHub.onPlayerChange-=hideUI;
+		ManagerHub.onOrderSelect-=showUI;
 	}
 }

@@ -8,7 +8,7 @@ public class ManageMagnitudeButtons : MonoBehaviour {
 	Button down;
 	Text field;
 	ManagerHub manager;
-
+	CanvasGroup group;
 	//int selected;
 
 	void Start(){
@@ -16,6 +16,10 @@ public class ManageMagnitudeButtons : MonoBehaviour {
 		manager = GameObject.Find("manager").GetComponent<ManagerHub>();
 		ManagerHub.onAnimationPlay+=resetButtons;
 		ManagerHub.onPlayerChange+=updateDisplay;
+		ManagerHub.onPlayerChange+=hideUI;
+		ManagerHub.onMoveOrderSelect+=showUI;
+		ManagerHub.onNonMoveOrderSelect+=hideUI;
+		group = GetComponent<CanvasGroup>();
 
 		field = GameObject.FindWithTag("ShowMagnitude").GetComponent<Text>();
 
@@ -35,8 +39,23 @@ public class ManageMagnitudeButtons : MonoBehaviour {
 		field.text = ""+manager.order.getMagnitude();
 	}
 
-	void Destroy(){
+	private void showUI(){
+		group.alpha = 1;
+		group.interactable = true;
+		group.blocksRaycasts = true;
+	}
+	
+	private void hideUI(int holder = 0){
+		group.alpha = 0;
+		group.interactable = false;
+		group.blocksRaycasts = false;
+	}
+
+	void OnDestroy(){
 		ManagerHub.onAnimationPlay-=resetButtons;
 		ManagerHub.onPlayerChange-=updateDisplay;
+		ManagerHub.onPlayerChange-=hideUI;
+		ManagerHub.onMoveOrderSelect-=showUI;
+		ManagerHub.onNonMoveOrderSelect-=hideUI;
 	}
 }

@@ -47,11 +47,24 @@ public class ManagerHub : MonoBehaviour {
 	public delegate void GoToTransitionAction();
 	public static event GoToTransitionAction onGoToTransition;
 
+	public delegate void UnitSelectedAction();
+	public static event UnitSelectedAction onSelect;
+
+	public delegate void OrderTypeSelectedAction();
+	public static event UnitSelectedAction onOrderSelect;
+
+	public delegate void MoveOrderSelectedAction();
+	public static event UnitSelectedAction onMoveOrderSelect;
+
+	public delegate void NonMoveOrderSelectedAction();
+	public static event UnitSelectedAction onNonMoveOrderSelect;
+
 	private int firstPlayer = 0;
 	private int orderCount = 2;
 	private int ordersRun = 0;
 	private int resolvingPlayer = 0;
 	private int playersVisited = 1;
+	//private int uiPhase = 0;
 
 	// Use this for initialization
 	void Awake () {
@@ -115,6 +128,28 @@ public class ManagerHub : MonoBehaviour {
 //		onPlayerChange();
 	}
 
+	public void select(){
+		//if(uiPhase == 0){
+			onSelect();
+			//uiPhase+=1;
+		//}
+	}
+
+	public void selectOrder(string o){
+		//if(uiPhase == 1){
+		onOrderSelect();
+		if(o=="move"){
+			onMoveOrderSelect();
+		}else{
+			onNonMoveOrderSelect();
+		}
+
+
+//		uiPhase+=1;
+
+		//}
+	}
+
 	public void generateBarrels(int numBarrels){
 		for(int i = 0; i<numBarrels; i++){
 			addBarrel(board.getFreeBarrelSquare());
@@ -126,6 +161,7 @@ public class ManagerHub : MonoBehaviour {
 		activePlayer = (activePlayer+1)%2;
 		playersVisited++;
 		order = players[activePlayer].getOrder();
+//		uiPhase = 0;
 		onPlayerChange();
 		startTransition();
 	}
@@ -249,6 +285,7 @@ public class ManagerHub : MonoBehaviour {
 				}
 				else{
 					resolve();
+
 				}
 			}
 		}
