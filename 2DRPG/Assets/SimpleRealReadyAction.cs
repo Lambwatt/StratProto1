@@ -28,7 +28,7 @@ public class SimpleRealReadyAction : Action {
 	public int execute(Board board, TurnMetaData data){
 
 		data.postReady(square); //Do something with the data
-		
+
 		board.setAnimation(square, new SpriteMovement("ready", 
 		                                              new LinearMoveCurve(null), 
 		                                              board.convertBoardSquaresToWorldCoords(square), 

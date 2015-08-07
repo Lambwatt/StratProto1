@@ -5,6 +5,7 @@ public class Movement : MonoBehaviour {
 
 	public int numFrames;
 	public int idNo;
+	//public AudioClip readySound;
 	public ManagerHub manager;
 	public GameObject selectionBox;
 	public GameObject highlight;
@@ -128,6 +129,7 @@ public class Movement : MonoBehaviour {
 			break;
 		case "shootReadied":
 			//Debug.Log ("switched to ready shot");
+			GetComponent<AudioSource>().Play();
 			GetComponent<SpriteRenderer>().sprite=sprites[2];
 			break;
 		case "ready":
