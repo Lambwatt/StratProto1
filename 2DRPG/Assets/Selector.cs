@@ -28,13 +28,41 @@ public class Selector : MonoBehaviour {
 
 	private void selectOrDeselect(Square s){
 
+//		#if UNITY_EDITOR
+//		//Debug.Log(message, context);
+//		#else
+//		Application.ExternalCall("console.log", "in bounds?: "+manager.board.squareInBounds(s, Direction.getDirection(Direction.NONE)));
+//		Application.ExternalCall("console.log", "occupied?: "+manager.board.isOccupied(s));
+//		Application.ExternalCall("console.log", "belongs to player?: "+unitBelongsToPlayer(s));
+//		Application.ExternalCall("console.log", "state is correct?: "+(manager.state=="planning"));
+//		Application.ExternalCall("console.log", "all together?: "+(manager.board.squareInBounds(s, Direction.getDirection(Direction.NONE)) && manager.board.isOccupied(s) && unitBelongsToPlayer(s) && manager.state=="planning"));
+//		#endif
+
 		if(manager.board.squareInBounds(s, Direction.getDirection(Direction.NONE)) && manager.board.isOccupied(s) && unitBelongsToPlayer(s) && manager.state=="planning"){
 
+//			#if UNITY_EDITOR
+//			//Debug.Log(message, context);
+//			#else
+//			Application.ExternalCall("console.log", "dude selected?: "+selectedUnits.Contains(s));
+//			#endif
+
 			if(selectedUnits.Contains(s)){
+
+//				#if UNITY_EDITOR
+//				//Debug.Log(message, context);
+//				#else
+//				Application.ExternalCall("console.log", "deselecting");
+//				#endif
 
 				deselect(s);
 
 			}else{
+//
+//				#if UNITY_EDITOR
+//				//Debug.Log(message, context);
+//				#else
+//				Application.ExternalCall("console.log", "selecting");
+//				#endif
 
 				select(s);
 
@@ -60,9 +88,24 @@ public class Selector : MonoBehaviour {
 	}
 
 	private void select(Square s){
+	
+		#if UNITY_EDITOR
+		//Debug.Log(message, context);
+		#else
+		Application.ExternalCall("console.log", "started selection stuff");
+		#endif
+
+
 		manager.select();
 		selectedUnits.Add(s);
 		manager.board.selectSquareContents(s);
+
+		#if UNITY_EDITOR
+		//Debug.Log(message, context);
+		#else
+		Application.ExternalCall("console.log", "completed selection stuff");
+		#endif
+
 	}
 
 	private void deselect(Square s){
@@ -106,14 +149,25 @@ public class Selector : MonoBehaviour {
 
 
 	// Update is called once per frame
-	void Update () {
+	public void Update () {
 		//Selection must account for subsequent positions
 		if(Input.GetMouseButtonDown(0)/* && ( Input.mousePosition())*/){
+
+			#if UNITY_EDITOR
+			//Debug.Log(message, context);
+			#else
+			Application.ExternalCall("console.log", "Click recieved");
+			#endif
 			
 			Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 			
 			Square boardPos = manager.board.convertMouseClickToBoardCoords(mousePos);
 
+			#if UNITY_EDITOR
+			//Debug.Log(message, context);
+			#else
+			Application.ExternalCall("console.log", "click at ["+boardPos.x+", "+boardPos.y+"]");
+			#endif
 
 			selectOrDeselect(boardPos);
 

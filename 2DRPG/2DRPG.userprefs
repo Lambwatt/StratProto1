@@ -1,13 +1,17 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/ManageOrderButton.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Selector.cs">
     <Files>
-      <File FileName="Assets/ManagerHub.cs" Line="138" Column="20" />
-      <File FileName="Assets/ManageOrderButton.cs" Line="63" Column="4" />
-      <File FileName="Assets/ManageDirectionButtons.cs" Line="104" Column="21" />
-      <File FileName="Assets/ManageMagnitudeButtons.cs" Line="11" Column="2" />
-      <File FileName="Assets/ManageDirectionLabel.cs" Line="7" Column="20" />
-      <File FileName="Assets/SimpleCommandFactory.cs" Line="23" Column="1" />
+      <File FileName="../../UnityProjects/Global2015/Marauder/Assets/PlayerControl.cs" Line="1" Column="1" />
+      <File FileName="Assets/ManagerHub.cs" Line="1" Column="1" />
+      <File FileName="Assets/ManageOrderButton.cs" Line="1" Column="1" />
+      <File FileName="Assets/ManageDirectionButtons.cs" Line="1" Column="1" />
+      <File FileName="Assets/ManageMagnitudeButtons.cs" Line="1" Column="1" />
+      <File FileName="Assets/ManageDirectionLabel.cs" Line="1" Column="1" />
+      <File FileName="Assets/SimpleCommandFactory.cs" Line="1" Column="1" />
+      <File FileName="Assets/SimpleRealReadyAction.cs" Line="1" Column="1" />
+      <File FileName="Assets/Movement.cs" Line="1" Column="1" />
+      <File FileName="Assets/Selector.cs" Line="109" Column="9" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

@@ -10,6 +10,7 @@ public class ManageDirectionLabel : MonoBehaviour {
 		
 		manager = GameObject.Find("manager").GetComponent<ManagerHub>();
 		ManagerHub.onPlayerChange+=hideUI;
+		ManagerHub.onGoToEnd+=hideUI;
 		ManagerHub.onOrderSelect+=showUI;
 		group = GetComponent<CanvasGroup>();
 		
@@ -21,7 +22,7 @@ public class ManageDirectionLabel : MonoBehaviour {
 		group.blocksRaycasts = true;
 	}
 	
-	private void hideUI(int holder = 0){
+	private void hideUI(){
 		group.alpha = 0;
 		group.interactable = false;
 		group.blocksRaycasts = false;

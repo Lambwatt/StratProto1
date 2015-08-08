@@ -30,8 +30,8 @@ public class ManageEndScreen : MonoBehaviour {
 		hideScreen();
 	}
 	
-	private void showScreen(int p){
-		winnerText.text = ""+(p+1);
+	private void showScreen(){
+		winnerText.text = ""+(manager.winner+1);
 
 		group.alpha = 1;	
 		group.interactable = true;

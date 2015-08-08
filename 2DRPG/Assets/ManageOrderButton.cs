@@ -87,7 +87,7 @@ public class ManageOrderButton : MonoBehaviour {
 		group.blocksRaycasts = true;
 	}
 	
-	private void hideUI(int holder = 0){
+	private void hideUI(){
 		group.alpha = 0;
 		group.interactable = false;
 		group.blocksRaycasts = false;

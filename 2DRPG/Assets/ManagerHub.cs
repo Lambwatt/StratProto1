@@ -22,6 +22,7 @@ public class ManagerHub : MonoBehaviour {
 	public int minMagnitude = 1;
 	public int maxMagnitude = 3;
 	public int unitsPerPlayer = 0;
+	public int winner;
 	//public const int maxTurns = 3;
 	public int barrels = 8;
 
@@ -41,7 +42,7 @@ public class ManagerHub : MonoBehaviour {
 	public delegate void GoToStartAction();
 	public static event GoToStartAction onGoToStart;
 
-	public delegate void GoToEndAction(int player);
+	public delegate void GoToEndAction();
 	public static event GoToEndAction onGoToEnd;
 
 	public delegate void GoToTransitionAction();
@@ -64,6 +65,7 @@ public class ManagerHub : MonoBehaviour {
 	private int ordersRun = 0;
 	private int resolvingPlayer = 0;
 	private int playersVisited = 1;
+
 	//private int uiPhase = 0;
 
 	// Use this for initialization
@@ -255,7 +257,8 @@ public class ManagerHub : MonoBehaviour {
 
 	public void win(int player){
 		state = "over";
-		onGoToEnd(player);
+		winner = player;
+		onGoToEnd();
 	}
 
 	public void startGame(){

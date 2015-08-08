@@ -89,7 +89,7 @@ public class ManageDirectionButtons : MonoBehaviour {
 		group.blocksRaycasts = true;
 	}
 	
-	private void hideUI(int holder = 0){
+	private void hideUI(){
 		Debug.Log("hid UI?");
 		group.alpha = 0;
 		group.interactable = false;
